@@ -13,17 +13,17 @@
                           </div>
                     </li>
                     <li><a href="/" class="nav-item mx-4 ">Home</a></li>
-                    <li><a href="/test" class="nav-item mx-4 ">About Us</a></li>
-                    <li><a href="/about-us" class="nav-item mx-4">Courses</a></li>
-                    <li><a href="/subscription"
+                    <li><a href="/about-us" class="nav-item mx-4 ">About Us</a></li>
+                    <li><a href="/courses" class="nav-item mx-4">Courses</a></li>
+                    <li><a href="/teachers"
                             class="nav-item mx-4 ">Our Teacher</a>
                     </li>
                   
-                    <li><a href="/test-history"
+                    <li><a href="/contact"
                             class="nav-item mx-4 ">Contact</a>
                     </li>
 
-                    <li><a href="/test/demo/start"
+                    <li><a href="/signin"
                             class="nav-item mx-4 fw-bold">Login</a></li>
                 </ul>
             </div>  

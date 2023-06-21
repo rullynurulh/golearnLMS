@@ -1,73 +1,54 @@
 <footer class="bg-footer text-center text-lg-start">
     <!-- Grid container -->
-    <div class="container p-4">
-
-        {{-- @if (Auth::check())
-            <div class="row">
-                <!--Grid column-->
-                <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-black pt-5">
-                    <h2 class="mb-3" style="font-weight: bold;">Contact Us</h2>
-                    <a href="https://www.instagram.com/casislab" style="text-decoration: none; color:black"><p><span class="iconify me-1" data-icon="ic:baseline-whatsapp" data-width="25"></span>+62-821-8146-3035 (chat only)</p></a>
-                    <p><span class="iconify" data-icon="ic:round-email" style="color: black;" data-width="24"></span> casislabb@gmail.com</p>
-
-                    <h2 class="mt-5 mb-3"style="font-weight: bold;">Follow us online</h2>
-                    <a href="https://www.instagram.com/casislab" style="text-decoration: none; color:black"><p><span class="iconify me-1" data-icon="uil:instagram" data-width="25"></span>@casislab</p></a>
-                    <a href="https://www.tiktok.com/@casislab.com?refer=creator_embed" style="text-decoration: none; color:black"><span class="iconify" data-icon="ic:baseline-tiktok" style="color: black;" data-width="25"></span> casislab.com</p></a>
-                    <p class="mt-5" >Siap menghadapi tes seleksi masuk anggota
-                        Polri 2023
-                        </p>
-                    
-                </div>
-                <h2 class="text-end"style="font-weight:900; margin-right: -.5rem"><img class="mb-3 me-2" src="{{ URL::asset('images/logo_casislab.png') }}" alt="logo"
-                    style="width: 50px;">| CASIS<span style="color: #E52A86">LAB<span></h2>
-            </div>
-        @else --}}
-            <div class="row" style="margin-top: -4rem;">
-                <div class="pop-up-ads">
-                    <div class="row" style="padding: 2rem;">
-                        <div class="col d-flex align-items-center">
-                            <h5 class="text-white" style="margin: 0px;">Berlangganan Sekarang
-                            </h5>
-                        </div>
-                        <div class="col d-flex justify-content-end">
-                            <a href="/login" class="btn btn-light me-3" style="border-radius: 12px !important">
-                                Masuk <span class="iconify" data-icon="material-symbols:arrow-right-alt-rounded"></span>
-                            </a>
-                            <a href="/subscription" class="btn btn-outline-light"
-                                style="border-radius: 12px !important">
-                                <span>Harga</span> <span class="iconify"
-                                    data-icon="material-symbols:arrow-right-alt-rounded"></span>
-                            </a>
-                        </div>
+    <div class="content bg-footer p-5">
+            <div class="row px-5  d-flex justify-content-between">
+                <div class="col-3 me-5">
+                    <img class="mb-3" src="images/logo_golearn.png" style="width: 100px">
+                    <p class="text-white" style="width: 300px">Copyright © 2023 GoLearnLMS. 
+                        All rights reserved | Made By Ruly Nurul H</p>
+                    <div class="col">                 
+                            <span class="iconify me-3" data-icon="uil:instagram" style="color: white;" data-width="40"></span>
+                            <span class="iconify me-3" data-icon="uil:twitter" style="color: white;" data-width="40"></span>
+                            <span class="iconify me-3" data-icon="ic:baseline-facebook" style="color: white;" data-width="40"></span>
+                            <span class="iconify" data-icon="mdi:google-plus" style="color: white;" data-width="45"></span>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-black pt-5">
-                    <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-black pt-5">
-                        <h2 class="mb-3" style="font-weight: bold;">Contact Us</h2>
-                        <a href="https://www.instagram.com/casislab" style="text-decoration: none; color:black"><p><span class="iconify me-1" data-icon="ic:baseline-whatsapp" data-width="25"></span>+62-821-8146-3035 (chat only)</p></a>
-                        <p><span class="iconify" data-icon="ic:round-email" style="color: black;" data-width="24"></span> casislabb@gmail.com</p>
-    
-                        <h2 class="mt-5 mb-3"style="font-weight: bold;">Follow us online</h2>
-                        <a href="https://www.instagram.com/casislab" style="text-decoration: none; color:black"><p><span class="iconify me-1" data-icon="uil:instagram" data-width="25"></span>@casislab</p></a>
-                        <a href="https://www.tiktok.com/@casislab.com?refer=creator_embed" style="text-decoration: none; color:black"><span class="iconify" data-icon="ic:baseline-tiktok" style="color: black;" data-width="25"></span> casislab.com</p></a>
-                        <p class="mt-5" >Siap menghadapi tes seleksi masuk anggota
-                            Polri 2023
-                            </p>
+
+                <div class="col-2 pt-4 ms-5">
+                    <h2 class="text-white pb-3">Sitemap</h2>
+                    <div class="row">
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> Home</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> About Us</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> Courses</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> Our Teacher</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> Contact</a>
                         
                     </div>
-                    
+
                 </div>
-                <h2 class="text-end"style="font-weight:900; margin-right: -.5rem"><img class="mb-3 me-2" src="{{ URL::asset('images/logo_casislab.png') }}" alt="logo"
-                        style="width: 50px;">| CASIS<span style="color: #E52A86">LAB<span></h2>
+                <div class="col-2 pt-4 ms-5">
+                    <h2 class="text-white pb-3">Company Info</h2>
+                    <div class="row">
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> FAQs</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> Privacy</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="fa-solid:chevron-right" style="color: #fdcf73; " data-width="12"></span> Policy</a>
+
+                        
+                    </div>
+                </div>
+                <div class="col-2 pt-4 ms-5">
+                    <h2 class="text-white pb-3">Contact Us</h2>
+                    <div class="row">
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="carbon:location-filled" style="color: #fdcf73; " data-width="20"></span> Indonesia</a>
+                        <a href="/" class="text-white mb-1" style="text-decoration: none"><span class="iconify " data-icon="material-symbols:mail" style="color: #fdcf73; " data-width="20"></span> golearn_cs@gmail.com</a>
+                        
+                        
+                    </div>
+                </div>
             </div>
-        {{-- @endif --}}
+        
 
     </div>
-    <!-- Grid container -->
-
-    {{-- <!-- Copyright -->
-    <div class="text-center text-white bg-dark p-3">
-        © 2023 Casis.LAB
-    </div>
-    <!-- Copyright --> --}}
+    
 </footer>
+

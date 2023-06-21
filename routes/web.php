@@ -29,3 +29,16 @@ Route::get('/signup-role', function () {
     return view('signup-role');
 });
 
+Route::get('/about-us', function () {
+    return view('about-us');
+});
+Route::get('/courses', function () {
+    return view('courses');
+});
+Route::get('/teachers', function () {
+    return view('teachers');
+});
+Route::get('/contact', function () {
+    return view('contact');
+});
+

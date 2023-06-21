@@ -18,11 +18,10 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js" integrity="sha512-mlz/Fs1VtBou2TrUkGzX4VoGvybkD9nkeXWJm3rle0DPHssYYx4j+8kIS15T78ttGfmOjH0lLaBXGcShaVkdkg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-    
 
 </head>
 
-<body class="bg-light">
+<body class="bg-light bg-light-1">
 
     @extends('layouts.navbar')
     <div>
@@ -89,12 +88,31 @@
 
 
         });
+
+        const swiper1 = new Swiper('.swiper1', {
+            // Optional parameters
+            slidesPerView: 2,
+            spaceBetween: 30,
+            direction: 'horizontal',
+            loop: true,
+            speed: 900,
+            autoplay: {
+                delay: 3000,
+            },
+            pagination: {
+                el: '.swiper-pagination1',
+                clickable: true,
+                dynamicBullets: true,
+            },
+
+        });
     </script>
     <script>
         AOS.init({
             once: true,
         });
     </script>
+    
 
 
 </body>
