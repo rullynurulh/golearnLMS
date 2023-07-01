@@ -8,7 +8,7 @@
                     <li>
                         <div class="form">
                          
-                            <input type="text" class="form-control form-input " style="width: 280px" placeholder="Search for courses, skills, or videos">
+                            <input type="text" class="form-control form-input " style="width: 280px; background-color: #DCDCDC; border-radius: 10px" placeholder="Search for courses, skills, or videos">
                             
                           </div>
                     </li>

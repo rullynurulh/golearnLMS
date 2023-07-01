@@ -25,6 +25,29 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/student', function () {
+    return view('/student/home-student');
+});
+Route::get('/student/mycourse', function () {
+    return view('/student/mycourse-student');
+});
+
+Route::get('/student/myprofile', function () {
+    return view('/student/myprofile-student');
+});
+
+Route::get('/student/accomplishment', function () {
+    return view('/student/accomplishment-student');
+});
+
+Route::get('/student/setting', function () {
+    return view('/student/setting-student');
+});
+
+Route::get('/course-overview', function () {
+    return view('/student/course-overview-student');
+});
+
 Route::get('/signup-role', function () {
     return view('signup-role');
 });
