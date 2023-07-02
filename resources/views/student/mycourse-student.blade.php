@@ -44,7 +44,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -76,7 +76,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -108,7 +108,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -140,7 +140,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -172,7 +172,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -204,7 +204,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -236,7 +236,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             
@@ -268,7 +268,7 @@
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/" class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
                                                 </div>
                                             </div>
                                             

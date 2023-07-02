@@ -33,14 +33,14 @@
                                                 <div class="row">
 
                                                     <h3>Figma Tutorial</h3>
-                                                    <p>Great Work! You have passed all the requirements and can view your achievements now.</p>
+                                                    <p class="d-flex align-items-center"><span class="iconify me-1 " data-icon="material-symbols:check-circle-rounded" style="color: #2f70af;" data-width="20px"> </span>Great Work! You have passed all the requirements and can view your achievements now.</p>
                                                 </div>
                                                 <div style="border-left:2px solid white;height:100px"></div>
                                             </div>
                                             
                                             <div class="col-3 d-flex align-items-center justify-content-center">
                                                 
-                                                <button class="btn btn-certificate-view">View Certificate</button>
+                                                <a href="/student/accomplishment-info"class="btn btn-certificate-view" >View Certificate</a>
                                             </div>
                                             
                                         </div>
@@ -54,14 +54,14 @@
                                                 <div class="row">
 
                                                     <h3>Figma Tutorial</h3>
-                                                    <p>Great Work! You have passed all the requirements and can view your achievements now.</p>
+                                                    <p class="d-flex align-items-center"><span class="iconify me-1 " data-icon="material-symbols:check-circle-rounded" style="color: #2f70af;" data-width="20px"> </span>Great Work! You have passed all the requirements and can view your achievements now.</p>
                                                 </div>
                                                 <div style="border-left:2px solid white;height:100px"></div>
                                             </div>
                                             
                                             <div class="col-3 d-flex align-items-center justify-content-center">
                                                 
-                                                <button class="btn btn-certificate-view">View Certificate</button>
+                                                <a href="/student/accomplishment-info"class="btn btn-certificate-view">View Certificate</a>
                                             </div>
                                             
                                         </div>
@@ -72,17 +72,17 @@
                                                 <img class="card-img-left card-img-top-3" src="{{ URL::asset('images/course.jpg') }}" alt="">
                                             </div>
                                             <div class="col-6 d-flex align-items-center">
-                                                <div class="row">
+                                                <div class="row ">
 
                                                     <h3>Figma Tutorial</h3>
-                                                    <p>Great Work! You have passed all the requirements and can view your achievements now.</p>
+                                                    <p class="d-flex align-items-center"><span class="iconify me-1 " data-icon="material-symbols:check-circle-rounded" style="color: #2f70af;" data-width="20px"> </span>Great Work! You have passed all the requirements and can view your achievements now.</p>
                                                 </div>
                                                 <div style="border-left:2px solid white;height:100px"></div>
                                             </div>
                                             
                                             <div class="col-3 d-flex align-items-center justify-content-center">
                                                 
-                                                <button class="btn btn-certificate-view">View Certificate</button>
+                                                <a href="/student/accomplishment-info"class="btn btn-certificate-view">View Certificate</a>
                                             </div>
                                             
                                         </div>
