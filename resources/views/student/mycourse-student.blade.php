@@ -196,15 +196,26 @@
                                         </div>
                                      
                                       <h4 class="card-title">Figma Tutorial</h4>
-                                      <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                      <div class="row">
+                                        <div class="col">
+                                            <div class="progress-circle p0">
+                                              <span>100%</span>
+                                              <div class="left-half-clipper">
+                                                <div class="first50-bar"></div>
+                                                <div class="value-bar"></div>
+                                              </div>
+                                            </div>
+
                                         </div>
+                                        <div class="col d-flex align-items-center">
+                                            <a href="/student/leaderboard"class="check-leaderboard d-flex align-items-center">Leaderboard <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="20"></span></a>
+                                        </div>
+                                      </div>
                                       <div class="row">
                                         <div class="col">
                                             <div class="row mb-3 mt-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <a href="/course"class="go-to-course">Go to Course <span class="iconify" data-icon="fluent:arrow-right-12-filled" data-width="30"></span></a>
+                                                    <div class="finished">Finished </div>
                                                 </div>
                                             </div>
                                             

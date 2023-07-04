@@ -6,11 +6,7 @@
     <div class="col-10">
         <div class="nav ms-5 d-flex justify-content-between align-items-center">
             <div>
-                <div class="form">
-                    
-                    <input type="search" class="form-control form-input " style="width: 280px; background-color: #DCDCDC; border-radius: 10px" placeholder="Search for courses, skills, or videos">
-                    
-                    </div>
+                <a href="/" class="btn btn-button">Website</a>
             </div>
                
             <div class="row me-5 d-flex align-items-center width-100">
