@@ -114,8 +114,24 @@ Route::get('/admin/add-course', function () {
 });
 
 
+Route::get('/admin/edit-course', function () {
+    return view('/admin/courses/admin-edit-course');
+});
+Route::get('/admin/add-curriculum', function () {
+    return view('/admin/courses/admin-add-curriculum');
+});
+
+
+
+
 Route::get('/admin/add-quiz', function () {
     return view('/admin/quiz/admin-add-quiz');
+});
+Route::get('/admin/add-question', function () {
+    return view('/admin/quiz/admin-add-quiz-question');
+});
+Route::get('/admin/result-quiz', function () {
+    return view('/admin/quiz/admin-result-quiz');
 });
 Route::get('/admin/quiz-setting', function () {
     return view('/admin/quiz/admin-quiz-setting');

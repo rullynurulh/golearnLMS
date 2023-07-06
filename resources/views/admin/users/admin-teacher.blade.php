@@ -339,7 +339,7 @@
             </div>
         </div>
         {{-- form edit teacher --}}
-        <div id="myModal_Edit" class="modal-edit">
+        <div id="myModal_Edit" class="modal">
             <div class="modal-content">
                 <div class="box-modal p-4">
                     <div class="row d-flex justify-content-between">

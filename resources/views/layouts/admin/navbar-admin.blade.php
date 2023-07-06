@@ -28,9 +28,6 @@
                             <span class="iconify" data-icon="mingcute:down-fill" data-width="15px"></span>
                         </div>
                         
-                            
-                        
-                        
                     </div>
                 </div>
                 <div class="sub-menu-wrap" id="subMenu">

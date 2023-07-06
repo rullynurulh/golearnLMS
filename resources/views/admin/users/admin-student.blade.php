@@ -150,16 +150,13 @@
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div class="content p-5">
                     <div class="box-recommend p-4 mb-4">
-                        <h3 style="margin-bottom: 0">User | Teacher</h3>
+                        <h3 style="margin-bottom: 0">User | Student</h3>
                     </div>
                     <div class="row p-2 d-flex justify-content-between mb-3">
                         <div class="col-3 d-flex align-items-center">
-                            <h4 style="margin-bottom:0">Teacher List</h4>
+                            <h4 style="margin-bottom:0">Student List</h4>
                         </div>
-                        <div class="col-3 d-flex justify-content-end">
-                            
-                            <button id="myBtn" class="btn btn-add p-2"> <span class="iconify me-1" data-icon="el:plus-sign" data-width="24"></span> Add new</button>
-                        </div>
+                       
                     </div>
 
                     <div class="box-recommend mt-2 p-4">
@@ -247,12 +244,12 @@
 
     <section>
         {{-- form edit student --}}
-        <div id="myModal_Edit" class="modal-edit">
+        <div id="myModal_Edit" class="modal">
             <div class="modal-content">
                 <div class="box-modal p-4">
                     <div class="row d-flex justify-content-between">
                         <div class="col-4 d-flex align-items-center">
-                            <span class="title-modal px-5">Edit Teacher</span>
+                            <span class="title-modal px-5">Edit Student</span>
                         </div>
                         <div class="col-2 d-flex justify-content-end">
                             <span class="close_edit me-3">&times;</span>
