@@ -17,23 +17,24 @@
         <div class="container-fluid">
             <div class="row bg-primary2">
                 <div class="col text-center p-2">
-                        <img src="images/logo_golearn.png" alt="" style="width: 6rem">
+                    <img src="images/logo_golearn.png" alt="" style="width: 6rem">
                 </div>
-                
+
             </div>
             <div class="container pt-5">
-                
+
                 <div class="row pt-5 ">
                     <div class="col d-flex justify-content-end mb-5">
                         <div class="card text-center p-3 bg-primary1" style="width:80%;">
-                            <h1 class="text-white">Sign Up as Student</h1>
+                            <h1 class="text-white">Sign Up as Teacher</h1>
                             <div>
-                                <img class="card-img-top text-image" src="assets/images/image 4.png" alt="" style="width: 15rem;">
+                                <img class="card-img-top text-image" src="assets/images/image 4.png" alt=""
+                                    style="width: 15rem;">
                             </div>
-                            
+
                             <div class="card-body text-center d-flex align-items-end justify-content-center">
                                 <div class="align-items-end">
-                                    <a href="/" class="btn btn-button">Continue</a>
+                                    <a href="{{ route('signup', 'teacher') }}" class="btn btn-button">Continue</a>
                                 </div>
                             </div>
                         </div>
@@ -42,12 +43,13 @@
                         <div class="card text-center p-3" style="width:80%; background: #E63333;">
                             <h1 class="text-white">Sign Up as Student</h1>
                             <div>
-                                <img class="card-img-top text-image" src="assets/images/image 3.png" alt="" style="width: 15rem;">
+                                <img class="card-img-top text-image" src="assets/images/image 3.png" alt=""
+                                    style="width: 15rem;">
                             </div>
-                            
+
                             <div class="card-body text-center d-flex align-items-end justify-content-center">
                                 <div class="align-items-end">
-                                    <a href="/" class="btn btn-button">Continue</a>
+                                    <a href="{{ route('signup', 'student') }}" class="btn btn-button">Continue</a>
                                 </div>
                             </div>
 

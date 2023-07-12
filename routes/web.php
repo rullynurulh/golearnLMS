@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,21 +15,46 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/signin', function () {
-    return view('signin');
-});
-Route::get('/signup', function () {
-    return view('signup');
-});
-
-
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/student', function () {
-    return view('/student/home-student');
+Route::group(['middleware' => ['guest']], function () {
+
+    // sign up role
+    Route::get('/signup-role', function () {
+        return view('signup-role');
+    });
+
+    //sign up
+    Route::get('/signup/{role}', [MainController::class, 'signUp'])->name('signup');
+    Route::post('/signup', [MainController::class, 'signUpAction'])->name('signup_action');
+
+    // sign in
+    Route::get('/signin', function () {
+        return view('signin');
+    })->name('signin');
+    Route::post('/signin', [MainController::class, 'signInAction'])->name('sigin_action');
 });
+
+//log out
+Route::get('/logout_action', [MainController::class, 'logout_action'])->name('logout_action');
+
+
+Route::group(['middleware' => ['auth', 'user.role:student']], function () {
+
+    Route::get('/student', function () {
+        return view('/student/home-student');
+    });
+});
+
+
+
+
+
+
+
+
 Route::get('/student/mycourse', function () {
     return view('/student/mycourse-student');
 });
@@ -68,10 +95,6 @@ Route::get('/course/quiz/result', function () {
     return view('/courses/course-quiz-result');
 });
 
-Route::get('/signup-role', function () {
-    return view('signup-role');
-});
-
 Route::get('/about-us', function () {
     return view('about-us');
 });
@@ -84,4 +107,3 @@ Route::get('/teachers', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
-
