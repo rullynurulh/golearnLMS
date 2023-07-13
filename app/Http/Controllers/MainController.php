@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
@@ -48,7 +49,6 @@ class MainController extends Controller
             if (Auth::attempt($request->only('email', 'password'))) {
 
                 if (auth()->user()->role == "student") {
-
                     return redirect('/student');
                 } else if (auth()->user()->role == "teacher") {
 
@@ -57,7 +57,7 @@ class MainController extends Controller
             }
         }
 
-        return redirect("/")->with('message', 'Email/Password yang dimasukan salah.');
+        return redirect("signin")->with('message', 'Email/Password yang dimasukan salah.');
     }
     public function logout_action(Request $request)
     {
@@ -65,5 +65,29 @@ class MainController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerate();
         return redirect("/");
+    }
+
+    public function changePassword(Request $request)
+    {
+        # Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+            'new_password_confirmation' => 'required|same:new_password'
+        ]);
+
+
+        #Match The Old Password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with("error", "Old Password Doesn't match!");
+        }
+
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with("status", "Password changed successfully!");
     }
 }
