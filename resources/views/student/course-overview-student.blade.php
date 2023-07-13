@@ -146,6 +146,7 @@
                             <div class="box-recommend px-5 pt-5 pb-4">
                                 <div class="row">
                                    <div class="btn btn-button" style="font-size: 25px; font-weight:600">JOIN NOW</div>
+                                   <div class="btn btn-button" style="font-size: 25px; font-weight:600">Go Learn</div>
                                 </div>
                                 <div class="row d-flex justify-content-start" style="color:#141F46;">
                                     <div class="col p-3">

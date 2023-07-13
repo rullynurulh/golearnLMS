@@ -2,6 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext,cyrillic-ext,cyrillic,greek-ext,greek,vietnamese);
 @import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700&subset=latin,latin-ext,greek-ext,greek,vietnamese,cyrillic,cyrillic-ext);
 
+
 :root {
     --primary1: #00457E;
     --primary2: #02315D;
@@ -453,6 +454,17 @@ ul.list-lesson li{
   font-size: 25px;
 }
 
+.check-leaderboard{
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.finished{
+  color: #31B52E;
+  font-size: 25px;
+}
+
+
 .image-profile{
   border-radius: 50%;
   width: 250px;
@@ -510,4 +522,9 @@ input[type=text] {
   color:#cca659;
   border-radius: 5px;
   background: #2F70AF;
+}
+
+.card-name-leaderboard{
+  background-color: #FDCF73;
+  border: none;
 }

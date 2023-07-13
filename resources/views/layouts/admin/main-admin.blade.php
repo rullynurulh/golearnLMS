@@ -5,14 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Test Student</title>
+    <title>Admin</title>
     <link rel = "icon" href = "images/icon_golearn.png" 
         type = "image/x-icon">
     <!-- Fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="{{ URL::asset('app-student.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('app-admin.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css-circular-prog-bar.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
@@ -22,9 +23,9 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 
-<body class="bg-light bg-light-1">
+<body class="bg-light-1">
 
-    @extends('layouts.student.navbar-student')
+    @extends('layouts.admin.navbar-admin')
       
     <div id="main">
        
@@ -50,77 +51,35 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
     </script>
-
-
-
-
     <script>
-        window.addEventListener('scroll', (e) => {
-            const nav = document.querySelector('.navbar');
-            if (window.pageYOffset > 0) {
-                nav.classList.add("add-shadow");
-            } else {
-                nav.classList.remove("add-shadow");
-            }
-        });
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        
+        var active = document.getElementById("active");
+        var scroll = active.nextElementSibling;
 
-        const swiper = new Swiper('.swiper', {
-            // Optional parameters
-            slidesPerView: 3,
-            spaceBetween: 30,
-            direction: 'horizontal',
-            loop: true,
-            speed: 900,
-            autoplay: {
-                delay: 3000,
-            },
-
-            // If we need pagination
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-
-            // Navigation arrows
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-
-
-        });
-
-        const swiper1 = new Swiper('.swiper1', {
-            // Optional parameters
-            slidesPerView: 2,
-            spaceBetween: 30,
-            direction: 'horizontal',
-            loop: true,
-            speed: 900,
-            autoplay: {
-                delay: 3000,
-            },
-            pagination: {
-                el: '.swiper-pagination1',
-                clickable: true,
-                dynamicBullets: true,
-            },
-
-        });
-    </script>
-    <script>
-        AOS.init({
-            once: true,
-        });
-
-       function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
+        if(scroll){
+            scroll.style.maxHeight = "1000px";
         }
+        
 
+        
+        
+        for (i = 0; i < coll.length; i++) {
+
+            coll[i].addEventListener("click", function() {
+                
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                content.style.maxHeight = null;
+                } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                } 
+            });
+ 
+        }
     </script>
-    
-
 
 </body>
 

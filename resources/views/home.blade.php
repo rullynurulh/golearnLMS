@@ -92,15 +92,15 @@
             </div>
             <div class="col-8" >
                 <div data-aos="fade-left">
-                    <h3 style="font-weight: 400"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis molestiae possimus eveniet. 
+                    <h4 style="font-size: 25px; font-weight: 400; text-align: justify;"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis molestiae possimus eveniet. 
                         Voluptate earum, repudiandae laboriosam, corporis animi quas vel magnam nulla explicabo maxime porro
                         minima ipsum, aliquid delectus placeat.
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. A nihil odit quisquam distinctio voluptatibus doloribus, 
                         temporibus unde esse, perspiciatis nulla veritatis commodi necessitatibus laudantium, quod voluptatem adipisci 
-                        aperiam est animi.</h3>
-                        <h3  style="font-weight: 400">    Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis molestiae possimus eveniet. 
+                        aperiam est animi.
+                        <br><br>  Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis molestiae possimus eveniet. 
                         Voluptate earum, repudiandae laboriosam, corporis animi quas vel magnam nulla explicabo maxime porro
-                        minima ipsum, aliquid delectus placeat.</h3>
+                        minima ipsum, aliquid delectus placeat.</h4>
 
                 </div>
 
