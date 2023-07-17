@@ -84,7 +84,7 @@ class MainController extends Controller
 
 
         #Update the new Password
-        User::whereId(auth()->user()->id)->update([
+        User::where(['id' => auth()->user()->id])->update([
             'password' => Hash::make($request->new_password)
         ]);
 

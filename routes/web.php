@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +46,8 @@ Route::group(['middleware' => ['guest']], function () {
 Route::get('/logout_action', [MainController::class, 'logout_action'])->name('logout_action');
 
 
+
+//student
 Route::group(['middleware' => ['auth', 'user.role:student']], function () {
 
     Route::get('/student', function () {
@@ -49,9 +55,9 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     });
 
     //profile
-    Route::get('/student/myprofile', [StudentController::class, 'getProfile']);
-    Route::post('/student/myprofile/save', [StudentController::class, 'updateProfile'])->name('update_profile');
-    Route::post('/student/myprofile/change-profile-picture', [StudentController::class, 'changeProfilePicture'])->name('change_profile_picture');
+    Route::get('/student/myprofile', [UserController::class, 'getProfile']);
+    Route::post('/student/myprofile/save', [UserController::class, 'updateProfile'])->name('user_update_profile');
+    Route::post('/student/myprofile/change-profile-picture', [UserController::class, 'changeProfilePicture'])->name('change_profile_picture');
 
 
     Route::get('/student/mycourse', function () {
@@ -96,14 +102,67 @@ Route::get('/course/quiz/result', function () {
 
 
 
-
-
-
-
-
-Route::get('/admin/frontpage-home', function () {
-    return view('/admin/frontpage/admin-home-content');
+//admin
+Route::get('/admin', function () {
+    return view('/admin/admin-dashboard');
 });
+
+//list student
+Route::get('/admin/user-student', [UserController::class, 'getListStudents']);
+
+//list admin
+Route::get('/admin/user-teacher', [UserController::class, 'getListTeachers']);
+
+//update user data by admin
+Route::post('/admin/user/update', [UserController::class, 'updateUserDataByAdmin'])->name('admin_update_profile_user');
+
+//add user data by admin
+Route::post('/admin/user/add', [UserController::class, 'addUserDataByAdmin'])->name('admin_add_profile_user');
+
+
+//update user data by admin
+Route::get('/admin/user/delete/{id}', [UserController::class, 'deleteUserDataByAdmin'])->name('admin_delete_profile_user');
+
+
+
+
+//categories
+Route::get('/admin/courses-categories', [CategoryController::class, 'getListCategories']);
+//add user categories by admin
+Route::post('/admin/courses-categories/add', [CategoryController::class, 'addCategory'])->name('admin_add_category');
+Route::get('/admin/courses-categories/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('admin_delete_category');
+
+
+//courses
+
+//list course
+Route::get('/admin/courses-list', [CourseController::class, 'getListCourses']);
+Route::get('/admin/add-course', [CourseController::class, 'getAddCourse']);
+Route::post('/admin/add-course/add', [CourseController::class, 'addCourse'])->name('admin_add_course');
+Route::get('/admin/courses-list/delete/{id}', [CourseController::class, 'deleteCourse'])->name('admin_delete_course');
+
+
+Route::get('/admin/edit-course/{id}', [CourseController::class, 'getEditCourse'])->name('admin_edit_course');
+Route::post('/admin/edit-course/add-chapter', [CourseController::class, 'addChapter'])->name('admin_add_chapter');
+Route::get('/admin/edit-course/chapter/delete/{id}', [CourseController::class, 'deleteChapter'])->name('admin_delete_chapter');
+
+
+
+Route::get('/admin/add-curriculum/{course_id}/{chapter_id}', [CourseController::class, 'getAddCurriculum'])->name('admin_add_curriculum');
+Route::post('/admin/add-curriculum/add', [CourseController::class, 'addCurriculum'])->name('admin_save_curriculum');
+Route::get('/admin/edit-curriculum/delete/{id}', [CourseController::class, 'deleteCurriculum'])->name('admin_delete_curriculum');
+
+
+Route::get('/admin/add-quiz', [QuizController::class, 'getAddQuiz']);
+Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('admin_add_quiz');
+Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
+
+
+Route::get('/admin/add-question', function () {
+    return view('/admin/quiz/admin-add-quiz-question');
+});
+
+
 
 
 Route::get('/admin/frontpage-home', function () {

@@ -56,7 +56,7 @@
                                         <div class="form-group mb-2">
                                             <label for="form-label text-white" style="font-size: 23px">Email </label>
                                             <input type="email" name="email" id="fromEmailLogin"
-                                                class="form-control form-control-lg p-3" />
+                                                class="form-control form-control-lg p-3" required />
                                             @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
@@ -65,7 +65,7 @@
                                         <div class="form-group mb-2">
                                             <label for="form-label text-white" style="font-size: 23px">Full Name</label>
                                             <input type="text" name="name" id="fromFullnameLogin"
-                                                class="form-control form-control-lg p-3" />
+                                                class="form-control form-control-lg p-3" required />
                                             @if ($errors->has('name'))
                                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                                             @endif
@@ -77,7 +77,7 @@
                                                     <label class="form-label text-white" style="font-size: 23px"
                                                         for="formPassLogin">Password
                                                     </label><input type="password" name="password" id="formPassLogin"
-                                                        class="form-control form-control-lg p-3" />
+                                                        class="form-control form-control-lg p-3" required />
                                                     @if ($errors->has('password'))
                                                         <span
                                                             class="text-danger">{{ $errors->first('password') }}</span>
@@ -91,7 +91,7 @@
                                                         for="formConfirmPassLogin">Confirm Password
                                                     </label><input type="password" name="password_confirmation"
                                                         id="formConfirmPassLogin"
-                                                        class="form-control form-control-lg p-3" />
+                                                        class="form-control form-control-lg p-3" required />
                                                     @if ($errors->has('password_confirmation'))
                                                         <span
                                                             class="text-danger text-left">{{ $errors->first('password_confirmation') }}</span>

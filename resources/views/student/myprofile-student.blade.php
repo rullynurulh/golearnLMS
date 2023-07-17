@@ -44,7 +44,7 @@
 
                         <div class="col-9">
                             <div class="box-recommend px-5 pt-4 pb-4">
-                                <form action="{{ route('update_profile') }}" method="post">
+                                <form action="{{ route('user_update_profile') }}" method="post">
                                     @csrf
                                     <div class="form-group mb-2">
                                         <label class="form-label text-profile" style="font-size: 20px; margin-bottom:0"
@@ -74,15 +74,15 @@
                                                     @if (is_null($student['gender']))
                                                         <option>Open this select menu</option>
                                                     @endif
-                                                    @if ($student['gender'] == 'laki-laki')
-                                                        <option selected value="laki-laki">Laki-Laki</option>
+                                                    @if ($student['gender'] == 'Male')
+                                                        <option selected value="Male">Male</option>
                                                     @else
-                                                        <option value="laki-laki">Laki-Laki</option>
+                                                        <option value="Male">Male</option>
                                                     @endif
-                                                    @if ($student['gender'] == 'perempuan')
-                                                        <option selected value="perempuan">Perempuan</option>
+                                                    @if ($student['gender'] == 'Female')
+                                                        <option selected value="Female">Female</option>
                                                     @else
-                                                        <option value="perempuan">Perempuan</option>
+                                                        <option value="Female">Female</option>
                                                     @endif
                                                 </select>
                                             </div>
