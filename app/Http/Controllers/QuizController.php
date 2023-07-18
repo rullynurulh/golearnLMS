@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -55,5 +56,11 @@ class QuizController extends Controller
     {
         Quiz::whereId($id)->delete();
         return back();
+    }
+
+    public function getAddQuestion($id)
+    {
+        $questions = Question::where(['quiz' => $id])->get();
+        return view('/admin/quiz/admin-add-quiz-question', ['questions' => $questions]);
     }
 }

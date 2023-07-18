@@ -1,30 +1,30 @@
 @extends('layouts.admin.main-admin')
 @section('container')
-    <section class="margin-top " >
+    <section class="margin-top ">
         <div class="sidenav">
             <div class="content content-nav">
-                <div class="row p-4">  
+                <div class="row p-4">
                     <section class="section-curriculum sections">
                         <article>
                             <div class="mb-2">
-                                <a href="/admin"  class="collapsible btn mb-2 btn-admin">
+                                <a href="/admin" class="collapsible btn mb-2 btn-admin">
                                     Dashboard
                                 </a>
                             </div>
                             <div class="mb-2">
-                                <button type="button"  class="collapsible btn mb-2 btn-admin">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Users
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
                                         <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/user-teacher">
-                                            <li  >
-                                                Teacher 
+                                            <li>
+                                                Teacher
                                             </li>
                                         </a>
                                         <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/user-student">
                                             <li>
-                                                Student 
+                                                Student
                                             </li>
                                         </a>
 
@@ -42,9 +42,10 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/courses-categories">
-                                            <li >
-                                                Categories 
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/courses-categories">
+                                            <li>
+                                                Categories
                                             </li>
                                         </a>
                                         <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/courses-list">
@@ -57,7 +58,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" id="active"  class="collapsible btn mb-2 btn-admin-active">
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Quiz
                                 </button>
                                 <div class="content-collapse">
@@ -68,7 +69,7 @@
                                             </li>
                                         </a>
                                         <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/quiz-setting">
-                                            <li >
+                                            <li>
                                                 Quiz Setting
                                             </li>
                                         </a>
@@ -82,19 +83,22 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/certificate-list">
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/certificate-list">
                                             <li>
-                                                Certificate List 
+                                                Certificate List
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/certificate-add">
-                                            <li >
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/certificate-add">
+                                            <li>
                                                 Add Certificate
                                             </li>
                                         </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2" href="/admin/certificate-setting">
-                                            <li  >
+                                        <a class="d-flex align-items-center chapter-info mb-2"
+                                            href="/admin/certificate-setting">
+                                            <li>
                                                 Certificate Setting
                                             </li>
                                         </a>
@@ -108,32 +112,37 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/frontpage-home">
-                                            <li >
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/frontpage-home">
+                                            <li>
                                                 Home Content
                                             </li>
                                         </a>
-                                        
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/frontpage-social">
+
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/frontpage-social">
                                             <li>
-                                                Social Setting 
+                                                Social Setting
                                             </li>
                                         </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/frontpage-footer">
-                                            <li >
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/frontpage-footer">
+                                            <li>
                                                 Footer Setting
                                             </li>
                                         </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/frontpage-account">
-                                            <li >
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/frontpage-account">
+                                            <li>
                                                 Account Setting
                                             </li>
                                         </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/frontpage-about-us">
-                                            <li >
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/frontpage-about-us">
+                                            <li>
                                                 About Us
                                             </li>
                                         </a>
@@ -159,70 +168,75 @@
                                     <div class="row">
                                         <div class="col">
                                             <button class="btn btn-button btn-shadow text-dark px-4"
-                                            type="submit">Draft</button>
+                                                type="submit">Draft</button>
                                         </div>
                                         <div class="col">
                                             <button class="btn btn-button btn-shadow text-dark px-4"
-                                            type="submit">save</button>
+                                                type="submit">save</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-7">
                                 <div class="box-recommend mt-2 p-4">
-                                    <form  action="" enctype="multipart/form-data">
+                                    <form action="" enctype="multipart/form-data" method="POST">
+                                        @csrf
                                         <div class="col">
                                             <div class="form-group mb-2">
-                                                <label for="form-label text-white" style="font-size: 23px">File (optional) </label>
-                                                <input type="file" name="file_optional" id="file_optional"
+                                                <label for="form-label text-white" style="font-size: 23px">File (optional)
+                                                </label>
+                                                <input type="file" name="file" id="file_optional"
                                                     class="form-control  p-2" />
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group mb-2">
                                                 <label for="form-label text-white" style="font-size: 23px">Question</label>
-                                                <textarea  name="question" id="question" rows="6"
-                                                    class="form-control p-2">
+                                                <textarea name="question" id="question" rows="6" class="form-control p-2">
                                                  </textarea>
                                             </div>
                                         </div>
                                         <div class="row d-flex justify-content-start mb-2">
                                             <div class="col-1 d-flex align-items-center me-4">
-                                                 <p style="font-size: 23px; margin-bottom:0;">Type</p>
+                                                <p style="font-size: 23px; margin-bottom:0;">Type</p>
                                             </div>
                                             <div class="col-4 d-flex align-items-center" style="font-size: 20px">
-                                                <input class="me-2" type="radio"  id="radio1" style="font-size: 20px" name="optradio" value="option1" checked>
+                                                <input class="me-2" type="radio" id="radio1"
+                                                    style="font-size: 20px" name="type" value="multiple choice"
+                                                    checked onclick="showForm()">
                                                 Multiple Choice
-                                                <label  for="radio1"></label>
+                                                <label for="radio1"></label>
                                             </div>
                                             <div class="col-4  d-flex align-items-center" style="font-size: 20px">
-                                                <input class="me-2" type="radio"id="radio2" style="font-size: 20px" name="optradio" value="option2">
+                                                <input class="me-2" type="radio"id="radio2"
+                                                    style="font-size: 20px" name="type" value="long answer"
+                                                    onclick="hideForm()">
                                                 Long Answer
-                                                <label  for="radio2"></label>
+                                                <label for="radio2"></label>
                                             </div>
 
                                         </div>
-                                        <div class="col">
+                                        <div class="col" id="form_multiple_choice">
                                             <div class="form-group mb-2">
-                                                <input type="text"  name="answer_a" id="answer_a"
+                                                <input type="text" name="answer_a" id="answer_a"
                                                     class="form-control p-2" />
                                             </div>
 
                                             <div class="form-group mb-2">
-                                                <input type="text"  name="answer_b" id="answer_b"
+                                                <input type="text" name="answer_b" id="answer_b"
                                                     class="form-control p-2" />
                                             </div>
 
                                             <div class="form-group mb-2">
-                                                <input type="text"  name="answer_c" id="answer_c"
+                                                <input type="text" name="answer_c" id="answer_c"
                                                     class="form-control p-2" />
                                             </div>
 
                                             <div class="form-group mb-2">
-                                                <input type="text"  name="answer_d" id="answer_d"
+                                                <input type="text" name="answer_d" id="answer_d"
                                                     class="form-control p-2" />
                                             </div>
                                         </div>
@@ -231,87 +245,82 @@
                                             <button class="btn btn-button btn-shadow text-dark px-4"
                                                 type="submit">save</button>
                                         </div>
-                                    
-                
+
+
                                     </form>
                                 </div>
                             </div>
                             <div class="col-5">
                                 <div class="box-recommend mt-2 p-4 min-height-recommend">
                                     <div class="row d-flex justify-content-start ">
-                                       <h4>Question List</h4>
+                                        <h4>Question List</h4>
                                     </div>
                                     <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                                    <div class="box-list-admin mb-2">
-                                        <div class="row d-flex justify-content-start">
-                                            
-                                            <div class="col-1 d-flex justify-content-start align-items-center">
-                                                
-                                                <h4 style="margin-bottom:0">1.</h4>
-                                            </div>
-                                            <div class="col-9 d-flex justify-content-start align-items-center">
-                                                <div class="overflow-ecilips " style=" overflow: hidden; text-overflow: ellipsis ; white-space: nowrap;  ">
-                                                    <h5 style="font-weight: 500; margin-bottom:0; ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio similique molestias voluptatibus debitis, sint error commodi exercitationem ea, excepturi ducimus et dolorum porro quos facere quaerat unde nulla, quam reiciendis.</h5>
-                                                
+                                    @php
+                                        $nomor = 1;
+                                    @endphp
+                                    @foreach ($questions as $question)
+                                        <div class="box-list-admin mb-2">
+                                            <div class="row d-flex justify-content-start">
+
+                                                <div class="col-1 d-flex justify-content-start align-items-center">
+                                                    <h4 style="margin-bottom:0">{{ $nomor++ }}.</h4>
                                                 </div>
-                                            </div>
-                                            <div class="col-2 d-flex justify-content-end align-items-center">
-                                                <div class="col d-flex justify-content-end align-items-center">
-                                            
-                                                        <a href="" style="border: none;"> <span class="iconify ms-2" data-icon="ph:x-bold" style="color: red;" data-width="25"></span></a>
+                                                <div class="col-9 d-flex justify-content-start align-items-center">
+                                                    <div class="overflow-ecilips "
+                                                        style=" overflow: hidden; text-overflow: ellipsis ; white-space: nowrap;  ">
+                                                        <h5 style="font-weight: 500; margin-bottom:0; ">
+                                                            {{ $question['question'] }}</h5>
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-list-admin mb-2">
-                                        <div class="row d-flex justify-content-start">
-                                            
-                                            <div class="col-1 d-flex justify-content-start align-items-center">
-                                                
-                                                <h4 style="margin-bottom:0">1.</h4>
-                                            </div>
-                                            <div class="col-9 d-flex justify-content-start align-items-center">
-                                                <div class="overflow-ecilips " style=" overflow: hidden; text-overflow: ellipsis ; white-space: nowrap;  ">
-                                                    <h5 style="font-weight: 500; margin-bottom:0; ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio similique molestias voluptatibus debitis, sint error commodi exercitationem ea, excepturi ducimus et dolorum porro quos facere quaerat unde nulla, quam reiciendis.</h5>
-                                                
-                                                </div>
-                                            </div>
-                                            <div class="col-2 d-flex justify-content-end align-items-center">
-                                                <div class="col d-flex justify-content-end align-items-center">
-                                            
-                                                        <a href="" style="border: none;"> <span class="iconify ms-2" data-icon="ph:x-bold" style="color: red;" data-width="25"></span></a>
+                                                <div class="col-2 d-flex justify-content-end align-items-center">
+                                                    <div class="col d-flex justify-content-end align-items-center">
+                                                        <a href="" style="border: none;"> <span
+                                                                class="iconify ms-2" data-icon="ph:x-bold"
+                                                                style="color: red;" data-width="25"></span></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
+
                                     <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
                                     <div class="d-flex justify-content-center pt-1 mb-1">
-                                        <button class="btn btn-button btn-shadow text-dark px-4"
-                                            type="submit">Add New</button>
+                                        <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Add
+                                            New</button>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
-                        
+
                     </form>
                 </div>
-                
+
             </div>
-            
+
         </div>
     </section>
+    <script>
+        function hideForm() {
+            document.getElementById("form_multiple_choice").style.display = "none";
+        }
+
+        function showForm() {
+            document.getElementById("form_multiple_choice").style.display = "block";
+        }
+    </script>
     <script>
         let subMenuQuiz_1 = document.getElementById("subMenuQuiz-1");
         let subMenuQuiz_2 = document.getElementById("subMenuQuiz-2");
 
-        function toggleMenuQuiz1(){
+        function toggleMenuQuiz1() {
             subMenuQuiz_1.classList.toggle("open-menu");
         }
 
-        function toggleMenuQuiz2(){
+        function toggleMenuQuiz2() {
             subMenuQuiz_2.classList.toggle("open-menu");
         }
     </script>
-
 @endsection

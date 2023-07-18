@@ -290,7 +290,8 @@
                                                                 Result
                                                             </p>
                                                         </a>
-                                                        <a href="/admin/add-question" class="sub-menu-link">
+                                                        <a href="{{ route('admin_add_question', $quiz['id']) }}"
+                                                            class="sub-menu-link">
                                                             <p style="margin: 0; text-align: end; color:#2F70AF;">Add
                                                                 Question
                                                             </p>

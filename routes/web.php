@@ -158,9 +158,10 @@ Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('ad
 Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
 
 
-Route::get('/admin/add-question', function () {
-    return view('/admin/quiz/admin-add-quiz-question');
-});
+Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuestion'])->name('admin_add_question');
+
+
+
 
 
 
