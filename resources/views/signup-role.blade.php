@@ -28,7 +28,7 @@
                         <div class="card text-center p-3 bg-primary1" style="width:80%;">
                             <h1 class="text-white">Sign Up as Teacher</h1>
                             <div>
-                                <img class="card-img-top text-image" src="assets/images/image 4.png" alt=""
+                                <img class="card-img-top text-image" src=" {{ URL::asset('images/image 4.png') }}"
                                     style="width: 15rem;">
                             </div>
 
@@ -43,7 +43,7 @@
                         <div class="card text-center p-3" style="width:80%; background: #E63333;">
                             <h1 class="text-white">Sign Up as Student</h1>
                             <div>
-                                <img class="card-img-top text-image" src="assets/images/image 3.png" alt=""
+                                <img class="card-img-top text-image" src="{{ URL::asset('images/image 3.png') }} " 
                                     style="width: 15rem;">
                             </div>
 

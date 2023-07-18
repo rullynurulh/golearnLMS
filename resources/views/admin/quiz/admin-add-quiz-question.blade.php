@@ -220,33 +220,88 @@
 
                                         </div>
                                         <div class="col" id="form_multiple_choice">
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="answer_a" id="answer_a"
-                                                    class="form-control p-2" />
-                                            </div>
+                                            <div class="form-control  mb-2" style="padding:0px">
+                                                <div class="d-flex row">
+                                                    <div class="col-1 d-flex align-items-center justify-content-center" style=" position:relative;">
+                                                        a.
+                                                    </div>
+                                                    <div class="col-10 d-flex align-items-center justify-content-start "  style="right: 10px; position:relative;">
+                                                        <input type="text"name="answer_a" id="answer_a"
+                                                            class="form-control p-2 " style="border:0px"/>
+                                                          
+                                                    </div> 
+                                                    <div class="col-1 d-flex align-items-center justify-content-end">
+                                                        <input class="me-2 radio-answer" type="radio" 
+                                                            style="font-size: 20px" name="answer" value="answer"
+                                                            >    
+                                                    </div> 
 
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="answer_b" id="answer_b"
-                                                    class="form-control p-2" />
+                                                </div>
+                                                
                                             </div>
+                                            <div class="form-control  mb-2" style="padding:0px">
+                                                <div class="d-flex row">
+                                                    <div class="col-1 d-flex align-items-center justify-content-center" style=" position:relative;">
+                                                        b.
+                                                    </div>
+                                                    <div class="col-10 d-flex align-items-center justify-content-start "  style="right: 10px; position:relative;">
+                                                        <input type="text"name="answer_b" id="answer_b"
+                                                            class="form-control p-2 " style="border:0px"/>
+                                                          
+                                                    </div> 
+                                                    <div class="col-1 d-flex align-items-center justify-content-end">
+                                                        <input class="me-2 radio-answer" type="radio" 
+                                                            style="font-size: 20px" name="answer" value="answer"
+                                                            >    
+                                                    </div> 
 
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="answer_c" id="answer_c"
-                                                    class="form-control p-2" />
+                                                </div>
+                                                
                                             </div>
+                                            <div class="form-control  mb-2" style="padding:0px">
+                                                <div class="d-flex row">
+                                                    <div class="col-1 d-flex align-items-center justify-content-center" style=" position:relative;">
+                                                        c.
+                                                    </div>
+                                                    <div class="col-10 d-flex align-items-center justify-content-start "  style="right: 10px; position:relative;">
+                                                        <input type="text"name="answer_a" id="answer_a"
+                                                            class="form-control p-2 " style="border:0px"/>
+                                                          
+                                                    </div> 
+                                                    <div class="col-1 d-flex align-items-center justify-content-end">
+                                                        <input class="me-2 radio-answer" type="radio" 
+                                                            style="font-size: 20px" name="answer" value="answer"
+                                                            >    
+                                                    </div> 
 
-                                            <div class="form-group mb-2">
-                                                <input type="text" name="answer_d" id="answer_d"
-                                                    class="form-control p-2" />
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="form-control  mb-2" style="padding:0px">
+                                                <div class="d-flex row">
+                                                    <div class="col-1 d-flex align-items-center justify-content-center" style=" position:relative;">
+                                                        d.
+                                                    </div>
+                                                    <div class="col-10 d-flex align-items-center justify-content-start "  style="right: 10px; position:relative;">
+                                                        <input type="text"name="answer_d" id="answer_d"
+                                                            class="form-control p-2 " style="border:0px"/>
+                                                          
+                                                    </div> 
+                                                    <div class="col-1 d-flex align-items-center justify-content-end">
+                                                        <input class="me-2 radio-answer " type="radio" 
+                                                            style="font-size: 20px" name="answer" value="answer"
+                                                            >
+                                                                
+                                                    </div> 
+
+                                                </div>
+                                                
                                             </div>
                                         </div>
-                                        <!-- Buttons Sign in -->
-                                        <div class="d-flex justify-content-end pt-1 mb-1">
-                                            <button class="btn btn-button btn-shadow text-dark px-4"
-                                                type="submit">save</button>
+                                        <div class="col" id="form_long_answer" style="display:none">
+                                            <textarea name="answer_long" id="answer_long" rows="3" class="form-control p-2">
+                                            </textarea>
                                         </div>
-
-
                                     </form>
                                 </div>
                             </div>
@@ -305,10 +360,12 @@
     <script>
         function hideForm() {
             document.getElementById("form_multiple_choice").style.display = "none";
+            document.getElementById("form_long_answer").style.display = "block";
         }
 
         function showForm() {
             document.getElementById("form_multiple_choice").style.display = "block";
+            document.getElementById("form_long_answer").style.display = "none";
         }
     </script>
     <script>

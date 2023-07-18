@@ -196,17 +196,17 @@
                                 <div class="col-4 ">
                                     <div class="row form-group mb-2">
                                         <label for="form-label" style="font-size: 23px">Complete Course Sequence</label>
-                                        <div class="col form-check">
-                                            <input class="form-check-input" type="radio" name="sequence"
+                                        <div class="col-4 form-radio d-flex align-items-center">
+                                            <input class="form-radio-input me-2" type="radio" name="sequence"
                                                 id="flexRadioDefault1" value="yes">
-                                            <label class="form-check-label" for="flexRadioDefault1">
+                                            <label class="form-radio-label" for="flexRadioDefault1">
                                                 YES
                                             </label>
                                         </div>
-                                        <div class="col form-check">
-                                            <input class="form-check-input" type="radio" name="sequence"
+                                        <div class="col-4 form-radio d-flex align-items-center">
+                                            <input class="form-radio-input me-2" type="radio" name="sequence"
                                                 id="flexRadioDefault2" checked value="no">
-                                            <label class="form-check-label" for="flexRadioDefault2">
+                                            <label class="form-radio-label" for="flexRadioDefault2">
                                                 NO
                                             </label>
                                         </div>
