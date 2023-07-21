@@ -164,8 +164,6 @@ border-radius: 2px;
 
 .bg-image-jumbotron{
 
-    background: linear-gradient(0deg, rgba(65, 89, 137, 0.5), rgba(65, 89, 137, 0.5)), url('images/bg-slider.jpg');
-
     background-position: center;
     background-repeat: no-repeat;
     background-size:cover;
@@ -551,6 +549,11 @@ input[type=text] {
   color: #FFF;
 }
 
+.form-group textarea.abt{
+  color:#7A7A7A;
+  text-align: justify;
+}
+
 
 .card-accomplishment{
   background-color: #FDCF73;
@@ -677,6 +680,7 @@ input[type="file"]::-webkit-file-upload-button{
   margin: 0 0 0 10px;
   border-radius: 5px;
   background-color: #FDCF73;
+ 
 }
 input[type=file]::file-selector-button:hover {
   background-color: #0d45a5 !important;
@@ -891,4 +895,25 @@ input[type=radio].radio-answer:disabled {
      50%/100% 20% no-repeat content-box;
   opacity: .5;
   cursor: not-allowed;
+}
+
+.text-blue{
+  color: #2F70AF;
+
+}
+
+form.form_frontpage input{
+  border-radius: 40px;
+  font-size: medium;
+}
+
+form.form_frontpage input[type="file"]{
+  padding: 10px;
+
+}
+
+form.form_frontpage.icon input[type="file"]::-webkit-file-upload-button{
+  background-color: #5770C8;
+  color: white;
+
 }

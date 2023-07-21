@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('container')
     <section class="margin-top">
-        <div class="bg-image-jumbotron" style="padding-bottom: 9rem">
+        <div class="bg-image-jumbotron" style="padding-bottom: 9rem; background: linear-gradient(0deg, rgba(65, 89, 137, 0.5), rgba(65, 89, 137, 0.5)), url('images/bg-slider.jpg');">
             <div class="content p-5">
                 <div class=" padding-center mb-5 pt-5">
                     <div class="row d-flex justify-content-between p-5">

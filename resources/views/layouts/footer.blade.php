@@ -7,10 +7,10 @@
                     <p class="text-white" style="width: 300px">Copyright © 2023 GoLearnLMS. 
                         All rights reserved | Made By Ruly Nurul H</p>
                     <div class="col">                 
-                            <span class="iconify me-3" data-icon="uil:instagram" style="color: white;" data-width="40"></span>
-                            <span class="iconify me-3" data-icon="uil:twitter" style="color: white;" data-width="40"></span>
-                            <span class="iconify me-3" data-icon="ic:baseline-facebook" style="color: white;" data-width="40"></span>
-                            <span class="iconify" data-icon="mdi:google-plus" style="color: white;" data-width="45"></span>
+                            <span class="iconify me-3" style="content: url('https://api.iconify.design/uil/instagram.svg?color=white&width=40');"></span>
+                            <span class="iconify me-3" style="content: url('https://api.iconify.design/uil/twitter.svg?color=white&width=40');"></span>
+                            <span class="iconify me-3" style="content: url('https://api.iconify.design/ic/baseline-facebook.svg?color=white&width=40');"></span>
+                            <span class="iconify" style="content: url('https://api.iconify.design/mdi/google-plus.svg?color=white&width=40');"></span>
                     </div>
                 </div>
 
