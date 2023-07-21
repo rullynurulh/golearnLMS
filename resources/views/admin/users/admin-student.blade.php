@@ -210,10 +210,10 @@
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     @if (is_null($student['image']))
                                         <img src="{{ URL::asset('images/guru1.jpg') }}"
-                                            style="width: 60px !important;border-radius:50%">
+                                            style="width: 60px !important; height: 60px !important;border-radius:50%">
                                     @else
                                         <img src="{{ URL::asset($student['image']) }}"
-                                            style="width: 60px !important;border-radius:50%">
+                                            style="width: 60px !important; height: 60px !important;border-radius:50%">
                                     @endif
                                 </div>
                                 <div class="col-2 d-flex justify-content-center align-items-center">

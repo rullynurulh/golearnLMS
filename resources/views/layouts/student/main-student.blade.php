@@ -35,7 +35,7 @@
     <script src="https://unpkg.com/swup@3"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-    
+    <script src="{{ URL::asset('circular.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>

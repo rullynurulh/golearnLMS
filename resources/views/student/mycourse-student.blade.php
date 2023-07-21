@@ -273,14 +273,10 @@
                                         <h4 class="card-title">Figma Tutorial</h4>
                                         <div class="row">
                                             <div class="col">
-                                                <div class="progress-circle p0">
-                                                    <span>100%</span>
-                                                    <div class="left-half-clipper">
-                                                        <div class="first50-bar"></div>
-                                                        <div class="value-bar"></div>
-                                                    </div>
-                                                </div>
-
+                                                <div class="circular-progress" data-inner-circle-color="white" data-percentage="100" data-progress-color="#2F70AF" data-bg-color="white">
+                                                    <div class="inner-circle"></div>
+                                                    <p class="percentage">0%</p>
+                                                  </div>
                                             </div>
                                             <div class="col d-flex align-items-center">
                                                 <a

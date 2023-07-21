@@ -338,6 +338,7 @@ footer {
   background-color: white;
   overflow-x: hidden;
   transition: 0.5s;
+  top: 10rem;
 }
 
 .sidenav::-webkit-scrollbar{
@@ -599,7 +600,12 @@ input[type=checkbox] {
 .mains input:checked ~ .geekmark:after {
     display: block;
 }
-  
+.nav-course{
+  width: 100%;
+  background-color: #EAEAEA;
+  position: fixed;
+
+}
 
 .mains .geekmark:after {
     left: 7px;
