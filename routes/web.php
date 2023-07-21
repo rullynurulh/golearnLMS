@@ -167,6 +167,15 @@ Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStat
 
 
 
+Route::get('/admin/certificate-list', function () {
+    return view('/admin/certificate/admin-certificate-list');
+});
+Route::get('/admin/add-certificate', function () {
+    return view('/admin/certificate/admin-add-certificate');
+});
+Route::get('/admin/certificate-setting', function () {
+    return view('/admin/certificate/admin-certificate-setting');
+});
 
 
 
