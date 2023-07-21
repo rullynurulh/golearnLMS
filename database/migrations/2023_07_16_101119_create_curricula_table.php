@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('curricula', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('courses');
+            $table->foreign('courses')
+                ->references('id')->on('courses')->onDelete('cascade');
             $table->unsignedBigInteger('chapter');
             $table->foreign('chapter')
                 ->references('id')->on('chapters')->onDelete('cascade');

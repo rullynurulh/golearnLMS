@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -89,5 +91,21 @@ class MainController extends Controller
         ]);
 
         return back()->with("status", "Password changed successfully!");
+    }
+    public function getCourses()
+    {
+        $courses = DB::table('courses')
+            ->join('categories', 'courses.categories', '=', 'categories.id')
+            ->join('users', 'courses.instructor', '=', 'users.id')
+            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*')
+            ->get();
+        $courses = json_decode(json_encode($courses), true);
+        return view('courses', ['courses' => $courses]);
+    }
+
+    public function getTeachers()
+    {
+        $teachers = User::where(['role' => 'teacher'])->get();
+        return view('teachers', ['teachers' => $teachers]);
     }
 }

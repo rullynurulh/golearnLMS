@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Quiz;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -12,6 +13,7 @@ use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\CurriculumQuiz;
 
 class CourseController extends Controller
 {
@@ -21,9 +23,12 @@ class CourseController extends Controller
         $courses = DB::table('courses')
             ->join('categories', 'courses.categories', '=', 'categories.id')
             ->join('users', 'courses.instructor', '=', 'users.id')
-            ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*')
+            ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
+            ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"))
+            ->groupBy('courses.id')
             ->get();
         $courses = json_decode(json_encode($courses), true);
+
         return view('/admin/courses/admin-course-list', ['courses' => $courses]);
     }
 
@@ -88,31 +93,49 @@ class CourseController extends Controller
     public function getAddCurriculum($course_id, $chapter_id)
     {
         $curricula = Curriculum::where(['chapter' => $chapter_id])->get();
-        $chapter = Chapter::where(['courses' => $course_id])->first();
+        $quizzes = Quiz::all();
+        $chapter = Chapter::whereId($chapter_id)->first();
         $course = Course::whereId($course_id)->first();
 
-        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula]);
+        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes]);
     }
 
     public function addCurriculum(Request $request)
     {
-        $data = Curriculum::create([
-            'name' => $request->name,
-            'chapter' => $request->chapter,
-            'category' => $request->category,
-            'description' => $request->description,
-            'privacy' => $request->privacy
-        ]);
 
         if ($request->category == 'lesson') {
+
+            $data = Curriculum::create([
+                'name' => $request->name,
+                'chapter' => $request->chapter,
+                'courses' => $request->courses,
+                'category' => $request->category,
+                'description' => $request->description,
+                'privacy' => $request->privacy
+            ]);
+
 
             Lesson::create([
                 'curriculum' => $data['id'],
                 'duration' => $request->duration,
                 'source' => $request->source
             ]);
-        }
+        } else {
 
+            $data = Curriculum::create([
+                'name' => Quiz::whereId($request->quiz)->first()['title'],
+                'chapter' => $request->chapter,
+                'courses' => $request->courses,
+                'category' => $request->category,
+                'description' => $request->description,
+                'privacy' => $request->privacy
+            ]);
+
+            CurriculumQuiz::create([
+                'curriculum' => $data['id'],
+                'quiz' => $request->quiz
+            ]);
+        }
 
         return back();
     }

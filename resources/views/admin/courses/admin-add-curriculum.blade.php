@@ -182,6 +182,7 @@
                         </div>
                     </div>
 
+
                     <div class="row d-flex justify-content-start m-auto panel">
                         <li data-rel="1"
                             class="col-2 me-2 d-flex justify-content-center panel-point pointer active-button ">
@@ -231,6 +232,8 @@
                                                         <div class="row">
                                                             <input type="text" name="chapter" id=""
                                                                 value="{{ $chapter['id'] }}" hidden>
+                                                            <input type="text" name="courses" id=""
+                                                                value="{{ $course['id'] }}" hidden>
                                                             <input type="text" name="category" id=""
                                                                 value="lesson" hidden>
                                                             <div class="col pe-4">
@@ -265,7 +268,8 @@
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Description</label>
-                                                                <textarea class="form-control form-control-lg p-3" id="descripction" name="description" rows="5" required></textarea >
+                                                                <textarea class="form-control form-control-lg p-3 text-black" id="descripction" name="description" rows="5"
+                                                                    required></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row d-flex justify-content-start">
@@ -319,22 +323,34 @@
 
                                                 </div>
                                                 <div class="box-form p-4">
-                                                    <form action="" enctype="multipart/form-data">
+                                                    <form action="{{ route('admin_save_curriculum') }}"
+                                                        enctype="multipart/form-data" method="POST">
+                                                        @csrf
+                                                        <input type="text" name="chapter" id=""
+                                                            value="{{ $chapter['id'] }}" hidden>
+                                                        <input type="text" name="courses" id=""
+                                                            value="{{ $course['id'] }}" hidden>
+                                                        <input type="text" name="category" id=""
+                                                            value="quiz" hidden>
                                                         <div class="col pe-4">
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label" style="font-size: 23px">Existing
                                                                     Quiz </label>
                                                             </div>
                                                         </div>
+                                                        <div class="col">
 
-                                                        <div class="col ">
+
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Quiz</label>
                                                                 <select name="quiz" id="quiz"
-                                                                    placeholder="Select Quiz" class="form-select p-3" />
-                                                                <option value="volvo">Volvo</option>
-                                                                <option value="saab">Saab</option>
+                                                                    placeholder="Select Quiz" class="form-select p-3">
+                                                                    @foreach ($quizzes as $quiz)
+                                                                        <option value="{{ $quiz['id'] }}">
+                                                                            {{ $quiz['title'] }}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -342,9 +358,11 @@
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Description</label>
-                                                                <textarea class="form-control form-control-lg p-3" id="descripction" name="description" rows="5"></textarea>
+                                                                <textarea class="form-control form-control-lg p-3 text-black" id="descripction" name="description" rows="5"
+                                                                    required></textarea>
                                                             </div>
                                                         </div>
+
                                                         <div class="row d-flex justify-content-start">
                                                             <div class="col-1 d-flex align-items-center">
                                                                 <p style="font-size: 23px; margin-bottom:0;">Privacy</p>
@@ -352,29 +370,26 @@
                                                             <div class="col-1 d-flex align-items-center"
                                                                 style="font-size: 20px">
                                                                 <input class="me-2" type="radio" id="radio1"
-                                                                    style="font-size: 20px" name="optradio"
-                                                                    value="option1" checked>
+                                                                    style="font-size: 20px" name="privacy" value="unlock"
+                                                                    checked>
                                                                 Unlock
                                                                 <label for="radio1"></label>
                                                             </div>
                                                             <div class="col-1  d-flex align-items-center"
                                                                 style="font-size: 20px">
                                                                 <input class="me-2" type="radio"id="radio2"
-                                                                    style="font-size: 20px" name="optradio"
-                                                                    value="option2">
+                                                                    style="font-size: 20px" name="privacy"
+                                                                    value="lock">
                                                                 Lock
                                                                 <label for="radio2"></label>
                                                             </div>
 
                                                         </div>
-
                                                         <!-- Buttons Sign in -->
                                                         <div class="d-flex justify-content-center pt-1 mb-1">
                                                             <button class="btn btn-button btn-shadow text-dark px-4 "
                                                                 type="submit">save</button>
                                                         </div>
-
-
                                                     </form>
                                                 </div>
                                             </div>

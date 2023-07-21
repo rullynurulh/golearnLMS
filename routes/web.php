@@ -6,6 +6,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -50,9 +51,10 @@ Route::get('/logout_action', [MainController::class, 'logout_action'])->name('lo
 //student
 Route::group(['middleware' => ['auth', 'user.role:student']], function () {
 
-    Route::get('/student', function () {
-        return view('/student/home-student');
-    });
+    Route::get('/student', [StudentController::class, 'getDashboard']);
+    Route::get('/course-overview/{id}', [StudentController::class, 'getCourseOverview'])->name('student_course_overwiew');
+
+    Route::post('/student/course-enroll', [StudentController::class, 'studentCourseEnroll'])->name('student_course_enroll');
 
     //profile
     Route::get('/student/myprofile', [UserController::class, 'getProfile']);
@@ -63,7 +65,6 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     Route::get('/student/mycourse', function () {
         return view('/student/mycourse-student');
     });
-
     Route::get('/student/accomplishment', function () {
         return view('/student/accomplishment-student');
     });
@@ -74,8 +75,19 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
         return view('/student/student-leaderboard');
     });
 
-    Route::get('/course-overview', function () {
-        return view('/student/course-overview-student');
+
+    Route::get('/course/{course_id}/{now_proces}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
+
+
+
+    Route::get('/course/quiz', function () {
+        return view('/courses/course-quiz');
+    });
+    Route::get('/course/quiz/start', function () {
+        return view('/courses/course-quiz-detail');
+    });
+    Route::get('/course/quiz/result', function () {
+        return view('/courses/course-quiz-result');
     });
 
 
@@ -86,18 +98,6 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     Route::post('/change-password', [MainController::class, 'changePassword'])->name('change_password');
 });
 
-Route::get('/course', function () {
-    return view('/courses/course-detail');
-});
-Route::get('/course/quiz', function () {
-    return view('/courses/course-quiz');
-});
-Route::get('/course/quiz/start', function () {
-    return view('/courses/course-quiz-detail');
-});
-Route::get('/course/quiz/result', function () {
-    return view('/courses/course-quiz-result');
-});
 
 
 
@@ -157,8 +157,12 @@ Route::get('/admin/add-quiz', [QuizController::class, 'getAddQuiz']);
 Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('admin_add_quiz');
 Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
 
-
 Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuestion'])->name('admin_add_question');
+Route::post('/admin/quiz/add-question/add', [QuizController::class, 'addQuestion'])->name('admin_save_question');
+Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQuestion'])->name('admin_delete_question');
+
+
+Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStatus'])->name('admin_update_quiz-status');
 
 
 
@@ -182,15 +186,16 @@ Route::get('/admin/frontpage-about-us', function () {
     return view('/admin/frontpage/admin-about-us');
 });
 
+
+Route::get('/courses', [MainController::class, 'getCourses']);
+Route::get('/teachers', [MainController::class, 'getTeachers']);
+
+
 Route::get('/about-us', function () {
     return view('about-us');
 });
-Route::get('/courses', function () {
-    return view('courses');
-});
-Route::get('/teachers', function () {
-    return view('teachers');
-});
+
+
 Route::get('/contact', function () {
     return view('contact');
 });
