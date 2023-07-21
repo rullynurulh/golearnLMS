@@ -40,7 +40,16 @@ class StudentController extends Controller
         $course['requirement'] = explode("\n", $course['requirement']);
         $course['description'] = explode("\n", $course['description']);
         $course['outcome'] = explode("\n", $course['outcome']);
-        $now_proces = Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->first()['now_proces'];
+
+        $now_curriculum = -1;
+        $now_chapter = -1;
+
+        if (Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->count() > 0) {
+
+            $curriculum = Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->first();
+            $now_curriculum = $curriculum['now_curriculum'];
+            $now_chapter = $curriculum['now_chapter'];
+        }
 
 
 
@@ -60,7 +69,7 @@ class StudentController extends Controller
 
 
 
-        return view('/student/course-overview-student', ['course' => $course, 'chapters' => $chapters, 'status' => $status, 'now_proces' => $now_proces]);
+        return view('/student/course-overview-student', ['course' => $course, 'chapters' => $chapters, 'status' => $status, 'now_curriculum' => $now_curriculum, 'now_chapter' => $now_chapter]);
     }
 
     function studentCourseEnroll(Request $request)
@@ -71,15 +80,32 @@ class StudentController extends Controller
             'courses' => $request->courses,
             'student' => auth()->user()->id,
             'point' => 0,
-            'now_proces' => 0
+            'now_chapter' => 0,
+            'now_curriculum' => 0
         ]);
 
 
         return back();
     }
 
-    function getStudentCourse($course_id, $now_proces)
+    function getStudentCourse($course_id, $now_curriculum, $now_chapter)
     {
+
+        $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->first();
+
+        if ($now_chapter > $enrolled['now_chapter']) {
+
+            Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
+                'now_chapter' => $now_chapter,
+                'now_curriculum' => $now_curriculum
+            ]);
+        } else if ($now_chapter == $enrolled['now_chapter'] && $now_curriculum > $enrolled['now_curriculum']) {
+            Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
+
+                'now_curriculum' => $now_curriculum
+            ]);
+        }
+
         $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get();
 
         foreach ($chapters as $chapter) {
@@ -87,7 +113,8 @@ class StudentController extends Controller
             $chapter['curriculum'] = Curriculum::where(['chapter' => $chapter['id']])->orderBy('id', 'asc')->get();
         }
 
-        if ($now_proces == 0) {
+
+        if ($now_curriculum == 0) {
 
             $curriculum_category = Curriculum::orderBy('id', 'asc')->first();
 
@@ -95,23 +122,23 @@ class StudentController extends Controller
 
                 $lesson = Lesson::first();
                 $lesson['chapter'] = $curriculum_category['chapter'];
-                return view('/courses/course-detail', ['course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson]);
+                return view('/courses/course-detail', ['now_curriculum' => $enrolled['now_curriculum'], 'now_chapter' => $enrolled['now_chapter'], 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson]);
             } else {
 
                 // $quiz = Quiz::first();
             }
         } else {
 
-            $curriculum_category = Curriculum::whereId($now_proces)->orderBy('id', 'asc')->first();
+            $curriculum_category = Curriculum::whereId($now_curriculum)->orderBy('id', 'asc')->first();
 
             if ($curriculum_category['category'] == "lesson") {
 
-                $lesson = Lesson::where(['curriculum' => $now_proces])->first();
+                $lesson = Lesson::where(['curriculum' => $now_curriculum])->first();
                 $lesson['chapter'] = $curriculum_category['chapter'];
-                return view('/courses/course-detail', ['course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson]);
+                return view('/courses/course-detail', ['now_curriculum' => $enrolled['now_curriculum'], 'now_chapter' => $enrolled['now_chapter'], 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson]);
             } else {
 
-                // $quiz = Quiz::where(['curriculum' => $now_process])->first();
+                // $quiz = Quiz::where(['curriculum' => $now_curriculums])->first();
             }
         }
     }

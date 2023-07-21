@@ -135,7 +135,7 @@
                             <div class="box-recommend px-5 pt-5 pb-4">
                                 <div class="row">
                                     @if ($status == 'enrolled')
-                                        <a href="{{ route('student_course_detail', ['course_id' => $course['id'], 'now_proces' => $now_proces]) }}"
+                                        <a href="{{ route('student_course_detail', ['course_id' => $course['id'], 'now_curriculum' => $now_curriculum, 'now_chapter' => $now_chapter]) }}"
                                             class="btn btn-button" style="font-size: 25px; font-weight:600">Go Learn</a>
                                     @else
                                         <form action="{{ route('student_course_enroll') }}" method="POST">

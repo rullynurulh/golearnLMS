@@ -26,13 +26,13 @@
                                                 @endphp
                                                 <li class="{{ $class }}">
                                                     <a class="d-flex align-items-center chapter-info"
-                                                        href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_proces' => $curriculum['id']]) }}">
+                                                        href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}">
                                                         <label class="mains">
-                                                            @if ($curriculum['chapter'] > $lesson['chapter'])
+                                                            @if ($lesson['chapter'] > $now_chapter)
                                                                 <input type="checkbox">
-                                                            @elseif ($curriculum['chapter'] < $lesson['chapter'])
+                                                            @elseif ($lesson['chapter'] < $now_chapter)
                                                                 <input type="checkbox" checked="checked">
-                                                            @elseif ($curriculum['chapter'] == $lesson['chapter'] && $curriculum['id'] < $lesson['curriculum'])
+                                                            @elseif ($now_chapter == $lesson['chapter'] && $now_curriculum < $lesson['curriculum'])
                                                                 <input type="checkbox" checked="checked">
                                                             @else
                                                                 <input type="checkbox">

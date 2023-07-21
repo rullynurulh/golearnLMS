@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     });
 
 
-    Route::get('/course/{course_id}/{now_proces}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
+    Route::get('/course/{course_id}/{now_curriculum}/{now_chapter}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
 
 
 
