@@ -189,7 +189,7 @@
         <div class="margin-left">
             <div class="bg-white" style="padding-bottom: 9rem; padding-left:20rem;">
                 <div class="content p-5">
-                    <div class="box-recommend min-height-recommend p-2">
+                    <div class="box-recommend min-height-recommend p-2" style="margin-top: 3rem">
                         <div class="card card-quiz text-left m-5">
                             <div class="row p-4">
                                 <div class="col-10 d-flex align-items-center">

@@ -189,7 +189,7 @@
         <div class="margin-left">
             <div class="bg-white" style="padding-bottom: 9rem; padding-left:20rem;">
                 <div class="content p-5">
-                    <div class="card card-quiz text-left">
+                    <div class="card card-quiz text-left" style="margin-top: 3rem">
                         <div class="row ">
                             <div class="col-4 d-flex align-items-center">
                                 <div class="row p-3">
