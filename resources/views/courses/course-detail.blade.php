@@ -6,6 +6,9 @@
                 <div class="row p-4">
                     <section class="section-curriculum sections">
                         <article>
+                            @php
+                                $hasNextPage = false;
+                            @endphp
                             @foreach ($chapters as $chapter)
                                 <div class="mb-2">
                                     <button type="button" class="collapsible">
@@ -25,21 +28,49 @@
                                                     }
                                                 @endphp
                                                 <li class="{{ $class }}">
-                                                    <a class="d-flex align-items-center chapter-info"
-                                                        href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}">
-                                                        <label class="mains">
-                                                            @if ($lesson['chapter'] > $now_chapter)
-                                                                <input type="checkbox">
-                                                            @elseif ($lesson['chapter'] < $now_chapter)
-                                                                <input type="checkbox" checked="checked">
-                                                            @elseif ($now_chapter == $lesson['chapter'] && $now_curriculum < $lesson['curriculum'])
-                                                                <input type="checkbox" checked="checked">
+                                                    @if (isset($isVisited[$curriculum['id']]))
+                                                        <a class="d-flex align-items-center chapter-info"
+                                                            href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}">
+                                                            <label class="mains">
+                                                                <input type="checkbox" checked="checked"
+                                                                    disabled="disabled">
+                                                                <span class="geekmark"></span>
+                                                            </label>{{ $curriculum['name'] }}
+                                                        </a>
+                                                    @else
+                                                        @if ($course_suequence == 'yes')
+                                                            @if (!$hasNextPage)
+                                                                <a class="d-flex align-items-center chapter-info"
+                                                                    href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}">
+                                                                    <label class="mains">
+                                                                        <input type="checkbox" disabled="disabled">
+                                                                        <span class="geekmark"></span>
+                                                                    </label>{{ $curriculum['name'] }}
+                                                                </a>
+                                                                @php
+                                                                    $hasNextPage = true;
+                                                                @endphp
                                                             @else
-                                                                <input type="checkbox">
+                                                                <a class="d-flex align-items-center chapter-info"
+                                                                    href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}"
+                                                                    onclick="return false;">
+                                                                    <label class="mains">
+                                                                        <input type="checkbox" disabled="disabled">
+                                                                        <span class="geekmark"></span>
+                                                                    </label>{{ $curriculum['name'] }}
+                                                                </a>
                                                             @endif
-                                                            <span class="geekmark"></span>
-                                                        </label>{{ $curriculum['name'] }}
-                                                    </a>
+                                                        @else
+                                                            <a class="d-flex align-items-center chapter-info"
+                                                                href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}"
+                                                                onclick="return false;">
+                                                                <label class="mains">
+                                                                    <input type="checkbox" disabled="disabled">
+                                                                    <span class="geekmark"></span>
+                                                                </label>{{ $curriculum['name'] }}
+                                                            </a>
+                                                        @endif
+                                                    @endif
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -56,8 +87,8 @@
                 <div class="content p-5">
                     <div class="box-recommend min-height-recommend">
                         <div class="container p-5 d-flex justify-content-center align-items-center">
-                            <iframe width="1300px" height="600px" src="{{ $lesson['source'] }}" title="YouTube video player"
-                                frameborder="0"
+                            <iframe width="1300px" height="600px" src="{{ $lesson['source'] }}"
+                                title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowfullscreen></iframe>
 

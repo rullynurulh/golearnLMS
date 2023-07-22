@@ -423,8 +423,13 @@
                                         <div class="row d-flex justify-content-start">
 
                                             <div class="col-1 d-flex justify-content-start align-items-center">
-                                                <span class="iconify me-4" data-icon="teenyicons:lock-solid"
-                                                    data-width="24"></span>
+                                                @if ($curriculum['privacy'] == 'lock')
+                                                    <span class="iconify me-4" data-icon="teenyicons:lock-solid"
+                                                        data-width="24"></span>
+                                                @else
+                                                    <span class="iconify me-4" data-icon="teenyicons:unlock-solid"
+                                                        data-width="24"></span>
+                                                @endif
                                                 <h3 style="margin-bottom:0">{{ $nomor++ }}</h3>
                                             </div>
                                             <div class="col-9 d-flex justify-content-start align-items-center">

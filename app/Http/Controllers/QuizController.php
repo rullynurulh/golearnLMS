@@ -107,7 +107,7 @@ class QuizController extends Controller
             if ($request->filled('option_c')) {
                 $question->option_c = $request->option_c;
             }
-            if ($request->filled('option_')) {
+            if ($request->filled('option_d')) {
                 $question->option_d = $request->option_d;
             }
         } else {

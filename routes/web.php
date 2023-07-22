@@ -76,16 +76,12 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     });
 
 
-    Route::get('/course/{course_id}/{now_curriculum}/{now_chapter}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
+
+    Route::get('/course/{course_id}/{now_curriculum}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
+    Route::get('/course/quiz/start/{quiz_id}/{question_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
 
 
 
-    Route::get('/course/quiz', function () {
-        return view('/courses/course-quiz');
-    });
-    Route::get('/course/quiz/start', function () {
-        return view('/courses/course-quiz-detail');
-    });
     Route::get('/course/quiz/result', function () {
         return view('/courses/course-quiz-result');
     });

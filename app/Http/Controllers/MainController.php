@@ -51,6 +51,7 @@ class MainController extends Controller
             if (Auth::attempt($request->only('email', 'password'))) {
 
                 if (auth()->user()->role == "student") {
+
                     return redirect('/student');
                 } else if (auth()->user()->role == "teacher") {
 

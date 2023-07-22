@@ -237,13 +237,13 @@
                                                 <div class="col-10 d-flex align-items-center justify-content-start "
                                                     style="right: 10px; position:relative;">
                                                     <input type="text"name="option_a" id="option_a"
-                                                        class="form-control p-2 " style="border:0px"
-                                                        oninput="checkOptionInput('a')" />
+                                                        class="form-control p-2 " style="border:0px" />
 
                                                 </div>
                                                 <div class="col-1 d-flex align-items-center justify-content-end">
                                                     <input class="me-2 radio-answer" type="radio"
-                                                        style="font-size: 20px" id="radio_a">
+                                                        style="font-size: 20px" name="answer_multiple_choice"
+                                                        value="a">
                                                 </div>
 
                                             </div>
@@ -258,15 +258,14 @@
                                                 <div class="col-10 d-flex align-items-center justify-content-start "
                                                     style="right: 10px; position:relative;">
                                                     <input type="text"name="option_b" id="option_b"
-                                                        class="form-control p-2 " style="border:0px"
-                                                        oninput="checkOptionInput('b')" />
+                                                        class="form-control p-2 " style="border:0px" />
 
                                                 </div>
                                                 <div class="col-1 d-flex align-items-center justify-content-end">
                                                     <input class="me-2 radio-answer" type="radio"
-                                                        style="font-size: 20px" id="radio_b">
+                                                        style="font-size: 20px" name="answer_multiple_choice"
+                                                        value="b">
                                                 </div>
-
                                             </div>
 
                                         </div>
@@ -279,15 +278,14 @@
                                                 <div class="col-10 d-flex align-items-center justify-content-start "
                                                     style="right: 10px; position:relative;">
                                                     <input type="text"name="option_c" id="option_c"
-                                                        class="form-control p-2 " style="border:0px"
-                                                        oninput="checkOptionInput('c')" />
+                                                        class="form-control p-2 " style="border:0px" />
 
                                                 </div>
                                                 <div class="col-1 d-flex align-items-center justify-content-end">
                                                     <input class="me-2 radio-answer" type="radio"
-                                                        style="font-size: 20px" id="radio_c">
+                                                        style="font-size: 20px" name="answer_multiple_choice"
+                                                        value="c">
                                                 </div>
-
                                             </div>
 
                                         </div>
@@ -300,14 +298,13 @@
                                                 <div class="col-10 d-flex align-items-center justify-content-start "
                                                     style="right: 10px; position:relative;">
                                                     <input type="text"name="option_d" id="option_d"
-                                                        class="form-control p-2 " style="border:0px"
-                                                        oninput="checkOptionInput('d')" />
+                                                        class="form-control p-2 " style="border:0px" />
 
                                                 </div>
                                                 <div class="col-1 d-flex align-items-center justify-content-end">
-                                                    <input class="me-2 radio-answer " type="radio"
-                                                        style="font-size: 20px" id="radio_d">
-
+                                                    <input class="me-2 radio-answer" type="radio"
+                                                        style="font-size: 20px" name="answer_multiple_choice"
+                                                        value="d">
                                                 </div>
 
                                             </div>
@@ -315,10 +312,6 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group mb-2">
-                                                <label for="form-label text-white" style="font-size: 23px">Answer
-                                                </label>
-                                                <input type="text" name="answer_multiple_choice"
-                                                    id="answer_multiple_choice" class="form-control  p-2" />
                                                 @if ($errors->has('answer_multiple_choice'))
                                                     <p class="text-danger">{{ $errors->first('answer_multiple_choice') }}
                                                     </p>

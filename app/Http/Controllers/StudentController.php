@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Chapter;
 use App\Models\Enrolled;
+use App\Models\Question;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -41,17 +42,16 @@ class StudentController extends Controller
         $course['description'] = explode("\n", $course['description']);
         $course['outcome'] = explode("\n", $course['outcome']);
 
+
         $now_curriculum = -1;
-        $now_chapter = -1;
 
-        if (Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->count() > 0) {
+        $curriculum = Enrolled::where(['courses' => $id, 'student' => auth()->user()->id])->first();
 
-            $curriculum = Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->first();
-            $now_curriculum = $curriculum['now_curriculum'];
-            $now_chapter = $curriculum['now_chapter'];
+        if (!is_null($curriculum)) {
+
+            $curriculum_visited = explode("-", $curriculum['curriculum_visited']);
+            $now_curriculum = $curriculum_visited[sizeof($curriculum_visited) - 1];
         }
-
-
 
         $chapters = Chapter::where(['courses' => $id])->get();
 
@@ -69,7 +69,7 @@ class StudentController extends Controller
 
 
 
-        return view('/student/course-overview-student', ['course' => $course, 'chapters' => $chapters, 'status' => $status, 'now_curriculum' => $now_curriculum, 'now_chapter' => $now_chapter]);
+        return view('/student/course-overview-student', ['course' => $course, 'chapters' => $chapters, 'status' => $status, 'now_curriculum' => $now_curriculum]);
     }
 
     function studentCourseEnroll(Request $request)
@@ -80,31 +80,38 @@ class StudentController extends Controller
             'courses' => $request->courses,
             'student' => auth()->user()->id,
             'point' => 0,
-            'now_chapter' => 0,
-            'now_curriculum' => 0
+            'curriculum_visited' => Curriculum::where(['courses' => $request->courses])->orderBy('id', 'asc')->first()['id']
         ]);
 
 
         return back();
     }
 
-    function getStudentCourse($course_id, $now_curriculum, $now_chapter)
+    function getStudentCourse($course_id, $now_curriculum)
     {
 
-        $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->first();
+        $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->first()['curriculum_visited'];
+        $curriculum_visited = explode("-", $enrolled);
 
-        if ($now_chapter > $enrolled['now_chapter']) {
+        $enrolled .= '-' . $now_curriculum;
 
+        if (!in_array($now_curriculum, $curriculum_visited)) {
+
+            array_push($curriculum_visited, $now_curriculum);
             Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
-                'now_chapter' => $now_chapter,
-                'now_curriculum' => $now_curriculum
-            ]);
-        } else if ($now_chapter == $enrolled['now_chapter'] && $now_curriculum > $enrolled['now_curriculum']) {
-            Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
 
-                'now_curriculum' => $now_curriculum
+                'curriculum_visited' => $enrolled
+
             ]);
         }
+
+        $isVisited = [];
+        for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
+
+            $isVisited[$curriculum_visited[$i]] = $curriculum_visited[$i];
+        }
+
+
 
         $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get();
 
@@ -113,33 +120,41 @@ class StudentController extends Controller
             $chapter['curriculum'] = Curriculum::where(['chapter' => $chapter['id']])->orderBy('id', 'asc')->get();
         }
 
+        $curriculum_category = Curriculum::whereId($now_curriculum)->orderBy('id', 'asc')->first()['category'];
+        $course_suequence = Course::whereId($course_id)->first()['sequence'];
 
-        if ($now_curriculum == 0) {
 
-            $curriculum_category = Curriculum::orderBy('id', 'asc')->first();
+        if ($curriculum_category == "lesson") {
 
-            if ($curriculum_category['category'] == "lesson") {
-
-                $lesson = Lesson::first();
-                $lesson['chapter'] = $curriculum_category['chapter'];
-                return view('/courses/course-detail', ['now_curriculum' => $enrolled['now_curriculum'], 'now_chapter' => $enrolled['now_chapter'], 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson]);
-            } else {
-
-                // $quiz = Quiz::first();
-            }
+            $lesson = Lesson::where(['curriculum' => $now_curriculum])->first();
+            return view('/courses/course-detail', ['isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson, 'course_suequence' => $course_suequence]);
         } else {
 
-            $curriculum_category = Curriculum::whereId($now_curriculum)->orderBy('id', 'asc')->first();
+            $quiz = DB::table('curricula')
+                ->join('curriculum_quizzes', 'curriculum_quizzes.curriculum', '=', 'curricula.id')
+                ->join('quizzes', 'quizzes.id', '=', 'curriculum_quizzes.quiz')
+                ->where(['curricula.id' => $now_curriculum])
+                ->select('quizzes.*', 'curriculum_quizzes.curriculum as curriculum')
+                ->first();
+            $quiz = json_decode(json_encode($quiz), true);
 
-            if ($curriculum_category['category'] == "lesson") {
 
-                $lesson = Lesson::where(['curriculum' => $now_curriculum])->first();
-                $lesson['chapter'] = $curriculum_category['chapter'];
-                return view('/courses/course-detail', ['now_curriculum' => $enrolled['now_curriculum'], 'now_chapter' => $enrolled['now_chapter'], 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson]);
-            } else {
-
-                // $quiz = Quiz::where(['curriculum' => $now_curriculums])->first();
-            }
+            return view('/courses/course-quiz', ['quiz' => $quiz, 'isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence]);
         }
+    }
+
+    function getQuizQuestion($quiz_id, $question_id)
+    {
+
+        if ($question_id == -1) {
+
+            $question = Question::where(['quiz' => $quiz_id])->orderBy('id', 'asc')->first();
+        } else {
+            $question = Question::where(['id' => $question_id])->first();
+        }
+        $quiz = Quiz::whereId($quiz_id)->first();
+        $question_id = Question::where(['quiz' => $quiz_id])->orderBy('id', 'asc')->get('id');
+
+        return view('/courses/course-quiz-detail', ['question' => $question, 'question_id' => $question_id, 'quiz' => $quiz]);
     }
 }
