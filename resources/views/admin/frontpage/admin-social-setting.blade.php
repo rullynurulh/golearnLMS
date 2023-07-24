@@ -195,7 +195,7 @@
                                                 class="form-control px-3 py-2" placeholder="enter social name" required />
                                         </div>
                                     </div>
-
+                                    
                                     <!-- Buttons Sign in -->
                                     <div class="d-flex justify-content-end pt-1 mb-1">
                                         <div id="btn-batal">
@@ -210,7 +210,7 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h3 class="my-5 ms-2"style="margin-bottom: 0">Quiz List</h3>
+                            <h3 class="my-5 ms-2"style="margin-bottom: 0">Social List</h3>
                             <div class="box-recommend mt-2 p-4">
                                 <div class="row d-flex justify-content-start">
                                     <div class="col-2 d-flex justify-content-start ps-4 align-items-center">

@@ -78,7 +78,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" class="collapsible btn mb-2 btn-admin">
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Certificates
                                 </button>
                                 <div class="content-collapse">
@@ -159,11 +159,11 @@
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div class="content p-5">
                     <div class="box-recommend p-4 mb-2">
-                        <h3 style="margin-bottom: 0">Front Page | Social Setting</h3>
+                        <h3 style="margin-bottom: 0">Certificate | New Certificate </h3>
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <h3 class="my-5 ms-2"style="margin-bottom: 0" id="titleText">Add New</h3>
+                            <h3 class="my-4 ms-2"style="margin-bottom: 0" id="titleText">New Certificate</h3>
                             <div class="box-recommend mt-2 p-4">
                                 <form action="" class="form_frontpage icon" enctype="multipart/form-data">
 
@@ -176,7 +176,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group mb-2">
-                                            <label for="form-label text-white" style="font-size: 23px">Social Link
+                                            <label for="form-label text-white" style="font-size: 23px">Certificate Title
                                             </label>
                                             <input type="text" name="social_link" id="social_link"
                                                 class="form-control px-3 py-2" placeholder="enter social link" />
@@ -184,7 +184,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group mb-2">
-                                            <label for="form-label text-white" style="font-size: 23px">Social Name
+                                            <label for="form-label text-white" style="font-size: 23px">Body
                                             </label>
                                             <input type="text" name="social_name" id="social_name"
                                                 class="form-control px-3 py-2" placeholder="Facebook" />
@@ -205,7 +205,7 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h3 class="my-5 ms-2"style="margin-bottom: 0">Quiz List</h3>
+                            <h3 class="my-4 ms-2"style="margin-bottom: 0">Preview</h3>
                             <div class="box-recommend mt-2 p-4">
                                 <div class="row d-flex justify-content-start">
                                     <div class="col-2 d-flex justify-content-start ps-4 align-items-center">
