@@ -1,6 +1,38 @@
 @extends('layouts.course.main-course')
 @section('container')
     <section class="margin-top ">
+        <div class="nav-course">
+            <div class="row d-flex justify-content-between px-3 py-2">
+                <div class="col-4 d-flex align-items-center">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-1 mx-3">
+                            <span class="iconify" data-icon="icon-park-solid:back" data-width="40"></span>
+                        </div>
+                        <div class="col d-flex align-items-center ms-3">
+                            <h4 style="margin-bottom: 0">Figma Tutorial</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-2 me-3">
+                            <a href="" class="btn btn-button" style="min-width: 100px">Previous</a>
+                        </div>
+                        <div class="col-2">
+                            <a href="" class="btn btn-button" style="min-width: 100px">Next</a>
+                        </div>
+                        <div class="col-3 d-flex justify-content-center align-items-center">
+                            <div class="circular-progress" data-inner-circle-color="white" data-percentage="80"
+                                data-progress-color="#2F70AF" data-bg-color="white">
+                                <div class="inner-circle"></div>
+                                <p class="percentage">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div class="sidenav">
             <div class="content">
                 <div class="row p-4">
@@ -158,7 +190,7 @@
         <div class="margin-left">
             <div class="bg-white" style="padding-bottom: 9rem; padding-left:20rem;">
                 <div class="content p-5">
-                    <div class="card card-quiz text-left">
+                    <div class="card card-quiz text-left" style="margin-top: 3rem">
                         <div class="row ">
                             <div class="col-4 d-flex align-items-center">
                                 <div class="row p-3">

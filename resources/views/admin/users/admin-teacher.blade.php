@@ -210,10 +210,10 @@
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     @if (is_null($teacher['image']))
                                         <img src="{{ URL::asset('images/guru1.jpg') }}"
-                                            style="width: 60px !important;border-radius:50%">
+                                            style="width: 60px !important; height: 60px !important;border-radius:50%">
                                     @else
                                         <img src="{{ URL::asset($teacher['image']) }}"
-                                            style="width: 60px !important;border-radius:50%">
+                                            style="width: 60px !important; height: 60px !important;border-radius:50%">
                                     @endif
                                 </div>
                                 <div class="col-2 d-flex justify-content-center align-items-center">
@@ -226,13 +226,10 @@
                                     <h5 style="font-weight: 500">{{ $teacher['gender'] }}</h5>
                                 </div>
                                 <div class="col-2 d-flex justify-content-center align-items-center">
-                                    <h5 style="font-weight: 500">{{ $teacher['birthday'] }}</h5>
-                                </div>
-                                <div class="col-1 d-flex justify-content-center align-items-center">
-                                    <h5 style="font-weight: 500">Active</h5>
+                                    <h5 style="font-weight: 500">{{ $teacher['status'] }}</h5>
                                 </div>
 
-                                <div class="col-1 d-flex justify-content-center align-items-center">
+                                <div class="col-2 d-flex justify-content-center align-items-center">
                                     <div class="col d-flex justify-content-center align-items-center">
                                         <button onClick="showModal({{ $teacher['id'] }})" id="myBtn_Edit"
                                             style="border: none; background-color:#EAEAEA;"> <span class="iconify me-1"
