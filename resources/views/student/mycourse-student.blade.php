@@ -22,373 +22,90 @@
                     <div class="box-recommend p-4">
                         <h4>Recommended For You</h4>
                         <div class="row">
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
+                            @foreach ($courses_enrolleds as $courses)
+                                <div class="col-3 mb-4">
+                                    <div class="card text-left" style="text-decoration: none; color: black;">
+                                        <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
+                                            alt="">
+                                        <div class="card-body p-3">
+                                            <div class="pb-3">
+                                                <span class="iconify" data-icon="material-symbols:star"
+                                                    style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
+                                                <span class="iconify" data-icon="material-symbols:star"
+                                                    style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                    data-width="20"></span>
+                                                <span class="iconify" data-icon="material-symbols:star"
+                                                    style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                    data-width="20"></span>
+                                                <span class="iconify" data-icon="material-symbols:star-outline"
+                                                    style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                    data-width="20"></span>
+                                                <span class="iconify" data-icon="material-symbols:star-outline"
+                                                    style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                    data-width="20"></span>
+                                                <span>(20 Review)</span>
+                                            </div>
 
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course"class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
+                                            @php
+                                                $progress = ($courses['completed_lesson'] / $courses['lesson']) * 100;
+                                            @endphp
+
+                                            @if ($progress == 100)
+                                                <h4 class="card-title">Figma Tutorial</h4>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="circular-progress" data-inner-circle-color="white"
+                                                            data-percentage="100" data-progress-color="#2F70AF"
+                                                            data-bg-color="white">
+                                                            <div class="inner-circle"></div>
+                                                            <p class="percentage">0%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col d-flex align-items-center">
+                                                        <a
+                                                            href="{{ route('student_course_leaderboard', ['course_id' => $courses['courses_id']]) }}"class="check-leaderboard d-flex align-items-center">Leaderboard
+                                                            <span class="iconify" data-icon="fluent:arrow-right-12-filled"
+                                                                data-width="20"></span></a>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="row mb-3 mt-4">
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <div class="finished">Finished </div>
+                                                            </div>
+                                                        </div>
 
 
-                                            </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <h4 class="card-title">{{ $courses['courses_name'] }}</h4>
+                                                <div class="d-flex justify-content-end me-2">{{ $progress }}%</div>
+                                                <div class="progress">
+                                                    <div class="progress-bar" style="width: {{ $progress }}%"
+                                                        role="progressbar" aria-valuenow="{{ $progress }}"
+                                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="row mb-3 mt-4">
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <a
+                                                                    href="{{ route('student_course_detail', ['course_id' => $courses['courses_id'], 'now_curriculum' => $courses['next_task_id']]) }}"class="go-to-course">Go
+                                                                    to Course <span class="iconify"
+                                                                        data-icon="fluent:arrow-right-12-filled"
+                                                                        data-width="30"></span></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course"class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course"class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course" class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course"class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="circular-progress" data-inner-circle-color="white" data-percentage="100" data-progress-color="#2F70AF" data-bg-color="white">
-                                                    <div class="inner-circle"></div>
-                                                    <p class="percentage">0%</p>
-                                                  </div>
-                                            </div>
-                                            <div class="col d-flex align-items-center">
-                                                <a
-                                                    href="/student/leaderboard"class="check-leaderboard d-flex align-items-center">Leaderboard
-                                                    <span class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                        data-width="20"></span></a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <div class="finished">Finished </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course"class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-4">
-                                <div class="card text-left" style="text-decoration: none; color: black;">
-                                    <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                        alt="">
-                                    <div class="card-body p-3">
-                                        <div class="pb-3">
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span class="iconify" data-icon="material-symbols:star-outline"
-                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
-                                                data-width="20"></span>
-                                            <span>(20 Review)</span>
-                                        </div>
-
-                                        <h4 class="card-title">Figma Tutorial</h4>
-                                        <div class="d-flex justify-content-end me-2">80%</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" style="width: 80%" role="progressbar"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row mb-3 mt-4">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <a href="/course"class="go-to-course">Go to Course <span
-                                                                class="iconify" data-icon="fluent:arrow-right-12-filled"
-                                                                data-width="30"></span></a>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

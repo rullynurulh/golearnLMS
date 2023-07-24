@@ -186,7 +186,7 @@
                                             <label for="form-label text-white" style="font-size: 23px">Thumbnail Image
                                             </label>
                                             <input type="file" name="image" id="Formimage"
-                                                class="form-control form-control-lg p-3" />
+                                                class="form-control form-control-lg p-3" required />
                                         </div>
                                     </div>
                                     <div class="col">

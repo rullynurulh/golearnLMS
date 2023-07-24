@@ -21,7 +21,6 @@ return new class extends Migration
             $table->unsignedBigInteger('student');
             $table->foreign('student')
                 ->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('point');
             $table->string('curriculum_visited');
             $table->timestamps();
         });

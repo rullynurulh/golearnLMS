@@ -15,12 +15,15 @@
                 </div>
                 <div class="col-4">
                     <div class="row d-flex justify-content-end">
+
                         <div class="col-2 me-3">
-                            <a href="" class="btn btn-button" style="min-width: 100px">Previous</a>
+                            <a onclick="getPreviousPage()" class="btn btn-button" style="min-width: 100px"
+                                id="previousCourseButton">Previous</a>
                         </div>
-                        <div class="col-2">
-                            <a href="" class="btn btn-button" style="min-width: 100px">Next</a>
-                        </div>
+                        {{-- <div class="col-2">
+                            <a onclick="getNextPage()" class="btn btn-button" style="min-width: 100px"
+                                id="nextCourseButton">Next</a>
+                        </div> --}}
                         <div class="col-3 d-flex justify-content-center align-items-center">
                             <div class="circular-progress" data-inner-circle-color="white" data-percentage="80"
                                 data-progress-color="#2F70AF" data-bg-color="white">
@@ -40,29 +43,52 @@
                         <article>
                             @php
                                 $hasNextPage = false;
+                                $previousPage = -1;
+                                $nextPage = -1;
+                                $prev = -1;
+                                $next = -1;
+                                
                             @endphp
+
                             @foreach ($chapters as $chapter)
                                 <div class="mb-2">
                                     <button type="button" class="collapsible">
                                         <label class="mains">
-                                            <input type="checkbox" disabled="disabled">
+                                            @php
+                                                $chapterButton = 'chapter_button_' . $chapter['id'];
+                                            @endphp
+                                            <input type="checkbox" disabled="disabled" id="{{ $chapterButton }}">
                                             <span class="geekmark"></span>
                                         </label>
                                         {{ $chapter['name'] }}
                                     </button>
                                     <div class="content-collapse">
                                         <ul class="list-lesson">
+                                            @php
+                                                $countVisited = 0;
+                                            @endphp
                                             @foreach ($chapter['curriculum'] as $curriculum)
                                                 @php
                                                     $class = 'detail-chapter mb-2 ';
+                                                    
                                                     if ($curriculum['id'] == $quiz['curriculum']) {
                                                         $class .= 'active-chapter';
+                                                        $prev = $previousPage;
+                                                        $nextPage = $curriculum['id'];
+                                                    } else {
+                                                        if ($nextPage != -1 && $next == -1) {
+                                                            $next = $curriculum['id'];
+                                                        }
                                                     }
+                                                    
                                                 @endphp
                                                 <li class="{{ $class }}">
                                                     @if (isset($isVisited[$curriculum['id']]))
+                                                        @php
+                                                            $countVisited++;
+                                                        @endphp
                                                         <a class="d-flex align-items-center chapter-info"
-                                                            href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}">
+                                                            href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id']]) }}">
                                                             <label class="mains">
                                                                 <input type="checkbox" checked="checked"
                                                                     disabled="disabled">
@@ -72,30 +98,23 @@
                                                     @else
                                                         @if ($course_suequence == 'yes')
                                                             @if (!$hasNextPage)
-                                                                <a class="d-flex align-items-center chapter-info"
-                                                                    href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}">
-                                                                    <label class="mains">
-                                                                        <input type="checkbox" disabled="disabled">
-                                                                        <span class="geekmark"></span>
-                                                                    </label>{{ $curriculum['name'] }}
-                                                                </a>
                                                                 @php
                                                                     $hasNextPage = true;
+                                                                    
                                                                 @endphp
-                                                            @else
-                                                                <a class="d-flex align-items-center chapter-info"
-                                                                    href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}"
-                                                                    onclick="return false;">
-                                                                    <label class="mains">
-                                                                        <input type="checkbox" disabled="disabled">
-                                                                        <span class="geekmark"></span>
-                                                                    </label>{{ $curriculum['name'] }}
-                                                                </a>
                                                             @endif
+
+                                                            <a class="d-flex align-items-center chapter-info"
+                                                                href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id']]) }}"
+                                                                onclick="return false;">
+                                                                <label class="mains">
+                                                                    <input type="checkbox" disabled="disabled">
+                                                                    <span class="geekmark"></span>
+                                                                </label>{{ $curriculum['name'] }}
+                                                            </a>
                                                         @else
                                                             <a class="d-flex align-items-center chapter-info"
-                                                                href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id'], 'now_chapter' => $curriculum['chapter']]) }}"
-                                                                onclick="return false;">
+                                                                href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id']]) }}">
                                                                 <label class="mains">
                                                                     <input type="checkbox" disabled="disabled">
                                                                     <span class="geekmark"></span>
@@ -104,7 +123,16 @@
                                                         @endif
                                                     @endif
                                                 </li>
+                                                @php
+                                                    $previousPage = $curriculum['id'];
+                                                @endphp
                                             @endforeach
+                                            @if ($countVisited == count($chapter['curriculum']))
+                                                <script>
+                                                    var chapterButton = 'chapter_button_' + {{ $chapter['id'] }};
+                                                    document.getElementById(chapterButton).checked = "checked";
+                                                </script>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -135,7 +163,7 @@
                                         <span class="d-flex justify-content-end"
                                             style="font-weight: 600">{{ $quiz['duration'] }} min</span>
                                         <div class="div d-flex align-items-center justify-content-end">
-                                            <a href="{{ route('student_quiz_question', ['quiz_id' => $quiz['id'], 'question_id' => -1]) }}"
+                                            <a href="{{ route('student_quiz_question', ['quiz_id' => $quiz['id'], 'course_id' => $course_id, 'now_curriculum' => $quiz['curriculum']]) }}"
                                                 class="btn btn-certificate-view">Start</a>
 
                                         </div>
@@ -153,4 +181,33 @@
         </div>
 
     </section>
+    <script>
+        function getPreviousPage() {
+
+            page = {{ $prev }}
+            if (page != -1) {
+
+                var previousPage = document.getElementById("previousCourseButton");
+                let link =
+                    "{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $prev]) }}";
+                previousPage.href = link
+            }
+
+        }
+
+        function getNextPage() {
+
+            page = {{ $next }}
+            if (page != -1) {
+
+                var nextPage = document.getElementById("nextCourseButton");
+
+                let link =
+                    "{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $next]) }}";
+                nextPage.href = link
+            }
+
+
+        }
+    </script>
 @endsection

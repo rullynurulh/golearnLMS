@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <button type="button"  class="collapsible btn mb-2 btn-admin">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Courses
                                 </button>
                                 <div class="content-collapse">
@@ -107,7 +107,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active" >
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Front Page
                                 </button>
                                 <div class="content-collapse">
@@ -168,35 +168,49 @@
                     <div class="box-recommend p-4 mb-4 text-blue">
                         <h4>Home Page Banner</h4>
                         <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                        <form action="" class="form_frontpage" enctype="multipart/form-data">
+                        <form action="{{ route('admin_save_home_content') }}" method="POST" class="form_frontpage"
+                            enctype="multipart/form-data">
+                            @csrf
 
                             <div class="col ps-3">
                                 <div class="row mb-3">
                                     <label class="mb-2" style="font-size: 23px">Background Image Default</label>
                                     <div class="col-3">
-                                        <img src="{{ URL::asset('images/bg-slider.jpg') }}"alt="" width="320px">
+                                        @if ($homecontent)
+                                            <img src="/{{ $homecontent['image'] }}"alt="" width="320px">
+                                        @else
+                                            <img src="{{ URL::asset('images/bg-slider.jpg') }}"alt=""
+                                                width="320px">
+                                        @endif
                                     </div>
                                     <div class="col d-flex align-items-center">
-                                        <input type="file" name="image" id="Formimage" class="form-control form-control-lg "/>
+                                        <input type="file" name="image" id="Formimage"
+                                            class="form-control form-control-lg " />
+                                        @if ($errors->has('image'))
+                                            <p class="text-danger">{{ $errors->first('image') }}</p>
+                                        @endif
+
                                     </div>
                                 </div>
-                    
+
                             </div>
 
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Home Page Banner Title</label>
                                     <input type="text" name="banner_title" id="formbanner_title"
-                                        class="form-control form-control-lg " placeholder="Lorem Ipsum"/>
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['banner_title'] : '' }}" required />
 
                                 </div>
-                                
+
                             </div>
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Home Page Banner Text</label>
-                                    <input type="text" name="banner_text" id="formbanner_text"  placeholder="Lorem Ipsum Dolor Sit Amet"
-                                        class="form-control form-control-lg " />
+                                    <input type="text" name="banner_text" id="formbanner_text"
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['banner_text'] : '' }}" required />
 
                                 </div>
                             </div>
@@ -206,16 +220,19 @@
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Category List Title</label>
-                                    <input type="text" name="Category_title" id="formcategory_title" placeholder="Best Platform To Learn Anything"
-                                        class="form-control form-control-lg " />
+                                    <input type="text" name="category_list_title" id="formcategory_title"
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['category_list_title'] : '' }}" required />
 
                                 </div>
                             </div>
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Category Max Section Show</label>
-                                    <input type="number" name="Category_max_show" id="formcategory_max_show" placeholder="3"
-                                        class="form-control form-control-lg " />
+                                    <input type="number" name="category_max_section_show" id="formcategory_max_show"
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['category_max_section_show'] : '' }}"
+                                        required />
 
                                 </div>
                             </div>
@@ -224,17 +241,20 @@
                             <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
                             <div class="col ps-3">
                                 <div class="row form-group mb-2">
-                                    <label class="form-label" style="font-size: 23px">About Us Section Show in Home Page</label>
+                                    <label class="form-label" style="font-size: 23px">About Us Section Show in Home
+                                        Page</label>
                                     <div class="col-1 form-radio d-flex align-items-center">
-                                        <input class="form-radio-input me-2" type="radio" name="sequence"
-                                            id="flexRadioDefault1" value="yes">
+                                        <input class="form-radio-input me-2" type="radio"
+                                            name="about_us_section_in_home_page" id="flexRadioDefault1" value="yes"
+                                            required>
                                         <label class="form-radio-label" class="flexRadioDefault1">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="col-1 form-radio d-flex align-items-center">
-                                        <input class="form-radio-input me-2" type="radio" name="sequence"
-                                            id="flexRadioDefault2" checked value="no">
+                                        <input class="form-radio-input me-2" type="radio"
+                                            name="about_us_section_in_home_page" id="flexRadioDefault2" value="no"
+                                            required>
                                         <label class="form-radio-label" class="flexRadioDefault2">
                                             No
                                         </label>
@@ -244,48 +264,53 @@
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">About Us Section Title</label>
-                                    <input type="text" name="about_title" id="about_title" placeholder="Welcome to Go Learn!"
-                                        class="form-control form-control-lg " />
+                                    <input type="text" name="about_us_section_title" id="about_title"
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['about_us_section_title'] : '' }}"
+                                        required />
 
                                 </div>
                             </div>
                             <hr class="mb-2" style="opacity: 1; border: 2px solid white; margin:0">
                             <h4>Course Section</h4>
                             <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                           
+
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Course Section Title</label>
-                                    <input type="text" name="Course_title" id="Course_title" placeholder="Featured Course"
-                                        class="form-control form-control-lg " />
+                                    <input type="text" name="course_section_title" id="Course_title"
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['course_section_title'] : '' }}" required />
 
                                 </div>
                             </div>
                             <hr class="mb-2" style="opacity: 1; border: 2px solid white; margin:0">
                             <h4>Teacher Section</h4>
                             <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                            
+
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Teacher Section Title</label>
-                                    <input type="text" name="teacher_title" id="teacher_title" placeholder="meet Our Teacher"
-                                        class="form-control form-control-lg " />
+                                    <input type="text" name="teacher_section_title" id="teacher_title"
+                                        class="form-control form-control-lg "
+                                        value="{{ $homecontent ? $homecontent['teacher_section_title'] : '' }}"
+                                        required />
 
                                 </div>
                             </div>
-                            
+
                             <div class="d-flex justify-content-end pt-1  mt-5 mb-1">
-                                <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Save Setting</button>
+                                <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Save
+                                    Setting</button>
                             </div>
                         </form>
                     </div>
 
-                    
+
                 </div>
 
             </div>
 
         </div>
     </section>
-
 @endsection

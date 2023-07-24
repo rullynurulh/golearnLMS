@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <button type="button"  class="collapsible btn mb-2 btn-admin">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Courses
                                 </button>
                                 <div class="content-collapse">
@@ -107,7 +107,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active" >
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Front Page
                                 </button>
                                 <div class="content-collapse">
@@ -165,70 +165,81 @@
                     <div class="box-recommend p-4 mb-4 text-blue">
                         <h4>About Page Banner</h4>
                         <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                        <form action="" class="form_frontpage" enctype="multipart/form-data">
-
+                        <form action="{{ route('admin_save_about_us_content') }}" method="POST" class="form_frontpage"
+                            enctype="multipart/form-data">
+                            @csrf
                             <div class="col ps-3">
                                 <div class="row mb-3">
                                     <label class="mb-2" style="font-size: 23px">Team Image</label>
                                     <div class="col-3">
-                                        <img src="{{ URL::asset('images/about-us.jpg') }}"alt="" width="320px">
+                                        @if ($about_us)
+                                            <img src="/{{ $about_us['image'] }}"alt="" width="320px">
+                                        @else
+                                            <img src="{{ URL::asset('images/about-us.jpg') }}"alt="" width="320px">
+                                        @endif
+
                                     </div>
                                     <div class="col d-flex align-items-center">
-                                        <input type="file" name="image" id="Formimage" class="form-control form-control-lg "/>
+                                        <input type="file" name="image" id="Formimage"
+                                            class="form-control form-control-lg " />
+                                        @if ($errors->has('image'))
+                                            <p class="text-danger">{{ $errors->first('image') }}</p>
+                                        @endif
                                     </div>
                                 </div>
-                    
+
                             </div>
 
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">About Us Banner Title</label>
-                                    <input type="text" name="about_title" id="about_title"
-                                        class="form-control form-control-lg " placeholder="Welcome to Go Learn!"/>
+                                    <input type="text" name="banner_title" id="about_title"
+                                        class="form-control form-control-lg "
+                                        value="{{ $about_us ? $about_us['banner_title'] : '' }}" required />
 
                                 </div>
-                                
+
                             </div>
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">About Us Description</label>
-                                    <textarea class="form-control abt" name="about_description" id="" cols="30" rows="10">Lorem ipsum dolor sit amet consectetur. Lectus sed urna amet nec scelerisque donec ornare. Diam et orci phasellus tempus. Integer id aliquet viverra est lorem pellentesque. A at sed ultricies interdum adipiscing. Hac suscipit gravida libero venenatis dictum. Mauris iaculis sem id mi tincidunt nulla elit. Sed facilisis mi vitae justo pretium. Lobortis massa tellus erat vitae habitant elementum porta aliquam in. Sed quisque curabitur laoreet enim fermentum. Risus proin varius duis fermentum. Facilisi mattis ultrices sagittis ultrices vel ultrices cras sollicitudin. Arcu enim massa risus elementum orci. Massa sociis porta aenean habitasse eget nunc vulputate diam. Tortor quam euismod sollicitudin quisque. Amet condimentum sit libero urna. Sit fusce netus dui eget ultrices massa duis diam. Sapien turpis id laoreet sit etiam adipiscing massa et. Consectetur quis bibendum eu viverra sit. Sit egestas mi vulputate erat. Non ac vitae purus senectus elementum. Risus mi nunc at iaculis mattis sed sit tincidunt nulla.</textarea>
+                                    <textarea class="form-control abt" name="description" id="" cols="30" rows="10" required>{{ $about_us ? $about_us['description'] : '' }}</textarea>
 
                                 </div>
                             </div>
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Why Choose Me Text</label>
-                                    <textarea class="form-control abt" name="about_why_choose" id="" cols="30" rows="4">Lorem ipsum dolor sit amet consectetur. Lectus sed urna amet nec scelerisque donec ornare. Diam et orci phasellus tempus. Integer id aliquet viverra est lorem pellentesque. A at sed ultricies interdum adipiscing. Hac suscipit gravida libero venenatis dictum. Mauris iaculis sem id mi tincidunt nulla elit. Sed facilisis mi vitae justo pretium. Lobortis massa tellus erat vitae habitant elementum porta aliquam in. Sed quisque curabitur laoreet enim fermentum. Risus proin varius duis fermentum. Facilisi mattis ultrices sagittis ultrices vel ultrices cras sollicitudin.</textarea>
+                                    <textarea class="form-control abt" name="why_choose_me_text" id="" cols="30" rows="4" required>{{ $about_us ? $about_us['why_choose_me_text'] : '' }}</textarea>
 
                                 </div>
                             </div>
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Our Mission Text</label>
-                                    <textarea class="form-control abt" name="about_mission" id="" cols="30" rows="4">Lorem ipsum dolor sit amet consectetur. Lectus sed urna amet nec scelerisque donec ornare. Diam et orci phasellus tempus. Integer id aliquet viverra est lorem pellentesque. A at sed ultricies interdum adipiscing. Hac suscipit gravida libero venenatis dictum. Mauris iaculis sem id mi tincidunt nulla elit. Sed facilisis mi vitae justo pretium. Lobortis massa tellus erat vitae habitant elementum porta aliquam in. Sed quisque curabitur laoreet enim fermentum. Risus proin varius duis fermentum. Facilisi mattis ultrices sagittis ultrices vel ultrices cras sollicitudin.</textarea>
+                                    <textarea class="form-control abt" name="our_mission_text" id="" cols="30" rows="4">{{ $about_us ? $about_us['our_mission_text'] : '' }}</textarea>
 
                                 </div>
                             </div>
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Our Vision Text</label>
-                                    <textarea class="form-control abt" name="about_vision" id="" cols="30" rows="4">Lorem ipsum dolor sit amet consectetur. Lectus sed urna amet nec scelerisque donec ornare. Diam et orci phasellus tempus. Integer id aliquet viverra est lorem pellentesque. A at sed ultricies interdum adipiscing. Hac suscipit gravida libero venenatis dictum. Mauris iaculis sem id mi tincidunt nulla elit. Sed facilisis mi vitae justo pretium. Lobortis massa tellus erat vitae habitant elementum porta aliquam in. Sed quisque curabitur laoreet enim fermentum. Risus proin varius duis fermentum. Facilisi mattis ultrices sagittis ultrices vel ultrices cras sollicitudin.</textarea>
+                                    <textarea class="form-control abt" name="our_vision_text" id="" cols="30" rows="4">{{ $about_us ? $about_us['our_vision_text'] : '' }}</textarea>
 
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end pt-1  mt-5 mb-1">
-                                <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Save Setting</button>
+                                <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Save
+                                    Setting</button>
                             </div>
                         </form>
                     </div>
 
-                    
+
                 </div>
 
             </div>
 
         </div>
     </section>
-
 @endsection

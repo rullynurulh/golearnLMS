@@ -12,6 +12,7 @@ class QuizController extends Controller
     public function getAddQuiz()
     {
         $quizzes = Quiz::all();
+
         $quizzesById = [];
         foreach ($quizzes as $quiz) {
             $quizzesById[$quiz['id']] = $quiz;
@@ -19,7 +20,7 @@ class QuizController extends Controller
         return view('/admin/quiz/admin-add-quiz', ['quizzes' => $quizzes, 'quizzesById' => $quizzesById]);
     }
 
-    function addQuiz(Request $request)
+    public function addQuiz(Request $request)
     {
 
 

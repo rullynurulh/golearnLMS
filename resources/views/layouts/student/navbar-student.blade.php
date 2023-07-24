@@ -26,11 +26,17 @@
                 <div class="col-8">
                     <div class="row d-flex align-items-center pointer" style="font-size: 23px" onclick="toggleMenu()">
                         <div class="col-4" style="padding-right: 0">
-                            <img src="{{ URL::asset('images/guru1.jpg') }}"
-                                style="width: 40px !important;border-radius:50%">
+
+                            @if (!is_null(auth()->user()->image))
+                                <img src="/{{ auth()->user()->image }}"
+                                    style="width: 40px !important;border-radius:50%">
+                            @else
+                                <img src="{{ URL::asset('images/guru1.jpg') }}"
+                                    style="width: 40px !important;border-radius:50%">
+                            @endif
                         </div>
                         <div class="col-4" style="padding-left: 0">
-                            Username
+                            {{ Auth::user()->name }}
                         </div>
                         <div class="col-2" style="margin-left: 30px">
                             <span class="iconify" data-icon="mingcute:down-fill" data-width="15px"></span>
@@ -44,9 +50,15 @@
                 <div class="sub-menu-wrap" id="subMenu">
                     <div class="sub-menu">
                         <div class="user-info">
-                            <img src="{{ URL::asset('images/guru1.jpg') }}"
-                                style="width: 65px !important;border-radius:50%">
-                            <h4 style="color:black;">Username</h4>
+                            @if (!is_null(auth()->user()->image))
+                                <img src="/{{ auth()->user()->image }}"
+                                    style="width: 65px !important;border-radius:50%">
+                            @else
+                                <img src="{{ URL::asset('images/guru1.jpg') }}"
+                                    style="width: 65px !important;border-radius:50%">
+                            @endif
+
+                            <h4 style="color:black;"> {{ Auth::user()->name }}</h4>
 
                         </div>
                         <hr>

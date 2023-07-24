@@ -164,7 +164,7 @@
                             <div class="box-recommend p-3">
                                 <div class="row p-3">
                                     <div class="col-5 d-flex justify-content-center">
-                                        <span class="dashboard-title">100</span>
+                                        <span class="dashboard-title">{{ $student }}</span>
                                     </div>
                                     <div class="col-7 d-flex justify-content-start align-items-center">
                                         <span class="dashboard-name">Student</span>
@@ -177,7 +177,7 @@
                             <div class="box-recommend p-3">
                                 <div class="row p-3">
                                     <div class="col-5 d-flex justify-content-center">
-                                        <span class="dashboard-title">10</span>
+                                        <span class="dashboard-title">{{ $teacher }}</span>
                                     </div>
                                     <div class="col-7 d-flex justify-content-start align-items-center">
                                         <span class="dashboard-name">Teacher</span>
@@ -190,12 +190,12 @@
                             <div class="box-recommend p-3">
                                 <div class="row p-3">
                                     <div class="col-5 d-flex justify-content-center">
-                                        <span class="dashboard-title">10</span>
+                                        <span class="dashboard-title">{{ $course }}</span>
                                     </div>
                                     <div class="col-7 ">
                                         <div class="row d-flex justify-content-start align-items-center">
                                             <span style="font-size:25px;">Course</span>
-                                            <span style="font-size:20px;">5<span style="font-size:20px; color:#D44040;">
+                                            <span style="font-size:20px;">0<span style="font-size:20px; color:#D44040;">
                                                     Inactive</span></span>
                                         </div>
 
@@ -210,7 +210,7 @@
                             <div class="box-recommend p-3">
                                 <div class="row p-3">
                                     <div class="col-5 d-flex justify-content-center">
-                                        <span class="dashboard-title">1</span>
+                                        <span class="dashboard-title">0</span>
                                     </div>
                                     <div class="col-7 d-flex justify-content-start align-items-center">
                                         <span class="dashboard-name">Staff</span>
@@ -241,50 +241,32 @@
                             </div>
                         </div>
                         <hr class="mb-2" style="opacity: 1; border: 2px solid white; margin:0">
-                        <div class="row d-flex justify-content-start ">
-                            <div class="col-2 d-flex justify-content-start">
-                                <ul>
-                                    <li>
-                                        <h5 style="font-weight: 400" class="ms-3">Student 1</h5>
-                            </div>
-                            </li>
-                            </ul>
+                        @foreach ($enrolls as $enroll)
+                            <div class="row d-flex justify-content-start ">
+                                <div class="col-2 d-flex justify-content-start">
+                                    <ul>
+                                        <li>
+                                            <h5 style="font-weight: 400" class="ms-3">{{ $enroll['student_name'] }}</h5>
+                                </div>
+                                </li>
+                                </ul>
 
-                            <div class="col-4 d-flex justify-content-center">
-                                <h5 style="font-weight: 400; text-decoration: underline;">student1@gmail.com</h5>
+                                <div class="col-4 d-flex justify-content-center">
+                                    <h5 style="font-weight: 400; text-decoration: underline;">
+                                        {{ $enroll['student_email'] }}</h5>
+                                </div>
+                                <div class="col-2 d-flex justify-content-center">
+                                    <h5 style="font-weight: 400">{{ $enroll['courses_name'] }}</h5>
+                                </div>
+                                <div class="col-2 d-flex justify-content-center">
+                                    <h5 style="font-weight: 400">{{ $teachersById[$enroll['teachers_id']] }}</h5>
+                                </div>
+                                <div class="col-2 d-flex justify-content-center">
+                                    <h5 style="font-weight: 400">{{ $enroll['enrolled_at'] }} Minute Ago</h5>
+                                </div>
                             </div>
-                            <div class="col-2 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">Course 1</h5>
-                            </div>
-                            <div class="col-2 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">Instructor 1</h5>
-                            </div>
-                            <div class="col-2 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">11 Minute Ago</h5>
-                            </div>
-                        </div>
-                        <div class="row d-flex justify-content-start ">
-                            <div class="col-2 d-flex justify-content-start">
-                                <ul>
-                                    <li>
-                                        <h5 style="font-weight: 400" class="ms-3">Student 1</h5>
-                            </div>
-                            </li>
-                            </ul>
+                        @endforeach
 
-                            <div class="col-4 d-flex justify-content-center">
-                                <h5 style="font-weight: 400; text-decoration: underline;">student1@gmail.com</h5>
-                            </div>
-                            <div class="col-2 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">Course 1</h5>
-                            </div>
-                            <div class="col-2 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">Instructor 1</h5>
-                            </div>
-                            <div class="col-2 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">11 Minute Ago</h5>
-                            </div>
-                        </div>
                     </div>
                     <div class="box-recommend mt-5 p-4">
                         <h5 style="font-weight: 700" class="mb-4">Total Student by each Courses</h5>
@@ -300,40 +282,27 @@
                             </div>
                         </div>
                         <hr class="mb-2" style="opacity: 1; border: 2px solid white; margin:0">
-                        <div class="row d-flex justify-content-start ">
-                            <div class="col-4 d-flex justify-content-start">
-                                <ul>
-                                    <li>
-                                        <h5 style="font-weight: 400" class="ms-3">Course 1</h5>
-                            </div>
-                            </li>
-                            </ul>
+                        @foreach ($courses as $c)
+                            <div class="row d-flex justify-content-start ">
+                                <div class="col-4 d-flex justify-content-start">
+                                    <ul>
+                                        <li>
+                                            <h5 style="font-weight: 400" class="ms-3">{{ $c['name'] }}</h5>
+                                </div>
+                                </li>
+                                </ul>
 
-                            <div class="col-4 d-flex justify-content-center">
-                                <h5 style="font-weight: 400;">Instuctor 1</h5>
-                            </div>
-                            <div class="col-4 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">30/30</h5>
-                            </div>
+                                <div class="col-4 d-flex justify-content-center">
+                                    <h5 style="font-weight: 400;">{{ $c['instructor_name'] }}</h5>
+                                </div>
+                                <div class="col-4 d-flex justify-content-center">
+                                    <h5 style="font-weight: 400">{{ $c['student_enrolled'] }}/30</h5>
+                                </div>
 
-                        </div>
-                        <div class="row d-flex justify-content-start ">
-                            <div class="col-4 d-flex justify-content-start">
-                                <ul>
-                                    <li>
-                                        <h5 style="font-weight: 400" class="ms-3">Course 2</h5>
                             </div>
-                            </li>
-                            </ul>
+                        @endforeach
 
-                            <div class="col-4 d-flex justify-content-center">
-                                <h5 style="font-weight: 400;">Instuctor 2</h5>
-                            </div>
-                            <div class="col-4 d-flex justify-content-center">
-                                <h5 style="font-weight: 400">20/30</h5>
-                            </div>
 
-                        </div>
                     </div>
                 </div>
 

@@ -18,56 +18,39 @@
                     <h5 class="mb-3">Welcome To Golearn! App | <span>{{ auth()->user()->name }}</span></h5>
                     <div class="box p-3 mb-3">
                         <h4>Continue Learning</h4>
-                        <div class="course-continue mb-4">
-                            <div class="row">
-                                <img src="images/course.jpg" style="width: 300px; border-radius: 20px ">
-                                <div class="col p-3 me-5">
-                                    <div class="course-title">Figma Tutorial</div>
-                                    <div class="d-flex justify-content-end me-2">80%</div>
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 80%" role="progressbar" aria-valuenow="80"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="row mt-3 d-flex justify-content-between">
-                                        <div class="col">
-                                            <div class="course-title">Next Task : <span
-                                                    style="color: var(--primary3)">Lesson 5</span></div>
+                        @foreach ($enrolleds as $enrolled)
+                            <div class="course-continue mb-4">
+                                <div class="row">
+                                    <img src="images/course.jpg" style="width: 300px; border-radius: 20px ">
+                                    <div class="col p-3 me-5">
+                                        <div class="course-title">{{ $enrolled['courses_name'] }}</div>
+                                        @php
+                                            $progress = ($enrolled['completed_lesson'] / $enrolled['lesson']) * 100;
+                                        @endphp
+                                        <div class="d-flex justify-content-end me-2">{{ $progress }}%</div>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{ $progress }}%" role="progressbar"
+                                                aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
                                         </div>
-                                        <a href="/" class="col d-flex justify-content-end"
-                                            style="text-decoration: none">
-                                            <div class="course-title">Continue <span class="iconify"
-                                                    data-icon="fluent:arrow-right-12-filled" data-width="15"></span></div>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="course-continue mb-4">
-                            <div class="row">
-                                <img src="images/course.jpg" style="width: 300px; border-radius: 20px ">
-                                <div class="col p-3 me-5">
-                                    <div class="course-title">Figma Tutorial</div>
-                                    <div class="d-flex justify-content-end me-2">80%</div>
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 80%" role="progressbar" aria-valuenow="80"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="row mt-3 d-flex justify-content-between">
-                                        <div class="col">
-                                            <div class="course-title">Next Task : <span
-                                                    style="color: var(--primary3)">Lesson 3</span></div>
+                                        <div class="row mt-3 d-flex justify-content-between">
+                                            <div class="col">
+                                                <div class="course-title">Next Task : <span
+                                                        style="color: var(--primary3)">{{ $enrolled['next_task_name'] }}</span>
+                                                </div>
+                                            </div>
+                                            <a href="{{ route('student_course_detail', ['course_id' => $enrolled['courses_id'], 'now_curriculum' => $enrolled['next_task_id']]) }}"
+                                                class="col d-flex justify-content-end" style="text-decoration: none">
+                                                <div class="course-title">Continue <span class="iconify"
+                                                        data-icon="fluent:arrow-right-12-filled" data-width="15"></span>
+                                                </div>
+                                            </a>
                                         </div>
-                                        <a href="/" class="col d-flex justify-content-end"
-                                            style="text-decoration: none">
-                                            <div class="course-title">Continue <span class="iconify"
-                                                    data-icon="fluent:arrow-right-12-filled" data-width="15"></span></div>
-                                        </a>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="box-recommend p-4">
                         <h4>Recommended For You</h4>
@@ -123,7 +106,8 @@
                                                             <div class="row pe-2">
                                                                 <div class="col">
                                                                     <span class="iconify" data-icon="mdi:user"
-                                                                        style="color: #d9d9d9;" data-width="24"></span>0
+                                                                        style="color: #d9d9d9;"
+                                                                        data-width="24"></span>{{ $course['student_enrolled'] }}
                                                                 </div>
 
                                                             </div>

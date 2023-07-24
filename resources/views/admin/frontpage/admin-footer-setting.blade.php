@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <button type="button"  class="collapsible btn mb-2 btn-admin">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Courses
                                 </button>
                                 <div class="content-collapse">
@@ -107,7 +107,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active" >
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Front Page
                                 </button>
                                 <div class="content-collapse">
@@ -166,32 +166,32 @@
                     <div class="box-recommend p-4 mb-4 text-blue">
                         <h4>Footer Section</h4>
                         <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                        <form action="" class="form_frontpage" enctype="multipart/form-data">
-
-                           
-
+                        <form action="{{ route('admin_save_footer_content') }}" method="POST" class="form_frontpage"
+                            enctype="multipart/form-data">
+                            @csrf
                             <div class="col ps-3">
                                 <div class="form-group mb-2">
                                     <label class="form-label " style="font-size: 23px">Copyright Text</label>
-                                    <input type="text" name="banner_title" id="formbanner_title"
-                                        class="form-control form-control-lg " placeholder="Copyright © 2023 GoLearnLMS. All rights reserved | Made By Rully Nurul H"/>
+                                    <input type="text" name="copyright_text" id="formbanner_title"
+                                        class="form-control form-control-lg "
+                                        value="{{ $footercontent ? $footercontent['copyright_text'] : '' }}" required>
 
                                 </div>
-                                
+
                             </div>
-                            
+
                             <div class="d-flex justify-content-end pt-1  mt-5 mb-1">
-                                <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Save Setting</button>
+                                <button class="btn btn-button btn-shadow text-dark px-4" type="submit">Save
+                                    Setting</button>
                             </div>
                         </form>
                     </div>
 
-                    
+
                 </div>
 
             </div>
 
         </div>
     </section>
-
 @endsection

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\CategoryController;
@@ -20,17 +21,34 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-
 Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/courses', [MainController::class, 'getCourses']);
+Route::get('/teachers', [MainController::class, 'getTeachers']);
+
+
+Route::get('/about-us', function () {
+    return view('about-us');
+});
+
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+
 Route::group(['middleware' => ['guest']], function () {
+
+
 
     // sign up role
     Route::get('/signup-role', function () {
         return view('signup-role');
     });
+
+
 
     //sign up
     Route::get('/signup/{role}', [MainController::class, 'signUp'])->name('signup');
@@ -62,46 +80,48 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     Route::post('/student/myprofile/change-profile-picture', [UserController::class, 'changeProfilePicture'])->name('change_profile_picture');
 
 
-    Route::get('/student/mycourse', function () {
-        return view('/student/mycourse-student');
-    });
+    Route::get('/student/mycourse', [StudentController::class, 'getStudentCourses']);
+    Route::get('/student/leaderboard/{course_id}', [StudentController::class, 'getCoursesLeaderboard'])->name('student_course_leaderboard');
+    // Route::get('/student/leaderboard', function () {
+    //     return view('/student/student-leaderboard');
+    // });
+
+
+
     Route::get('/student/accomplishment', function () {
         return view('/student/accomplishment-student');
     });
     Route::get('/student/accomplishment-info', function () {
         return view('/student/accomplishment-info-student');
     });
-    Route::get('/student/leaderboard', function () {
-        return view('/student/student-leaderboard');
-    });
+
 
 
 
     Route::get('/course/{course_id}/{now_curriculum}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
-    Route::get('/course/quiz/start/{quiz_id}/{question_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
+    Route::get('/course/quiz/start/{course_id}/{now_curriculum}/{quiz_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
+    Route::get('/course/quiz/save-result/{course_id}/{now_curriculum}/{quiz_id}/{enroll_id}/{result}', [StudentController::class, 'saveQuizScore'])->name('student_quiz_save_result');
 
 
-
-    Route::get('/course/quiz/result', function () {
-        return view('/courses/course-quiz-result');
-    });
+    // Route::get('/course/quiz/result', function () {
+    //     return view('/courses/course-quiz-result');
+    // });
 
 
     //change password
     Route::get('/student/setting', function () {
         return view('/student/setting-student');
     });
-    Route::post('/change-password', [MainController::class, 'changePassword'])->name('change_password');
+    Route::get('/change-password', [MainController::class, 'changePassword'])->name('change_password');
 });
 
 
 
+Route::get('/admin', [AdminController::class, 'getDashboard']);
 
 
-//admin
-Route::get('/admin', function () {
-    return view('/admin/admin-dashboard');
-});
+
+
 
 //list student
 Route::get('/admin/user-student', [UserController::class, 'getListStudents']);
@@ -174,33 +194,20 @@ Route::get('/admin/certificate-setting', function () {
 });
 
 
+Route::get('/admin/frontpage-home', [AdminController::class, 'getHomeContent']);
+Route::post('/admin/frontpage-home/save', [AdminController::class, 'saveHomeContent'])->name('admin_save_home_content');
 
-Route::get('/admin/frontpage-home', function () {
-    return view('/admin/frontpage/admin-home-content');
-});
-Route::get('/admin/frontpage-social', function () {
-    return view('/admin/frontpage/admin-social-setting');
-});
-Route::get('/admin/frontpage-footer', function () {
-    return view('/admin/frontpage/admin-footer-setting');
-});
-Route::get('/admin/frontpage-account', function () {
-    return view('/admin/frontpage/admin-account-setting');
-});
-Route::get('/admin/frontpage-about-us', function () {
-    return view('/admin/frontpage/admin-about-us');
-});
+Route::get('/admin/frontpage-social', [AdminController::class, 'getSocialContent']);
+Route::post('/admin/frontpage-social/save', [AdminController::class, 'saveSocialContent'])->name('admin_save_social_content');
+Route::get('/admin/frontpage-social/{id}', [AdminController::class, 'deleteSocialContent'])->name('admin_delete_social_content');
 
 
-Route::get('/courses', [MainController::class, 'getCourses']);
-Route::get('/teachers', [MainController::class, 'getTeachers']);
+Route::get('/admin/frontpage-footer', [AdminController::class, 'getFooterContent']);
+Route::post('/admin/frontpage-footer/save', [AdminController::class, 'saveFooterContent'])->name('admin_save_footer_content');
+
+Route::get('/admin/frontpage-about-us', [AdminController::class, 'getAboutUsContent']);
+Route::post('/admin/frontpage-about-us/save', [AdminController::class, 'saveAboutUsContent'])->name('admin_save_about_us_content');
 
 
-Route::get('/about-us', function () {
-    return view('about-us');
-});
-
-
-Route::get('/contact', function () {
-    return view('contact');
-});
+Route::get('/admin/frontpage-account', [AdminController::class, 'getAccountContent']);
+Route::post('/admin/frontpage-account/save', [AdminController::class, 'saveAccountContent'])->name('admin_save_account_content');
