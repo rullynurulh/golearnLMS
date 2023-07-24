@@ -37,12 +37,14 @@ class AdminController extends Controller
         }
 
 
-
-
-        $teachers = User::where('id', '=', $enrolls[0]['teachers_id'])->orWhere('id', '=', $enrolls[1]['teachers_id'])->get(['id', 'name']);
         $teachersById = [];
-        foreach ($teachers as $t) {
-            $teachersById[$t['id']] = $t['name'];
+
+        if ($enrolls) {
+
+            $teachers = User::all(['id', 'name']);
+            foreach ($teachers as $t) {
+                $teachersById[$t['id']] = $t['name'];
+            }
         }
 
         $courses = DB::table('courses')

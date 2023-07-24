@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Category;
+use App\Models\HomeContent;
 use Illuminate\Http\Request;
+use App\Models\FooterContent;
+use App\Models\AboutUsContent;
+use App\Models\AccountContent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +17,62 @@ use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
+    public function getHomaPage()
+    {
+        $home = HomeContent::first();
+        $account = AccountContent::first();
+        $footer = FooterContent::first()['copyright_text'];
+        $aboutus = AboutUsContent::first();
+        if ($aboutus) {
+            $aboutus['description'] = explode("\n", $aboutus['description']);
+        }
+
+        $courses = Course::get()->take(4);
+        $teachers = User::where(['role' => 'teacher'])->get()->take(4);
+        $category = Category::get()->take($home['category_max_section_show']);
+        return view('home', ['footer' => $footer, 'account' => $account, 'home' => $home, 'category' => $category, 'aboutus' => $aboutus, 'courses' => $courses, 'teachers' => $teachers]);
+    }
+
+    public function getContact()
+    {
+        $account = AccountContent::first();
+        $footer = FooterContent::first()['copyright_text'];
+        return view('contact', ['footer' => $footer, 'account' => $account]);
+    }
+    public function getAboutUs()
+    {
+        $account = AccountContent::first();
+        $footer = FooterContent::first()['copyright_text'];
+        $aboutus = AboutUsContent::first();
+        if ($aboutus) {
+            $aboutus['description'] = explode("\n", $aboutus['description']);
+        }
+        return view('about-us', ['aboutus' => $aboutus, 'footer' => $footer, 'account' => $account]);
+    }
+
+
+    public function getCourses()
+    {
+        $account = AccountContent::first();
+        $footer = FooterContent::first()['copyright_text'];
+        $courses = DB::table('courses')
+            ->join('categories', 'courses.categories', '=', 'categories.id')
+            ->join('users', 'courses.instructor', '=', 'users.id')
+            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*')
+            ->get();
+        $courses = json_decode(json_encode($courses), true);
+        return view('courses', ['courses' => $courses, 'footer' => $footer, 'account' => $account]);
+    }
+
+    public function getTeachers()
+    {
+        $account = AccountContent::first();
+        $footer = FooterContent::first()['copyright_text'];
+        $teachers = User::where(['role' => 'teacher'])->get();
+        return view('teachers', ['teachers' => $teachers, 'footer' => $footer, 'account' => $account]);
+    }
+
+
     public function signUp($role)
     {
         return view('signup', ['role' => $role]);
@@ -92,21 +153,5 @@ class MainController extends Controller
         ]);
 
         return back()->with("status", "Password changed successfully!");
-    }
-    public function getCourses()
-    {
-        $courses = DB::table('courses')
-            ->join('categories', 'courses.categories', '=', 'categories.id')
-            ->join('users', 'courses.instructor', '=', 'users.id')
-            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*')
-            ->get();
-        $courses = json_decode(json_encode($courses), true);
-        return view('courses', ['courses' => $courses]);
-    }
-
-    public function getTeachers()
-    {
-        $teachers = User::where(['role' => 'teacher'])->get();
-        return view('teachers', ['teachers' => $teachers]);
     }
 }

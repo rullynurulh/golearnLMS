@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -58,6 +59,7 @@ class CategoryController extends Controller
 
         if ($isAvailable > 0) {
 
+            Course::where(['categories' => $request->id])->update(['status' => $request->status]);
             $category->update();
         } else {
 

@@ -15,7 +15,9 @@
                 </div>
                 <div class="col-4">
                     <div class="row d-flex justify-content-end">
-
+                        <div class="col-2 me-5" id="endCourse" style="display: none">
+                            <a class="btn btn-button" style="min-width: 130px" href="/student">End Course</a>
+                        </div>
                         <div class="col-2 me-3">
                             <a onclick="getPreviousPage()" class="btn btn-button" style="min-width: 100px"
                                 id="previousCourseButton">Previous</a>
@@ -25,10 +27,10 @@
                                 id="nextCourseButton">Next</a>
                         </div>
                         <div class="col-3 d-flex justify-content-center align-items-center">
-                            <div class="circular-progress" data-inner-circle-color="white" data-percentage="80"
-                                data-progress-color="#2F70AF" data-bg-color="white">
+                            <div class="circular-progress" data-inner-circle-color="white"
+                                data-percentage="{{ $progress }}" data-progress-color="#2F70AF" data-bg-color="white">
                                 <div class="inner-circle"></div>
-                                <p class="percentage">0%</p>
+                                <p class="percentage">{{ $progress }}%</p>
                             </div>
                         </div>
                     </div>
@@ -137,6 +139,11 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @if ($quiz['curriculum'] == $previousPage)
+                                <script>
+                                    document.getElementById("endCourse").style.display = "block";
+                                </script>
+                            @endif
                         </article>
                     </section>
                 </div>

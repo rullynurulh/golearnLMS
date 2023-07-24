@@ -9,11 +9,12 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Chapter;
 use App\Models\Category;
+use App\Models\Enrolled;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
+use App\Models\CurriculumQuiz;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\CurriculumQuiz;
 
 class CourseController extends Controller
 {
@@ -51,6 +52,7 @@ class CourseController extends Controller
         $image_path = 'images/course-image/' . $image_name;
         $request->image->move(public_path('images/course-image'), $image_name);
 
+        $categories_status = Category::whereId($request->categories)->first()['status'];
 
         Course::create([
             'name' => $request->name,
@@ -62,6 +64,7 @@ class CourseController extends Controller
             'requirement' => $request->requirement,
             'description' => $request->description,
             'outcome' => $request->outcome,
+            'status' => $categories_status
         ]);
 
         return redirect('/admin/courses-list');
@@ -69,9 +72,20 @@ class CourseController extends Controller
 
     public function getEditCourse($id)
     {
+        $enrolleds = DB::table('enrolleds')
+            ->join('users', 'users.id', '=', 'enrolleds.student')
+            ->leftJoin('quiz_results', 'quiz_results.enrolled', '=', 'enrolleds.id')
+            ->where(['enrolleds.courses' => $id])
+            ->select('users.name as student_name', DB::raw("sum(quiz_results.correct_answer * (100/quiz_results.total_question)) as student_point"))
+            ->orderBy('student_point', 'desc')
+            ->groupBy('users.id')
+            ->get();
+        $enrolleds = json_decode(json_encode($enrolleds), true);
+        $student_enrolled = Enrolled::where(['courses' => $id])->count();
+
         $chapters = Chapter::where(['courses' => $id])->get();
         $course = Course::where(['id' => $id])->first();
-        return view('/admin/courses/admin-edit-course', ['chapters' => $chapters, 'course' => $course]);
+        return view('/admin/courses/admin-edit-course', ['chapters' => $chapters, 'course' => $course, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled]);
     }
 
     public function addChapter(Request $request)
@@ -92,16 +106,28 @@ class CourseController extends Controller
 
     public function getAddCurriculum($course_id, $chapter_id)
     {
+        $enrolleds = DB::table('enrolleds')
+            ->join('users', 'users.id', '=', 'enrolleds.student')
+            ->leftJoin('quiz_results', 'quiz_results.enrolled', '=', 'enrolleds.id')
+            ->where(['enrolleds.courses' => $course_id])
+            ->select('users.name as student_name', DB::raw("sum(quiz_results.correct_answer * (100/quiz_results.total_question)) as student_point"))
+            ->orderBy('student_point', 'desc')
+            ->groupBy('users.id')
+            ->get();
+        $enrolleds = json_decode(json_encode($enrolleds), true);
+        $student_enrolled = Enrolled::where(['courses' => $course_id])->count();
+
         $curricula = Curriculum::where(['chapter' => $chapter_id])->get();
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::where('status', '=', 'save')->get();
         $chapter = Chapter::whereId($chapter_id)->first();
         $course = Course::whereId($course_id)->first();
 
-        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes]);
+        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled]);
     }
 
     public function addCurriculum(Request $request)
     {
+
 
         if ($request->category == 'lesson') {
 
@@ -112,6 +138,7 @@ class CourseController extends Controller
                 'category' => $request->category,
                 'description' => $request->description,
                 'privacy' => $request->privacy
+
             ]);
 
 

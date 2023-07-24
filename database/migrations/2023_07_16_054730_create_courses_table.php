@@ -28,6 +28,7 @@ return new class extends Migration
             $table->longText('outcome');
             $table->string('image')->nullable();
             $table->string('sequence');
+            $table->string('status');
             $table->timestamps();
         });
     }

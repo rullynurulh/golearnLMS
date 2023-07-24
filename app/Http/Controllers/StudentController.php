@@ -181,6 +181,8 @@ class StudentController extends Controller
             ]);
         }
 
+        $progress = sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100;
+
 
         $isVisited = [];
         for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
@@ -204,7 +206,7 @@ class StudentController extends Controller
         if ($curriculum_category == "lesson") {
 
             $lesson = Lesson::where(['curriculum' => $now_curriculum])->first();
-            return view('/courses/course-detail', ['isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson, 'course_suequence' => $course_suequence]);
+            return view('/courses/course-detail', ['isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson, 'course_suequence' => $course_suequence, 'progress' => $progress]);
         } else {
 
 
@@ -220,11 +222,11 @@ class StudentController extends Controller
             if (QuizResult::where(['enrolled' => $enrolled['id'], 'quiz' => $quiz['id']])->count() > 0) {
 
                 $quiz_result = QuizResult::where(['enrolled' => $enrolled['id'], 'quiz' => $quiz['id']])->first();
-                return view('/courses/course-quiz-result', ['quiz_result' => $quiz_result, 'isVisited' => $isVisited, 'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence]);
+                return view('/courses/course-quiz-result', ['quiz_result' => $quiz_result, 'isVisited' => $isVisited, 'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence, 'progress' => $progress]);
             }
 
 
-            return view('/courses/course-quiz', ['quiz' => $quiz, 'isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence]);
+            return view('/courses/course-quiz', ['quiz' => $quiz, 'isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence, 'progress' => $progress]);
         }
     }
 
@@ -262,6 +264,7 @@ class StudentController extends Controller
 
         $course_suequence = Course::whereId($course_id)->first()['sequence'];
 
+        $progress = sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100;
 
         $questions = Question::where(['quiz' => $quiz_id])->orderBy('id', 'asc')->get();
         $questionsById = [];
@@ -279,7 +282,7 @@ class StudentController extends Controller
 
 
 
-        return view('/courses/course-quiz-detail', ['enroll_id' => $enrolled['id'], 'isVisited' => $isVisited, 'questions' => $questions, 'questionsById' => $questionsById,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence]);
+        return view('/courses/course-quiz-detail', ['enroll_id' => $enrolled['id'], 'isVisited' => $isVisited, 'questions' => $questions, 'questionsById' => $questionsById,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence], ['progress' => $progress]);
     }
 
     public function saveQuizScore($course_id, $now_curriculum, $quiz_id, $enroll_id, $result)
@@ -299,6 +302,9 @@ class StudentController extends Controller
 
             ]);
         }
+
+        $progress = sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100;
+
 
         $isVisited = [];
         for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
@@ -349,6 +355,6 @@ class StudentController extends Controller
         $quiz_result = QuizResult::where(['enrolled' => $enroll_id, 'quiz' => $quiz_id])->first();
 
 
-        return view('/courses/course-quiz-result', ['quiz_result' => $quiz_result,  'isVisited' => $isVisited,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence]);
+        return view('/courses/course-quiz-result', ['quiz_result' => $quiz_result,  'isVisited' => $isVisited,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence, 'progress' => $progress]);
     }
 }

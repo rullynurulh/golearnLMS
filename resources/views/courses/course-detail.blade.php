@@ -30,10 +30,10 @@
 
 
                         <div class="col-3 d-flex justify-content-center align-items-center">
-                            <div class="circular-progress" data-inner-circle-color="white" data-percentage="80"
-                                data-progress-color="#2F70AF" data-bg-color="white">
+                            <div class="circular-progress" data-inner-circle-color="white"
+                                data-percentage="{{ $progress }}" data-progress-color="#2F70AF" data-bg-color="white">
                                 <div class="inner-circle"></div>
-                                <p class="percentage">0%</p>
+                                <p class="percentage">{{ $progress }}%</p>
                             </div>
                         </div>
                     </div>

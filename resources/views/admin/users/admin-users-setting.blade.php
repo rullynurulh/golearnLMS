@@ -68,7 +68,7 @@
                                             </a>
                                         </li>
                                         <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/quiz-setting">
+                                            <a class="chapter-info">
                                                 Quiz Setting
                                             </a>
                                         </li>

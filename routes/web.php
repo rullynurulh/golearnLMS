@@ -21,34 +21,21 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
+
+Route::get('/', [MainController::class, 'getHomaPage']);
 Route::get('/courses', [MainController::class, 'getCourses']);
 Route::get('/teachers', [MainController::class, 'getTeachers']);
+Route::get('/about-us', [MainController::class, 'getAboutUs']);
+Route::get('/contact', [MainController::class, 'getContact']);
 
-
-Route::get('/about-us', function () {
-    return view('about-us');
-});
-
-
-Route::get('/contact', function () {
-    return view('contact');
-});
 
 
 Route::group(['middleware' => ['guest']], function () {
-
-
-
     // sign up role
     Route::get('/signup-role', function () {
         return view('signup-role');
     });
-
-
 
     //sign up
     Route::get('/signup/{role}', [MainController::class, 'signUp'])->name('signup');
@@ -63,8 +50,6 @@ Route::group(['middleware' => ['guest']], function () {
 
 //log out
 Route::get('/logout_action', [MainController::class, 'logout_action'])->name('logout_action');
-
-
 
 //student
 Route::group(['middleware' => ['auth', 'user.role:student']], function () {
@@ -95,18 +80,9 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
         return view('/student/accomplishment-info-student');
     });
 
-
-
-
     Route::get('/course/{course_id}/{now_curriculum}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
     Route::get('/course/quiz/start/{course_id}/{now_curriculum}/{quiz_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
     Route::get('/course/quiz/save-result/{course_id}/{now_curriculum}/{quiz_id}/{enroll_id}/{result}', [StudentController::class, 'saveQuizScore'])->name('student_quiz_save_result');
-
-
-    // Route::get('/course/quiz/result', function () {
-    //     return view('/courses/course-quiz-result');
-    // });
-
 
     //change password
     Route::get('/student/setting', function () {
@@ -118,9 +94,6 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
 
 
 Route::get('/admin', [AdminController::class, 'getDashboard']);
-
-
-
 
 
 //list student
@@ -177,8 +150,12 @@ Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuest
 Route::post('/admin/quiz/add-question/add', [QuizController::class, 'addQuestion'])->name('admin_save_question');
 Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQuestion'])->name('admin_delete_question');
 
-
 Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStatus'])->name('admin_update_quiz-status');
+
+Route::get('/admin/quiz-setting/{id}', [QuizController::class, 'getQuizSetting'])->name('admin_quiz_setting');
+Route::post('/admin/quiz-setting/save', [QuizController::class, 'saveQuizSetting'])->name('admin_save_quiz_setting');
+
+Route::get('/admin/result-quiz/{id}', [QuizController::class, 'getQuizResult'])->name('admin_quiz_result');
 
 
 

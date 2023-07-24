@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/quiz-setting">
+                                        <a class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>

@@ -142,7 +142,8 @@
                                             @csrf
                                             <input type="text" name="courses" value="{{ $course['id'] }}" hidden>
                                             <button type="submit" class="btn btn-button"
-                                                style="font-size: 25px; font-weight:600">
+                                                style="font-size: 25px; font-weight:600"
+                                                {{ $course['lesson'] == 0 ? 'disabled="disabled"' : '' }}>
                                                 JOIN NOW</button>
                                         </form>
                                     @endif

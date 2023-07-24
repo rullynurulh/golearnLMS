@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/quiz-setting">
+                                        <a class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
@@ -285,7 +285,8 @@
                                                 <div class="sub-menu-wrap-quiz" id="subMenuQuiz{{ $quiz['id'] }}">
                                                     <div class="sub-menu-quiz ">
 
-                                                        <a href="/admin/result-quiz" class="sub-menu-link">
+                                                        <a href="{{ route('admin_quiz_result', ['id' => $quiz['id']]) }}"
+                                                            class="sub-menu-link">
                                                             <p style="margin: 0; text-align: end; color:#2F70AF;">View
                                                                 Result
                                                             </p>
@@ -300,6 +301,15 @@
                                                             class="sub-menu-link">
                                                             <p style="margin: 0; text-align: end; color:#2F70AF;">Edit</p>
                                                         </a>
+                                                        @if ($quiz['help_mode'] == 'yes')
+                                                            <a href="{{ route('admin_quiz_setting', $quiz['id']) }}"
+                                                                class="sub-menu-link">
+                                                                <p style="margin: 0; text-align: end; color:#2F70AF;">Quiz
+                                                                    setting
+                                                                </p>
+                                                            </a>
+                                                        @endif
+
                                                         <a href="{{ route('admin_delete_quiz', $quiz['id']) }}"
                                                             class="sub-menu-link">
                                                             <p style="margin: 0; text-align: end; color:#2F70AF;">Delete

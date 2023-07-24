@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quiz;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class QuizController extends Controller
@@ -24,8 +25,6 @@ class QuizController extends Controller
     {
 
 
-
-
         if ($request->id == -1) {
 
             $request->validate([
@@ -37,6 +36,7 @@ class QuizController extends Controller
                 'min_percentage' => $request->min_percentage,
                 'help_mode' => $request->help_mode,
                 'status' => 'Draft',
+                'max_help_mode' => 0
             ]);
         } else {
 
@@ -45,7 +45,7 @@ class QuizController extends Controller
                 'duration' => $request->duration,
                 'min_percentage' => $request->min_percentage,
                 'help_mode' => $request->help_mode,
-                'status' => 'Draft',
+                'status' => 'draft',
             ]);
         }
 
@@ -57,6 +57,35 @@ class QuizController extends Controller
     {
         Quiz::whereId($id)->delete();
         return back();
+    }
+
+    public function getQuizSetting($id)
+    {
+        $quiz = Quiz::whereId($id)->first();
+        return view('/admin/quiz/admin-quiz-setting', ['quiz' => $quiz]);
+    }
+
+    public function saveQuizSetting(Request $request)
+    {
+        Quiz::whereId($request->id)->update([
+            'max_help_mode' => $request->max_help_mode
+        ]);
+
+        return back();
+    }
+
+    public function getQuizResult($id)
+    {
+        $enrolleds = DB::table('quiz_results')
+            ->join('enrolleds', 'quiz_results.enrolled', '=', 'enrolleds.id')
+            ->join('users', 'users.id', '=', 'enrolleds.student')
+            ->where(['quiz_results.quiz' => $id])
+            ->select('users.name as student_name', 'quiz_results.*')
+            ->orderBy('quiz_results.id', 'asc')
+            ->get();
+        $enrolleds = json_decode(json_encode($enrolleds), true);
+        $quiz = Quiz::whereId($id)->first();
+        return view('/admin/quiz/admin-result-quiz', ['enrolleds' => $enrolleds, 'quiz' => $quiz]);
     }
 
     public function getAddQuestion($id)

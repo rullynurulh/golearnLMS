@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/quiz-setting">
+                                        <a class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
@@ -186,15 +186,14 @@
                                             <label for="form-label text-white" style="font-size: 23px">Thumbnail Image
                                             </label>
                                             <input type="file" name="image" id="Formimage"
-                                                class="form-control form-control-lg p-3" required />
+                                                class="form-control form-control-lg p-3" />
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group mb-2">
                                             <label for="form-label text-white status" style="font-size: 23px">Status
                                             </label>
-                                            <select name="status" id="Formstatus"
-                                                class="form-select form-select-lg p-3">
+                                            <select name="status" id="Formstatus" class="form-select form-select-lg p-3">
                                                 <option value="active">Active</option>
                                                 <option value="inactive">Inactive</option>
                                             </select>

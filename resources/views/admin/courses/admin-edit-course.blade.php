@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/quiz-setting">
+                                        <a class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
@@ -297,29 +297,23 @@
                                     <h4>Student Enrolled</h4>
                                 </div>
                                 <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                                <div class="box-list-admin mb-2">
-                                    <div class="row d-flex justify-content-start">
-                                        <div class="col-1 d-flex justify-content-start align-items-center">
-                                            <h3 style="margin-bottom:0">1</h3>
-                                        </div>
-                                        <div class="col-9 d-flex justify-content-start align-items-center">
-                                            <h5 style="font-weight: 500; margin-bottom:0">Student1</h5>
-                                        </div>
+                                @php
+                                    $nomor = 1;
+                                @endphp
+                                @foreach ($enrolleds as $enrolled)
+                                    <div class="box-list-admin mb-2">
+                                        <div class="row d-flex justify-content-start">
+                                            <div class="col-1 d-flex justify-content-start align-items-center">
+                                                <h3 style="margin-bottom:0">{{ $nomor++ }}</h3>
+                                            </div>
+                                            <div class="col-9 d-flex justify-content-start align-items-center">
+                                                <h5 style="font-weight: 500; margin-bottom:0">
+                                                    {{ $enrolled['student_name'] }}</h5>
+                                            </div>
 
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="box-list-admin mb-2">
-                                    <div class="row d-flex justify-content-start">
-                                        <div class="col-1 d-flex justify-content-start align-items-center">
-                                            <h3 style="margin-bottom:0">2</h3>
-                                        </div>
-                                        <div class="col-9 d-flex justify-content-start align-items-center">
-                                            <h5 style="font-weight: 500; margin-bottom:0; ">Student2</h5>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </article>
                     </section>
@@ -331,38 +325,34 @@
                                         <h4>Leaderboard</h4>
                                     </div>
                                     <div class="col-1">
-                                        <h4>10/50</h4>
+                                        <h4>{{ $student_enrolled }}/50</h4>
                                     </div>
 
                                 </div>
                                 <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                                <div class="box-list-admin mb-2">
-                                    <div class="row d-flex justify-content-start">
-                                        <div class="col-1 d-flex justify-content-start align-items-center">
-                                            <h3 style="margin-bottom:0">1</h3>
-                                        </div>
-                                        <div class="col-9 d-flex justify-content-start align-items-center">
-                                            <h5 style="font-weight: 500; margin-bottom:0">Student1</h5>
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-end align-items-center">
-                                            <h5 style="font-weight: 500; margin-bottom:0">200 Point</h5>
+                                @php
+                                    $nomor = 1;
+                                @endphp
+                                @foreach ($enrolleds as $enrolled)
+                                    <div class="box-list-admin mb-2">
+                                        <div class="row d-flex justify-content-start">
+                                            <div class="col-1 d-flex justify-content-start align-items-center">
+                                                <h3 style="margin-bottom:0">{{ $nomor++ }}</h3>
+                                            </div>
+                                            <div class="col-9 d-flex justify-content-start align-items-center">
+                                                <h5 style="font-weight: 500; margin-bottom:0">
+                                                    {{ $enrolled['student_name'] }}</h5>
+                                            </div>
+                                            <div class="col-2 d-flex justify-content-end align-items-center">
+                                                <h5 style="font-weight: 500; margin-bottom:0">
+                                                    {{ (int) $enrolled['student_point'] }}
+                                                    Point</h5>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="box-list-admin mb-2">
-                                    <div class="row d-flex justify-content-start">
-                                        <div class="col-1 d-flex justify-content-start align-items-center">
-                                            <h3 style="margin-bottom:0">2</h3>
-                                        </div>
-                                        <div class="col-9 d-flex justify-content-start align-items-center">
-                                            <h5 style="font-weight: 500; margin-bottom:0; ">Student2</h5>
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-end align-items-center">
-                                            <h5 style="font-weight: 500; margin-bottom:0">100 Point</h5>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         </article>
                     </section>
