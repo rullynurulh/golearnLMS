@@ -920,3 +920,7 @@ form.form_frontpage.icon input[type="file"]::-webkit-file-upload-button{
   color: white;
 
 }
+
+form.form_certificate label{
+  color: #2F70AF;
+}

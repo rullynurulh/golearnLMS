@@ -78,7 +78,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" class="collapsible btn mb-2 btn-admin">
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Certificates
                                 </button>
                                 <div class="content-collapse">
@@ -107,7 +107,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active" >
+                                <button type="button" class="collapsible btn mb-2 btn-admin" >
                                     Front Page
                                 </button>
                                 <div class="content-collapse">
@@ -159,24 +159,23 @@
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div class="content p-5">
                     <div class="box-recommend p-4 mb-2">
-                        <h3 style="margin-bottom: 0">Front Page | Social Setting</h3>
+                        <h3 style="margin-bottom: 0">Certificate | New Certificate  </h3>
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <h3 class="my-5 ms-2"style="margin-bottom: 0" id="titleText">Add New</h3>
+                            <h3 class="my-4 ms-2"style="margin-bottom: 0" id="titleText">New Certificate</h3>
                             <div class="box-recommend mt-2 p-4">
-                                <form action="" class="form_frontpage icon" enctype="multipart/form-data" >
+                                <form action="" class="form_certificate" enctype="multipart/form-data" >
                                 
                                     <div class="col">
                                         <div class="form-group mb-2">
-                                            <label for="form-label text-white" style="font-size: 23px">Icons </label>
-                                            <input type="file" name="icons" id="icons" class="form-control px-3 py-2"
-                                                />
+                                            <label for="form-label text-white" style="font-size: 23px">Background Image </label>
+                                            <input type="file" name="icons" id="icons" class="form-control px-3 py-2"/>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group mb-2">
-                                            <label for="form-label text-white" style="font-size: 23px">Social Link
+                                            <label for="form-label text-white" style="font-size: 23px">Certificate Title
                                             </label>
                                             <input type="text" name="social_link" id="social_link" class="form-control px-3 py-2"
                                                 placeholder="enter social link"/>
@@ -184,13 +183,46 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group mb-2">
-                                            <label for="form-label text-white" style="font-size: 23px">Social Name
+                                            <label for="form-label text-white" style="font-size: 23px">Body
                                             </label>
                                             <input type="text" name="social_name" id="social_name" class="form-control px-3 py-2"
                                                 placeholder="Facebook"/>
                                         </div>
                                     </div>
+
+                                    <div class="col">
+                                        <div class="form-group mb-2">
+                                            <label for="form-label text-white" style="font-size: 23px">Course Name
+                                            </label>
+                                            <select type="select" name="social_name" id="social_name" class="form-select px-3 py-2"
+                                                placeholder="Facebook"/>
+                                                <option selected>Open this select menu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     
+                                    <div class="col">
+                                        <div class="form-group mb-2">
+                                            <label for="form-label text-white" style="font-size: 23px">Teacher Name
+                                            </label>
+                                            <select type="select" name="social_name" id="social_name" class="form-select px-3 py-2"
+                                                placeholder="Facebook"/>
+                                                <option selected>Open this select menu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group mb-2">
+                                            <label for="form-label text-white" style="font-size: 23px">Signature</label>
+                                            <input type="file" name="signature" id="signature" class="form-control px-3 py-2"/>
+                                        </div>
+                                    </div>
                                     <!-- Buttons Sign in -->
                                     <div class="d-flex justify-content-end pt-1 mb-1">
                                         <div id="btn-batal">
@@ -205,104 +237,14 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h3 class="my-5 ms-2"style="margin-bottom: 0">Quiz List</h3>
+                            <h3 class="my-4 ms-2"style="margin-bottom: 0">Preview</h3>
                             <div class="box-recommend mt-2 p-4">
-                                <div class="row d-flex justify-content-start">
-                                    <div class="col-2 d-flex justify-content-start ps-4 align-items-center">
-                                        <h5 style="font-weight: 700">No</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700">Icon</h5>
-                                    </div>
-                                    <div class="col-4 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700">Link</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700; text-align:center">Social Name</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700">Action</h5>
-                                    </div>
-                                </div>
-                                <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                                <div class="row d-flex justify-content-start  mb-3">
-                                    <div class="col-2 d-flex justify-content-start ps-4 align-items-center">
-                                        <h5 style="font-weight: 700">1</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <img src="{{ URL::asset('images/icon_golearn.png') }}" alt="icon" style="width: 50px !important;border-radius:50%">
-                                    </div>
-                                    <div class="col-4 d-flex justify-content-left align-items-center">
-                                        <h5 style="font-weight: 700">https://id.id/facebook.com</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700; text-align:center">Facebook</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <div class="col d-flex justify-content-center align-items-center">
+                                
+                                <hr class="my-3" style="opacity: 1; border: 2px solid white; margin:0">
+                                <div class="preview" style="min-height: 500px">
 
-                                            <a href=""style="border: none; background-color:#EAEAEA;">
-                                                <span class="iconify me-1" data-icon="fa-solid:edit" style="color: black;"
-                                                    data-width="27"></span></a>
-                                            |
-                                            <a href="" style="border: none;">
-                                                <span class="iconify ms-2" data-icon="bi:trash-fill" style="color: black;"
-                                                    data-width="25"></span></a>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="row d-flex justify-content-start mb-3 ">
-                                    <div class="col-2 d-flex justify-content-start ps-4 align-items-center">
-                                        <h5 style="font-weight: 700">1</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <img src="{{ URL::asset('images/icon_golearn.png') }}" alt="icon" style="width: 50px !important;border-radius:50%">
-                                    </div>
-                                    <div class="col-4 d-flex justify-content-left align-items-center">
-                                        <h5 style="font-weight: 700">https://id.id/facebook.com</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700; text-align:center">Facebook</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <div class="col d-flex justify-content-center align-items-center">
-
-                                            <a href=""style="border: none; background-color:#EAEAEA;">
-                                                <span class="iconify me-1" data-icon="fa-solid:edit" style="color: black;"
-                                                    data-width="27"></span></a>
-                                            |
-                                            <a href="" style="border: none;">
-                                                <span class="iconify ms-2" data-icon="bi:trash-fill" style="color: black;"
-                                                    data-width="25"></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row d-flex justify-content-start mb-3">
-                                    <div class="col-2 d-flex justify-content-start ps-4 align-items-center">
-                                        <h5 style="font-weight: 700">1</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <img src="{{ URL::asset('images/icon_golearn.png') }}" alt="icon" style="width: 50px !important;border-radius:50%">
-                                    </div>
-                                    <div class="col-4 d-flex justify-content-left align-items-center">
-                                        <h5 style="font-weight: 700">https://id.id/facebook.com</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <h5 style="font-weight: 700; text-align:center">Facebook</h5>
-                                    </div>
-                                    <div class="col-2 d-flex justify-content-center align-items-center">
-                                        <div class="col d-flex justify-content-center align-items-center">
-
-                                            <a href=""style="border: none; background-color:#EAEAEA;">
-                                                <span class="iconify me-1" data-icon="fa-solid:edit" style="color: black;"
-                                                    data-width="27"></span></a>
-                                            |
-                                            <a href="" style="border: none;">
-                                                <span class="iconify ms-2" data-icon="bi:trash-fill" style="color: black;"
-                                                    data-width="25"></span></a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <hr class="my-3" style="opacity: 1; border: 2px solid white; margin:0">
                             </div>
 
                         </div>
