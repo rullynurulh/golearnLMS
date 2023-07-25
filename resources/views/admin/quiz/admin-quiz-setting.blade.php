@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <button type="button" class="collapsible btn mb-2 btn-admin-active">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Courses
                                 </button>
                                 <div class="content-collapse">
@@ -60,7 +60,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin">
+                                <button type="button" id="active" class="collapsible btn mb-2 btn-admin-active">
                                     Quiz
                                 </button>
                                 <div class="content-collapse">

@@ -158,14 +158,6 @@ border-radius: 2px;
     max-width: 1920px;
   }
 
-.bg-image-jumbotron{
-
-    background: linear-gradient(0deg, rgba(65, 89, 137, 0.5), rgba(65, 89, 137, 0.5)), url('images/bg-slider.jpg');
-
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size:cover;
-}
 
 .pop-up-ads{
     background: var(--primary2);

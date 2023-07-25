@@ -6,14 +6,9 @@
                 <img class="mb-3" src="{{ $account['image'] }}" style="width: 100px">
                 <p class="text-white" style="width: 300px">{{ $footer }}</p>
                 <div class="col">
-                    <span class="iconify me-3"
-                        style="content: url('https://api.iconify.design/uil/instagram.svg?color=white&width=40');"></span>
-                    <span class="iconify me-3"
-                        style="content: url('https://api.iconify.design/uil/twitter.svg?color=white&width=40');"></span>
-                    <span class="iconify me-3"
-                        style="content: url('https://api.iconify.design/ic/baseline-facebook.svg?color=white&width=40');"></span>
-                    <span class="iconify"
-                        style="content: url('https://api.iconify.design/mdi/google-plus.svg?color=white&width=40');"></span>
+                    <a class="me-3" href="/"><img  src="{{ URL::asset('images/icon_golearn.png') }}" width="40" height="40"  alt=""></a>
+                    <a class="me-3" href="/"><img  src="{{ URL::asset('images/icon_golearn.png') }}" width="40" height="40"  alt=""></a>
+                    <a class="me-3" href="/"><img  src="{{ URL::asset('images/icon_golearn.png') }}" width="40" height="40"  alt=""></a>
                 </div>
             </div>
 

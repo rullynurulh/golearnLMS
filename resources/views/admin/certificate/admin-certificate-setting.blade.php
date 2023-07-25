@@ -278,20 +278,20 @@
                                         <div class="form-group mb-2">
                                             <label for="text_1" class="form-label" style="font-size: 23px">Text 1
                                             </label>
-                                            <input type="text" data-x="50" data-y="40" name="text_1"
+                                            <input type="text" data-x="50" data-y="20" name="text_1"
                                                 id="text_1" data-font="Roboto" data-fontsize="3"
                                                 class="text_1 form-control px-3 py-2 certinputs"
-                                                value="For The Successful Completion Of" />
+                                                value="Proudly Presented To" />
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group mb-2">
                                             <label for="text_2" class="form-label" style="font-size: 23px">Text 2
                                             </label>
-                                            <input type="text" data-x="50" data-y="60" name="text_2"
-                                                id="text_2" data-font="Roboto" data-fontsize="2"
+                                            <input type="text" data-x="50" data-y="40" name="text_2"
+                                                id="text_2" data-font="Roboto" data-fontsize="3"
                                                 class="text_2 form-control px-3 py-2 certinputs"
-                                                value="Lorem ipsum dolor sit amet consectetur. Tristique in in velit malesuada. Diam morbi ullamcorper dictum faucibus urna ut vestibulum pharetra arcu." />
+                                                value="For The Successful Completion Of" />
                                         </div>
                                     </div>
                                     <div class="col">
@@ -358,7 +358,7 @@
                                             </label>
                                             <select type="select" data-x="50" data-y="88" data-font="Roboto"
                                                 data-fontsize="2" name="footer_title" id="footer_title"
-                                                class="text_3 form-select px-3 py-2 certinputs">
+                                                class="text_3 form-select px-3 py-2 certcheck">
                                                 <option selected value="Teachers Name">Teacher Name</option>
                                                 <option value="1">One</option>
                                                 <option value="2">Two</option>

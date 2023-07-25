@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Course</title>
-    <link rel = "icon" href = "images/icon_golearn.png" 
+    <link rel = "icon" href = {{ URL::asset('images/icon_golearn.png') }}
         type = "image/x-icon">
     <!-- Fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -29,11 +29,7 @@
     <div id="main"> 
           @yield('container')
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="https://unpkg.com/swup@3"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+   
     <script src="{{ URL::asset('circular.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>

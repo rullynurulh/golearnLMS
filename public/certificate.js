@@ -61,6 +61,13 @@ document.addEventListener("DOMContentLoaded", function () {
         drawTextfromInputs();
       });
     }
+    var radiocheck = document.getElementById("footer_title");
+   
+    radiocheck.addEventListener("click", function () {
+      drawTextfromInputs();
+    });
+
+
   }
   function drawTextfromInputs() {
     // Clearing Canvas with white background
@@ -71,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.drawImage(certImage, 0, 0, canvas.width, canvas.height);
     // Getting Input Values
     var textInputs1 = document.getElementById("text_1");
-    console.log(textInputs1.value);
+
     var text1 = textInputs1.value;
     var font1 = textInputs1.dataset.font;
     var position1 = [textInputs1.dataset.x, textInputs1.dataset.y];
@@ -91,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     var textInputs2 = document.getElementById("text_2");
-    console.log(textInputs2.value);
+
     var text2 = textInputs2.value;
     var font2 = textInputs1.dataset.font;
     var position2 = [textInputs2.dataset.x, textInputs2.dataset.y];
@@ -110,14 +117,12 @@ document.addEventListener("DOMContentLoaded", function () {
       editable
     );
 
-    var textInputs3 = document.getElementById("footer_title");
-    console.log(textInputs3.value);
-    var text3 = textInputs3.value;
-    var font3 = textInputs1.dataset.font;
-    var position3 = [textInputs3.dataset.x, textInputs3.dataset.y];
-    var fontSize3 = textInputs3.dataset.fontsize;
 
-    var editable = textInputs3.dataset.editable;
+    var text3 = "Lorem ipsum dolor sit amet consectetur. Tristique in in velit malesuada. Diam morbi ullamcorper dictum faucibus urna ut vestibulum pharetra arcu."
+    var font3 = textInputs1.dataset.font;
+    var position3 = [50, 60];
+    var fontSize3 = 2;
+    var editable = 1;
 
     // Adding Text
     addText(
@@ -126,10 +131,31 @@ document.addEventListener("DOMContentLoaded", function () {
       position3,
       font3,
       fontSize3,
-      textInputs3,
+      textInputs2,
+      editable
+    );
+    var textInputs4 = document.getElementById("footer_title");
+    var text4 = textInputs4.value;
+    var font4 = textInputs4.dataset.font;
+    var position4 = [textInputs4.dataset.x, textInputs4.dataset.y];
+    var fontSize4 = textInputs4.dataset.fontsize;
+
+    var editable = textInputs4.dataset.editable;
+
+    // Adding Text
+    addText(
+      ctx,
+      text4,
+      position4,
+      font4,
+      fontSize4,
+      textInputs4,
       editable
     );
   }
+
+   
+  
 
   imageBackgroundInput.addEventListener("change", function () {
     var file = imageBackgroundInput.files[0];
