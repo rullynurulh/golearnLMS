@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 @extends('layouts.admin.main-admin')
 @section('container')
     <section class="margin-top ">
@@ -576,3 +577,5 @@
         </div>
     </section>
 @endsection
+=======
+>>>>>>> Stashed changes
