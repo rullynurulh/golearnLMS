@@ -42,12 +42,14 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/courses-categories">
-                                            <li>
-                                                Categories
-                                            </li>
-                                        </a>
+                                        @if (auth()->user()->role == 'admin')
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/courses-categories">
+                                                <li>
+                                                    Categories
+                                                </li>
+                                            </a>
+                                        @endif
                                         <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/courses-list">
                                             <li>
                                                 Course List
@@ -109,44 +111,46 @@
                                 <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Front Page
                                 </button>
-                                <div class="content-collapse">
-                                    <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-home">
-                                            <li>
-                                                Home Content
-                                            </li>
-                                        </a>
+                                @if (auth()->user()->role == 'admin')
+                                    <div class="content-collapse">
+                                        <ul class="list-lesson">
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-home">
+                                                <li>
+                                                    Home Content
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-social">
-                                            <li>
-                                                Social Setting
-                                            </li>
-                                        </a>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-social">
+                                                <li>
+                                                    Social Setting
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-footer">
-                                            <li>
-                                                Footer Setting
-                                            </li>
-                                        </a>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-footer">
+                                                <li>
+                                                    Footer Setting
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-account">
-                                            <li>
-                                                Account Setting
-                                            </li>
-                                        </a>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-account">
+                                                <li>
+                                                    Account Setting
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-about-us">
-                                            <li>
-                                                About Us
-                                            </li>
-                                        </a>
-                                    </ul>
-                                </div>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-about-us">
+                                                <li>
+                                                    About Us
+                                                </li>
+                                            </a>
+                                        </ul>
+                                    </div>
+                                @endif
 
                             </div>
                         </article>

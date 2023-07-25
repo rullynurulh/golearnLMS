@@ -19,12 +19,10 @@ class UserRole
     {
         if (in_array($request->user()->role, $roles)) {
             return $next($request);
-        }
-
-        if ($request->user()->role == 'student') {
+        } else if ($request->user()->role == 'student') {
             return redirect('/student');
+        } else {
+            return redirect('/');
         }
-
-        return redirect('/');
     }
 }

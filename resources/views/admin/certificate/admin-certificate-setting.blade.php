@@ -42,12 +42,14 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/courses-categories">
-                                            <li>
-                                                Categories
-                                            </li>
-                                        </a>
+                                        @if (auth()->user()->role == 'admin')
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/courses-categories">
+                                                <li>
+                                                    Categories
+                                                </li>
+                                            </a>
+                                        @endif
                                         <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/courses-list">
                                             <li>
                                                 Course List

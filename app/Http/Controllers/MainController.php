@@ -92,13 +92,14 @@ class MainController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'status' => 'active',
             'password' => bcrypt($request->password),
             'created_at' => time(),
             'updated_at' => time()
 
         ]);
 
-        return view('/signin');
+        return redirect('/student');
     }
 
     public function signInAction(Request $request)
@@ -111,13 +112,11 @@ class MainController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             if (Auth::attempt($request->only('email', 'password'))) {
-
+                $request->session()->regenerate();
                 if (auth()->user()->role == "student") {
-
-                    return redirect('/student');
+                    return redirect()->intended('/student');
                 } else if (auth()->user()->role == "teacher" ||  auth()->user()->role == "admin") {
-
-                    return redirect('/about-us');
+                    return redirect('/admin');
                 }
             }
         }

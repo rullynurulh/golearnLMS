@@ -20,14 +20,27 @@ class CourseController extends Controller
 {
     public function getListCourses()
     {
+        if (auth()->user()->role == 'admin') {
 
-        $courses = DB::table('courses')
-            ->join('categories', 'courses.categories', '=', 'categories.id')
-            ->join('users', 'courses.instructor', '=', 'users.id')
-            ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
-            ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"))
-            ->groupBy('courses.id')
-            ->get();
+            $courses = DB::table('courses')
+                ->join('categories', 'courses.categories', '=', 'categories.id')
+                ->join('users', 'courses.instructor', '=', 'users.id')
+                ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
+                ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"))
+                ->groupBy('courses.id')
+                ->get();
+        } else {
+
+            $courses = DB::table('courses')
+                ->join('categories', 'courses.categories', '=', 'categories.id')
+                ->join('users', 'courses.instructor', '=', 'users.id')
+                ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
+                ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"))
+                ->where(['courses.instructor' => auth()->user()->id])
+                ->groupBy('courses.id')
+                ->get();
+        }
+
         $courses = json_decode(json_encode($courses), true);
 
         return view('/admin/courses/admin-course-list', ['courses' => $courses]);

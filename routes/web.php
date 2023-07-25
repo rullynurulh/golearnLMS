@@ -96,99 +96,97 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
 Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () {
 
     Route::get('/admin', [AdminController::class, 'getDashboard']);
+
+    //list student
+    Route::get('/admin/user-student', [UserController::class, 'getListStudents']);
+
+    //list admin
+    Route::get('/admin/user-teacher', [UserController::class, 'getListTeachers']);
+
+    //update user data by admin
+    Route::post('/admin/user/update', [UserController::class, 'updateUserDataByAdmin'])->name('admin_update_profile_user');
+
+    //add user data by admin
+    Route::post('/admin/user/add', [UserController::class, 'addUserDataByAdmin'])->name('admin_add_profile_user');
+
+
+    //update user data by admin
+    Route::get('/admin/user/delete/{id}', [UserController::class, 'deleteUserDataByAdmin'])->name('admin_delete_profile_user');
+
+
+
+
+    //categories
+    Route::get('/admin/courses-categories', [CategoryController::class, 'getListCategories']);
+    //add user categories by admin
+    Route::post('/admin/courses-categories/add', [CategoryController::class, 'addCategory'])->name('admin_add_category');
+    Route::get('/admin/courses-categories/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('admin_delete_category');
+
+
+    //courses
+
+    //list course
+    Route::get('/admin/courses-list', [CourseController::class, 'getListCourses']);
+    Route::get('/admin/add-course', [CourseController::class, 'getAddCourse']);
+    Route::post('/admin/add-course/add', [CourseController::class, 'addCourse'])->name('admin_add_course');
+    Route::get('/admin/courses-list/delete/{id}', [CourseController::class, 'deleteCourse'])->name('admin_delete_course');
+
+
+    Route::get('/admin/edit-course/{id}', [CourseController::class, 'getEditCourse'])->name('admin_edit_course');
+    Route::post('/admin/edit-course/add-chapter', [CourseController::class, 'addChapter'])->name('admin_add_chapter');
+    Route::get('/admin/edit-course/chapter/delete/{id}', [CourseController::class, 'deleteChapter'])->name('admin_delete_chapter');
+
+
+
+    Route::get('/admin/add-curriculum/{course_id}/{chapter_id}', [CourseController::class, 'getAddCurriculum'])->name('admin_add_curriculum');
+    Route::post('/admin/add-curriculum/add', [CourseController::class, 'addCurriculum'])->name('admin_save_curriculum');
+    Route::get('/admin/edit-curriculum/delete/{id}', [CourseController::class, 'deleteCurriculum'])->name('admin_delete_curriculum');
+
+
+    Route::get('/admin/add-quiz', [QuizController::class, 'getAddQuiz']);
+    Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('admin_add_quiz');
+    Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
+
+    Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuestion'])->name('admin_add_question');
+    Route::post('/admin/quiz/add-question/add', [QuizController::class, 'addQuestion'])->name('admin_save_question');
+    Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQuestion'])->name('admin_delete_question');
+
+    Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStatus'])->name('admin_update_quiz-status');
+
+    Route::get('/admin/quiz-setting', [QuizController::class, 'getQuizSetting']);
+    Route::post('/admin/quiz-setting/save', [QuizController::class, 'saveQuizSetting'])->name('admin_save_quiz_setting');
+
+    Route::get('/admin/result-quiz/{id}', [QuizController::class, 'getQuizResult'])->name('admin_quiz_result');
+
+
+
+
+    Route::get('/admin/certificate-list', function () {
+        return view('/admin/certificate/admin-certificate-list');
+    });
+    Route::get('/admin/certificate-add', function () {
+        return view('/admin/certificate/admin-add-certificate');
+    });
+    Route::get('/admin/certificate-setting', function () {
+        return view('/admin/certificate/admin-certificate-setting');
+    });
+
+
+    Route::get('/admin/frontpage-home', [AdminController::class, 'getHomeContent']);
+    Route::post('/admin/frontpage-home/save', [AdminController::class, 'saveHomeContent'])->name('admin_save_home_content');
+
+    Route::get('/admin/frontpage-social', [AdminController::class, 'getSocialContent']);
+    Route::post('/admin/frontpage-social/save', [AdminController::class, 'saveSocialContent'])->name('admin_save_social_content');
+    Route::get('/admin/frontpage-social/{id}', [AdminController::class, 'deleteSocialContent'])->name('admin_delete_social_content');
+
+
+    Route::get('/admin/frontpage-footer', [AdminController::class, 'getFooterContent']);
+    Route::post('/admin/frontpage-footer/save', [AdminController::class, 'saveFooterContent'])->name('admin_save_footer_content');
+
+    Route::get('/admin/frontpage-about-us', [AdminController::class, 'getAboutUsContent']);
+    Route::post('/admin/frontpage-about-us/save', [AdminController::class, 'saveAboutUsContent'])->name('admin_save_about_us_content');
+
+
+    Route::get('/admin/frontpage-account', [AdminController::class, 'getAccountContent']);
+    Route::post('/admin/frontpage-account/save', [AdminController::class, 'saveAccountContent'])->name('admin_save_account_content');
 });
-
-
-
-//list student
-Route::get('/admin/user-student', [UserController::class, 'getListStudents']);
-
-//list admin
-Route::get('/admin/user-teacher', [UserController::class, 'getListTeachers']);
-
-//update user data by admin
-Route::post('/admin/user/update', [UserController::class, 'updateUserDataByAdmin'])->name('admin_update_profile_user');
-
-//add user data by admin
-Route::post('/admin/user/add', [UserController::class, 'addUserDataByAdmin'])->name('admin_add_profile_user');
-
-
-//update user data by admin
-Route::get('/admin/user/delete/{id}', [UserController::class, 'deleteUserDataByAdmin'])->name('admin_delete_profile_user');
-
-
-
-
-//categories
-Route::get('/admin/courses-categories', [CategoryController::class, 'getListCategories']);
-//add user categories by admin
-Route::post('/admin/courses-categories/add', [CategoryController::class, 'addCategory'])->name('admin_add_category');
-Route::get('/admin/courses-categories/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('admin_delete_category');
-
-
-//courses
-
-//list course
-Route::get('/admin/courses-list', [CourseController::class, 'getListCourses']);
-Route::get('/admin/add-course', [CourseController::class, 'getAddCourse']);
-Route::post('/admin/add-course/add', [CourseController::class, 'addCourse'])->name('admin_add_course');
-Route::get('/admin/courses-list/delete/{id}', [CourseController::class, 'deleteCourse'])->name('admin_delete_course');
-
-
-Route::get('/admin/edit-course/{id}', [CourseController::class, 'getEditCourse'])->name('admin_edit_course');
-Route::post('/admin/edit-course/add-chapter', [CourseController::class, 'addChapter'])->name('admin_add_chapter');
-Route::get('/admin/edit-course/chapter/delete/{id}', [CourseController::class, 'deleteChapter'])->name('admin_delete_chapter');
-
-
-
-Route::get('/admin/add-curriculum/{course_id}/{chapter_id}', [CourseController::class, 'getAddCurriculum'])->name('admin_add_curriculum');
-Route::post('/admin/add-curriculum/add', [CourseController::class, 'addCurriculum'])->name('admin_save_curriculum');
-Route::get('/admin/edit-curriculum/delete/{id}', [CourseController::class, 'deleteCurriculum'])->name('admin_delete_curriculum');
-
-
-Route::get('/admin/add-quiz', [QuizController::class, 'getAddQuiz']);
-Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('admin_add_quiz');
-Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
-
-Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuestion'])->name('admin_add_question');
-Route::post('/admin/quiz/add-question/add', [QuizController::class, 'addQuestion'])->name('admin_save_question');
-Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQuestion'])->name('admin_delete_question');
-
-Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStatus'])->name('admin_update_quiz-status');
-
-Route::get('/admin/quiz-setting', [QuizController::class, 'getQuizSetting']);
-Route::post('/admin/quiz-setting/save', [QuizController::class, 'saveQuizSetting'])->name('admin_save_quiz_setting');
-
-Route::get('/admin/result-quiz/{id}', [QuizController::class, 'getQuizResult'])->name('admin_quiz_result');
-
-
-
-
-Route::get('/admin/certificate-list', function () {
-    return view('/admin/certificate/admin-certificate-list');
-});
-Route::get('/admin/certificate-add', function () {
-    return view('/admin/certificate/admin-add-certificate');
-});
-Route::get('/admin/certificate-setting', function () {
-    return view('/admin/certificate/admin-certificate-setting');
-});
-
-
-Route::get('/admin/frontpage-home', [AdminController::class, 'getHomeContent']);
-Route::post('/admin/frontpage-home/save', [AdminController::class, 'saveHomeContent'])->name('admin_save_home_content');
-
-Route::get('/admin/frontpage-social', [AdminController::class, 'getSocialContent']);
-Route::post('/admin/frontpage-social/save', [AdminController::class, 'saveSocialContent'])->name('admin_save_social_content');
-Route::get('/admin/frontpage-social/{id}', [AdminController::class, 'deleteSocialContent'])->name('admin_delete_social_content');
-
-
-Route::get('/admin/frontpage-footer', [AdminController::class, 'getFooterContent']);
-Route::post('/admin/frontpage-footer/save', [AdminController::class, 'saveFooterContent'])->name('admin_save_footer_content');
-
-Route::get('/admin/frontpage-about-us', [AdminController::class, 'getAboutUsContent']);
-Route::post('/admin/frontpage-about-us/save', [AdminController::class, 'saveAboutUsContent'])->name('admin_save_about_us_content');
-
-
-Route::get('/admin/frontpage-account', [AdminController::class, 'getAccountContent']);
-Route::post('/admin/frontpage-account/save', [AdminController::class, 'saveAccountContent'])->name('admin_save_account_content');

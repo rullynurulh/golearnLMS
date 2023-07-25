@@ -88,6 +88,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
+
         ]);
 
         $user = User::find($request->id);
@@ -107,6 +108,7 @@ class UserController extends Controller
         $user->state    = $request->state;
         $user->city  = $request->city;
         $user->about = $request->about;
+        $user->status = $request->status;
 
 
         if ($request->filled('password')) {

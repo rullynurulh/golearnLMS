@@ -42,12 +42,14 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/courses-categories">
-                                            <li>
-                                                Categories
-                                            </li>
-                                        </a>
+                                        @if (auth()->user()->role == 'admin')
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/courses-categories">
+                                                <li>
+                                                    Categories
+                                                </li>
+                                            </a>
+                                        @endif
                                         <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/courses-list">
                                             <li>
                                                 Course List
@@ -110,44 +112,46 @@
                                 <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Front Page
                                 </button>
-                                <div class="content-collapse">
-                                    <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-home">
-                                            <li>
-                                                Home Content
-                                            </li>
-                                        </a>
+                                @if (auth()->user()->role == 'admin')
+                                    <div class="content-collapse">
+                                        <ul class="list-lesson">
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-home">
+                                                <li>
+                                                    Home Content
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-social">
-                                            <li>
-                                                Social Setting
-                                            </li>
-                                        </a>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-social">
+                                                <li>
+                                                    Social Setting
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-footer">
-                                            <li>
-                                                Footer Setting
-                                            </li>
-                                        </a>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-footer">
+                                                <li>
+                                                    Footer Setting
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-account">
-                                            <li>
-                                                Account Setting
-                                            </li>
-                                        </a>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-account">
+                                                <li>
+                                                    Account Setting
+                                                </li>
+                                            </a>
 
-                                        <a class="d-flex align-items-center chapter-info mb-2 "
-                                            href="/admin/frontpage-about-us">
-                                            <li>
-                                                About Us
-                                            </li>
-                                        </a>
-                                    </ul>
-                                </div>
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-about-us">
+                                                <li>
+                                                    About Us
+                                                </li>
+                                            </a>
+                                        </ul>
+                                    </div>
+                                @endif
 
                             </div>
                         </article>
@@ -202,10 +206,13 @@
                             </div>
                         </div>
                         <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
+                        @php
+                            $nomor = 1;
+                        @endphp
                         @foreach ($students as $student)
                             <div class="row d-flex justify-content-start mb-2">
                                 <div class="col-1 d-flex justify-content-center align-items-center">
-                                    <h3 class="margin-bottom:0">1</h3>
+                                    <h3 class="margin-bottom:0">{{ $nomor++ }}</h3>
                                 </div>
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     @if (is_null($student['image']))
@@ -229,7 +236,7 @@
                                     <h5 style="font-weight: 500">{{ $student['birthday'] }}</h5>
                                 </div>
                                 <div class="col-1 d-flex justify-content-center align-items-center">
-                                    <h5 style="font-weight: 500">Active</h5>
+                                    <h5 style="font-weight: 500">{{ $student['status'] }}</h5>
                                 </div>
 
                                 <div class="col-1 d-flex justify-content-center align-items-center">
@@ -270,7 +277,8 @@
                     </div>
                 </div>
                 <div class="box-form-edit p-4">
-                    <form action="{{ route('admin_update_profile_user') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('admin_update_profile_user') }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <input type="text" name="id" id="formId_edit" hidden>
@@ -320,6 +328,18 @@
                                     <label for="form-label text-white" style="font-size: 23px">Phone </label>
                                     <input type="tel" id="formPhone_edit" name="phone"
                                         class="form-control form-control-lg p-3" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group mb-2">
+                                <div class="form-group mb-2 me-4">
+                                    <label for="form-label text-white" style="font-size: 23px">Status</label>
+                                    <select class="form-control form-control-lg p-3 form-select"
+                                        aria-label=".form-select-sm example" name="status">
+                                        <option id="statusnotactive" value="not-active">Not Active</option>
+                                        <option id="statusactive" value="active">Active</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -375,6 +395,12 @@
                 modal_edit.style.display = "none";
             }
 
+            if (student[id]['status'] == 'active') {
+
+                document.getElementById("statusactive").selected = true
+            } else {
+                document.getElementById("statusnotactive").selected = true
+            }
 
 
             document.getElementById("formFullname_edit").value = student[id]['name']
