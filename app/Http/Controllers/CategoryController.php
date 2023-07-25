@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
             $image_name = uniqid() . '.' . $data['image']->getClientOriginalExtension();
             $image_path = 'images/category-image/' . $image_name;
-            $request->image->move(public_path('images/1category-image'), $image_name);
+            $request->image->move(public_path('images/category-image'), $image_name);
 
             $category->image = $image_path;
         }

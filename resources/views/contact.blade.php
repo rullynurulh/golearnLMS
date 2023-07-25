@@ -34,16 +34,9 @@
                                                 <span class="iconify " data-icon="fa-solid:home" style="color: #FDCF73;"
                                                     data-width="50"></span>
                                             </div>
-                                            @if ($account)
-                                                <div class="col-9 d-flex align-items-center" style="font-size: 25px">
-                                                    {{ $account['address'] }},
-                                                    {{ $account['country'] }}a</div>
-                                            @else
-                                                <div class="col-9 d-flex align-items-center" style="font-size: 25px">Subang,
-                                                    Indonesia</div>
-                                            @endif
-
-
+                                            <div class="col-9 d-flex align-items-center" style="font-size: 25px">
+                                                {{ $account['address'] }},
+                                                {{ $account['country'] }}</div>
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col-2 dot-contact d-flex justify-content-center align-items-center "
@@ -51,15 +44,9 @@
                                                 <span class="iconify" data-icon="fluent:mail-24-filled"
                                                     style="color: #fdcf73;" data-width="50"></span>
                                             </div>
-                                            @if ($account)
-                                                <div class="col-9 d-flex align-items-center" style="font-size: 25px">
-                                                    {{ $account['email'] }}
-                                                </div>
-                                            @else
-                                                <div class="col-9 d-flex align-items-center" style="font-size: 25px">
-                                                    golearn_cs@gmail.com
-                                                </div>
-                                            @endif
+                                            <div class="col-9 d-flex align-items-center" style="font-size: 25px">
+                                                {{ $account['email'] }}
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-2 dot-contact d-flex justify-content-center align-items-center "
@@ -67,15 +54,9 @@
                                                 <span class="iconify" data-icon="ri:phone-fill" style="color: #fdcf73;"
                                                     data-width="50"></span>
                                             </div>
-                                            @if ($account)
-                                                <div class="col-9 d-flex align-items-center" style="font-size: 25px">
-                                                    {{ $account['phone'] }}
-                                                </div>
-                                            @else
-                                                <div class="col-9 d-flex align-items-center" style="font-size: 25px">
-                                                    +62 89999998321
-                                                </div>
-                                            @endif
+                                            <div class="col-9 d-flex align-items-center" style="font-size: 25px">
+                                                {{ $account['phone'] }}
+                                            </div>
                                         </div>
 
                                     </div>

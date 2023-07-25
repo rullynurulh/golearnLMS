@@ -93,7 +93,11 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
 
 
 
-Route::get('/admin', [AdminController::class, 'getDashboard']);
+Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () {
+
+    Route::get('/admin', [AdminController::class, 'getDashboard']);
+});
+
 
 
 //list student
@@ -152,7 +156,7 @@ Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQu
 
 Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStatus'])->name('admin_update_quiz-status');
 
-Route::get('/admin/quiz-setting/{id}', [QuizController::class, 'getQuizSetting'])->name('admin_quiz_setting');
+Route::get('/admin/quiz-setting', [QuizController::class, 'getQuizSetting']);
 Route::post('/admin/quiz-setting/save', [QuizController::class, 'saveQuizSetting'])->name('admin_save_quiz_setting');
 
 Route::get('/admin/result-quiz/{id}', [QuizController::class, 'getQuizResult'])->name('admin_quiz_result');

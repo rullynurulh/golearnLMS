@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('min_percentage');
             $table->string('help_mode');
             $table->string('status');
-            $table->unsignedBigInteger('max_help_mode');
             $table->timestamps();
         });
     }

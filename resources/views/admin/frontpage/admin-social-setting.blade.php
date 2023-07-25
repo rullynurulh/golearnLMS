@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 ">
+                                        <a href="/admin/quiz-setting" class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
@@ -195,7 +195,7 @@
                                                 class="form-control px-3 py-2" placeholder="enter social name" required />
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Buttons Sign in -->
                                     <div class="d-flex justify-content-end pt-1 mb-1">
                                         <div id="btn-batal">

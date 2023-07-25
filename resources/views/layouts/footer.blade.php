@@ -3,13 +3,8 @@
     <div class="content bg-footer p-5">
         <div class="row px-5  d-flex justify-content-between">
             <div class="col-3 me-5">
-                <img class="mb-3" src="images/logo_golearn.png" style="width: 100px">
-                @if ($footer)
-                    <p class="text-white" style="width: 300px">{{ $footer }}</p>
-                @else
-                    <p class="text-white" style="width: 300px">Copyright © 2023 GoLearnLMS. All rights reserved | Made By
-                        Ruly Nurul H</p>
-                @endif
+                <img class="mb-3" src="{{ $account['image'] }}" style="width: 100px">
+                <p class="text-white" style="width: 300px">{{ $footer }}</p>
                 <div class="col">
                     <span class="iconify me-3"
                         style="content: url('https://api.iconify.design/uil/instagram.svg?color=white&width=40');"></span>
@@ -61,24 +56,12 @@
             <div class="col-2 pt-4 ms-5">
                 <h2 class="text-white pb-3">Contact Us</h2>
                 <div class="row">
-                    @if ($account)
-                        <a href="" class="text-white mb-1" style="text-decoration: none"><span class="iconify "
-                                data-icon="carbon:location-filled" style="color: #fdcf73; " data-width="20"></span>
-                            {{ $account['country'] }}</a>
-                        <a href="" class="text-white mb-1" style="text-decoration: none"><span class="iconify "
-                                data-icon="material-symbols:mail" style="color: #fdcf73; " data-width="20"></span>
-                            {{ $account['email'] }}</a>
-                    @else
-                        <a href="" class="text-white mb-1" style="text-decoration: none"><span
-                                class="iconify " data-icon="carbon:location-filled" style="color: #fdcf73; "
-                                data-width="20"></span>
-                            Indonesia</a>
-                        <a href="" class="text-white mb-1" style="text-decoration: none"><span
-                                class="iconify " data-icon="material-symbols:mail" style="color: #fdcf73; "
-                                data-width="20"></span>
-                            golearn_cs@gmail.com</a>
-                    @endif
-
+                    <a href="" class="text-white mb-1" style="text-decoration: none"><span class="iconify "
+                            data-icon="carbon:location-filled" style="color: #fdcf73; " data-width="20"></span>
+                        {{ $account['country'] }}</a>
+                    <a href="" class="text-white mb-1" style="text-decoration: none"><span class="iconify "
+                            data-icon="material-symbols:mail" style="color: #fdcf73; " data-width="20"></span>
+                        {{ $account['email'] }}</a>
 
                 </div>
             </div>

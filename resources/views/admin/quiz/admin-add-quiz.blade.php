@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 ">
+                                        <a href="/admin/quiz-setting" class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
@@ -301,14 +301,14 @@
                                                             class="sub-menu-link">
                                                             <p style="margin: 0; text-align: end; color:#2F70AF;">Edit</p>
                                                         </a>
-                                                        @if ($quiz['help_mode'] == 'yes')
+                                                        {{-- @if ($quiz['help_mode'] == 'yes')
                                                             <a href="{{ route('admin_quiz_setting', $quiz['id']) }}"
                                                                 class="sub-menu-link">
                                                                 <p style="margin: 0; text-align: end; color:#2F70AF;">Quiz
                                                                     setting
                                                                 </p>
                                                             </a>
-                                                        @endif
+                                                        @endif --}}
 
                                                         <a href="{{ route('admin_delete_quiz', $quiz['id']) }}"
                                                             class="sub-menu-link">

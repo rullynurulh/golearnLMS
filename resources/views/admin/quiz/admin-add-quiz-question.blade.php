@@ -68,14 +68,13 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 ">
+                                        <a href="/admin/quiz-setting" class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
                                         </a>
                                     </ul>
                                 </div>
-
                             </div>
                             <div class="mb-2">
                                 <button type="button" class="collapsible btn mb-2 btn-admin">

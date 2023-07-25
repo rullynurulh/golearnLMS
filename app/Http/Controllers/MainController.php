@@ -27,9 +27,10 @@ class MainController extends Controller
             $aboutus['description'] = explode("\n", $aboutus['description']);
         }
 
-        $courses = Course::get()->take(4);
-        $teachers = User::where(['role' => 'teacher'])->get()->take(4);
+        $courses = Course::get()->take(5);
+        $teachers = User::where(['role' => 'teacher'])->get()->take(5);
         $category = Category::get()->take($home['category_max_section_show']);
+
         return view('home', ['footer' => $footer, 'account' => $account, 'home' => $home, 'category' => $category, 'aboutus' => $aboutus, 'courses' => $courses, 'teachers' => $teachers]);
     }
 
@@ -114,7 +115,7 @@ class MainController extends Controller
                 if (auth()->user()->role == "student") {
 
                     return redirect('/student');
-                } else if (auth()->user()->role == "teacher") {
+                } else if (auth()->user()->role == "teacher" ||  auth()->user()->role == "admin") {
 
                     return redirect('/about-us');
                 }

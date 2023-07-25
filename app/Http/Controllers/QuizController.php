@@ -7,6 +7,7 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\QuizHelpMode;
 
 class QuizController extends Controller
 {
@@ -36,7 +37,7 @@ class QuizController extends Controller
                 'min_percentage' => $request->min_percentage,
                 'help_mode' => $request->help_mode,
                 'status' => 'Draft',
-                'max_help_mode' => 0
+
             ]);
         } else {
 
@@ -59,17 +60,26 @@ class QuizController extends Controller
         return back();
     }
 
-    public function getQuizSetting($id)
+    public function getQuizSetting()
     {
-        $quiz = Quiz::whereId($id)->first();
+        $quiz = QuizHelpMode::first();
         return view('/admin/quiz/admin-quiz-setting', ['quiz' => $quiz]);
     }
 
     public function saveQuizSetting(Request $request)
     {
-        Quiz::whereId($request->id)->update([
-            'max_help_mode' => $request->max_help_mode
-        ]);
+
+        $quiz = QuizHelpMode::first();
+        if ($quiz) {
+            QuizHelpMode::whereId($quiz->id)->update([
+                'max_help_mode' => $request->max_help_mode
+            ]);
+        } else {
+            QuizHelpMode::create([
+                'max_help_mode' => $request->max_help_mode
+            ]);
+        }
+
 
         return back();
     }

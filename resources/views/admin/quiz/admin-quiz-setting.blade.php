@@ -68,7 +68,7 @@
                                                 Add Quiz
                                             </li>
                                         </a>
-                                        <a class="d-flex align-items-center chapter-info mb-2 ">
+                                        <a href="/admin/quiz-setting" class="d-flex align-items-center chapter-info mb-2 ">
                                             <li>
                                                 Quiz Setting
                                             </li>
@@ -172,9 +172,8 @@
                                 <div class="form-group mb-2">
                                     <label for="form-label text-white" style="font-size: 20px">Max Student Can Use Help
                                         Mode</label>
-                                    <input type="text" name="id" value="{{ $quiz['id'] }}" hidden>
                                     <input type="number" name="max_help_mode" id="max_help_mode" class="form-control "
-                                        value="{{ $quiz['max_help_mode'] ? $quiz['max_help_mode'] : '' }}" />
+                                        value="{{ $quiz ? $quiz['max_help_mode'] : '' }}" required />
                                 </div>
                             </div>
                             <div class="col mb-3">
