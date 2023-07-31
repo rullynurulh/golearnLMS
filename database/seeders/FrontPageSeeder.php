@@ -16,7 +16,7 @@ class FrontPageSeeder extends Seeder
     public function run()
     {
         DB::table('home_contents')->insert([
-            'image' => 'images/bg-slider.jpg',
+            'image' => 'images/home-content/bg-slider.jpg',
             'banner_title' => 'ini Banner Title',
             'banner_text' => 'ini banner_text',
             'category_list_title' => 'ini category_list_title',

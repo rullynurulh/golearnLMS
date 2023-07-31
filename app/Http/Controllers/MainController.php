@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\HomeContent;
 use Illuminate\Http\Request;
 use App\Models\FooterContent;
+use App\Models\SocialContent;
 use App\Models\AboutUsContent;
 use App\Models\AccountContent;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,7 @@ class MainController extends Controller
         $account = AccountContent::first();
         $footer = FooterContent::first()['copyright_text'];
         $aboutus = AboutUsContent::first();
+        $social = SocialContent::all();
         if ($aboutus) {
             $aboutus['description'] = explode("\n", $aboutus['description']);
         }
@@ -31,30 +33,33 @@ class MainController extends Controller
         $teachers = User::where(['role' => 'teacher'])->get()->take(5);
         $category = Category::get()->take($home['category_max_section_show']);
 
-        return view('home', ['footer' => $footer, 'account' => $account, 'home' => $home, 'category' => $category, 'aboutus' => $aboutus, 'courses' => $courses, 'teachers' => $teachers]);
+        return view('home', ['footer' => $footer, 'account' => $account, 'home' => $home, 'category' => $category, 'aboutus' => $aboutus, 'courses' => $courses, 'teachers' => $teachers, 'social' => $social]);
     }
 
     public function getContact()
     {
         $account = AccountContent::first();
         $footer = FooterContent::first()['copyright_text'];
-        return view('contact', ['footer' => $footer, 'account' => $account]);
+        $social = SocialContent::all();
+        return view('contact', ['footer' => $footer, 'account' => $account, 'social' => $social]);
     }
     public function getAboutUs()
     {
         $account = AccountContent::first();
         $footer = FooterContent::first()['copyright_text'];
         $aboutus = AboutUsContent::first();
+        $social = SocialContent::all();
         if ($aboutus) {
             $aboutus['description'] = explode("\n", $aboutus['description']);
         }
-        return view('about-us', ['aboutus' => $aboutus, 'footer' => $footer, 'account' => $account]);
+        return view('about-us', ['aboutus' => $aboutus, 'footer' => $footer, 'account' => $account, 'social' => $social]);
     }
 
 
     public function getCourses()
     {
         $account = AccountContent::first();
+        $social = SocialContent::all();
         $footer = FooterContent::first()['copyright_text'];
         $courses = DB::table('courses')
             ->join('categories', 'courses.categories', '=', 'categories.id')
@@ -62,15 +67,16 @@ class MainController extends Controller
             ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*')
             ->get();
         $courses = json_decode(json_encode($courses), true);
-        return view('courses', ['courses' => $courses, 'footer' => $footer, 'account' => $account]);
+        return view('courses', ['courses' => $courses, 'footer' => $footer, 'account' => $account, 'social' => $social]);
     }
 
     public function getTeachers()
     {
         $account = AccountContent::first();
+        $social = SocialContent::all();
         $footer = FooterContent::first()['copyright_text'];
         $teachers = User::where(['role' => 'teacher'])->get();
-        return view('teachers', ['teachers' => $teachers, 'footer' => $footer, 'account' => $account]);
+        return view('teachers', ['teachers' => $teachers, 'footer' => $footer, 'account' => $account, 'social' => $social]);
     }
 
 

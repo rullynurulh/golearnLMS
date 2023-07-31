@@ -110,7 +110,7 @@ class StudentController extends Controller
             ->join('users', 'courses.instructor', '=', 'users.id')
             ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
             ->where('courses.id', '=', $id)
-            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*',  DB::raw("count(curricula.id) as lesson"))
+            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'users.image as instructor_image', 'courses.*',  DB::raw("count(curricula.id) as lesson"))
             ->first();
         $course = json_decode(json_encode($course), true);
         $course['student_enrolled'] = Enrolled::where(['courses' => $id])->count();

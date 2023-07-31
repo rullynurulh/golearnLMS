@@ -6,9 +6,11 @@
                 <img class="mb-3" src="{{ $account['image'] }}" style="width: 100px">
                 <p class="text-white" style="width: 300px">{{ $footer }}</p>
                 <div class="col">
-                    <a class="me-3" href="/"><img  src="{{ URL::asset('images/icon_golearn.png') }}" width="40" height="40"  alt=""></a>
-                    <a class="me-3" href="/"><img  src="{{ URL::asset('images/icon_golearn.png') }}" width="40" height="40"  alt=""></a>
-                    <a class="me-3" href="/"><img  src="{{ URL::asset('images/icon_golearn.png') }}" width="40" height="40"  alt=""></a>
+                    @foreach ($social as $s)
+                        <a class="me-3" href="{{ $s['link'] }}"><img src="{{ URL::asset($s['image']) }}"
+                                width="40" height="40" alt=""></a>
+                    @endforeach
+
                 </div>
             </div>
 

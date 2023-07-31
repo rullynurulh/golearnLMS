@@ -25,7 +25,12 @@
                                     <div class="col">
                                         <div class="row ">
                                             <div class="col-2">
-                                                <img src="/images/guru1.jpg" style="width: 50px; border-radius: 50%">
+                                                @if (is_null($course['instructor_image']))
+                                                    <img src="/images/guru1.jpg" style="width: 50px; border-radius: 50%">
+                                                @else
+                                                    <img src="/{{ $course['instructor_image'] }}"
+                                                        style="width: 50px; border-radius: 50%">
+                                                @endif
                                             </div>
                                             <div class="col d-flex justify-content-between align-items-center"
                                                 style="padding-left: 1.5rem">
@@ -59,7 +64,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <img class="d-flex justify-content-center" src="/images/course.jpg"
+                                    <img class="d-flex justify-content-center" src="/{{ $course['image'] }}"
                                         style="height: 550px; border-radius: 3%" alt="">
 
                                 </div>
