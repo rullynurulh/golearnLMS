@@ -32,6 +32,7 @@
     </div>
 
     <script src="{{ URL::asset('circular.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>

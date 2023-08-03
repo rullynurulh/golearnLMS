@@ -37,13 +37,12 @@ var downloadButton = document.getElementById("save_and_download");
 var imageBackgroundInput = document.getElementById("background_image");
 var showLogo = document.getElementById("show_logo_yes");
 var imageSignatureInput = document.getElementById("signature");
-
 document.addEventListener("DOMContentLoaded", function () {
     // Creating Image from PNG file
     certImage.src = defaultCertPNG;
     SignImage.src = defaultSignPNG;
     var dimentionRatio = certImage.width / certImage.height;
-    
+  
     // When Image Loads Successfully
     certImage.onload = function () {
       // Setting Canvas Size
@@ -52,35 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
       defaultFontSize = canvas.width / 100;
       console.log(defaultFontSize);
       drawTextfromInputs();
-      addListenerToInputs();
     };
 
   });
-
-  function addListenerToInputs() {
-    var inputs = document.getElementsByClassName("certinputs");
-    var inputsLength = inputs.length;
-    
-    for (var i = 0; i < inputsLength; i++) {
-      inputs[i].addEventListener("keyup", function () {
-        drawTextfromInputs();
-        
-      });
-    }
-    var radiocheck_course = document.getElementById("course_name");
-   
-    radiocheck_course.addEventListener("click", function () {
-      drawTextfromInputs();
-    });
-
-    var radiocheck = document.getElementById("teacher_name");
-   
-    radiocheck.addEventListener("click", function () {
-      drawTextfromInputs();
-    });
-    
-
-  }
 
   function drawTextfromInputs() {
     // Clearing Canvas with white background
@@ -89,15 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.fillStyle = "black";
   
     ctx.drawImage(certImage, 0, 0, canvas.width, canvas.height);
-    
     // Getting Input Values
-    var text1 = "Proudly Presented To";
+    var text1 = "Certificate Title";
     var font1 = "Roboto";
-    var position1 = ["50","20"];
+    var position1 = ["50","15"];
     var fontSize1 = "3";
     var editable = 1;
-
-    var textInputs4 = document.getElementById("teacher_name");
     // Adding Text
     addText(
       ctx,
@@ -105,17 +75,15 @@ document.addEventListener("DOMContentLoaded", function () {
       position1,
       font1,
       fontSize1,
-      textInputs4,
+
       editable
     );
 
-    var text2 = "For The Successful Completion Of";
+    var text2 = "Proudly Presented To";
     var font2 = "Roboto";
-    var position2 = ["50","40"];
+    var position2 = ["50","20"];
     var fontSize2 = "3";
     var editable = 1;
-
-    var textInputs4 = document.getElementById("teacher_name");
     // Adding Text
     addText(
       ctx,
@@ -123,17 +91,14 @@ document.addEventListener("DOMContentLoaded", function () {
       position2,
       font2,
       fontSize2,
-      textInputs4,
       editable
     );
 
-    var textInputs3 = document.getElementById("body");
-    var text3 = textInputs3.value;
-    var font3 = textInputs3.dataset.font;
-    var position3=  [textInputs3.dataset.x, textInputs3.dataset.y];
-    var fontSize3 = textInputs3.dataset.fontsize;
+    var text3 = "User";
+    var font3 = "Roboto";
+    var position3 = ["50","30"];
+    var fontSize3 = "3";
     var editable = 1;
-
     // Adding Text
     addText(
       ctx,
@@ -141,15 +106,15 @@ document.addEventListener("DOMContentLoaded", function () {
       position3,
       font3,
       fontSize3,
-      textInputs4,
       editable
     );
 
-    var text4 = textInputs4.value;
-    var font4 = textInputs4.dataset.font;
-    var position4 = [textInputs4.dataset.x, textInputs4.dataset.y];
-    var fontSize4 = textInputs4.dataset.fontsize;
+    var text4 = "For The Successful Completion Of";
+    var font4 = "Roboto";
+    var position4 = ["50","40"];
+    var fontSize4 = "3";
     var editable = 1;
+
     // Adding Text
     addText(
       ctx,
@@ -157,15 +122,15 @@ document.addEventListener("DOMContentLoaded", function () {
       position4,
       font4,
       fontSize4,
-      textInputs4,
       editable
     );
-    var textInputs5 = document.getElementById("course_name");
-    var text5 = "Course Name : " + textInputs5.value;
-    var font5 = textInputs4.dataset.font;
-    var position5 = [textInputs5.dataset.x, textInputs5.dataset.y];
-    var fontSize5 = textInputs5.dataset.fontsize;
+
+    var text5 = "Course : "
+    var font5 = "Roboto";
+    var position5=  ["30","50"];
+    var fontSize5 = "2";
     var editable = 1;
+
     // Adding Text
     addText(
       ctx,
@@ -173,15 +138,13 @@ document.addEventListener("DOMContentLoaded", function () {
       position5,
       font5,
       fontSize5,
-      textInputs5,
       editable
     );
-
-    var textInputs6 = document.getElementById("certif_title");
-    var text6 = textInputs6.value;
-    var font6 = textInputs6.dataset.font;
-    var position6 = [textInputs6.dataset.x, textInputs6.dataset.y];
-    var fontSize6 = textInputs6.dataset.fontsize;
+    
+    var text6 = "Date Time : " ;
+    var font6 = "Roboto";
+    var position6 = ["65","50"];
+    var fontSize6 = "2";
     var editable = 1;
     // Adding Text
     addText(
@@ -190,49 +153,48 @@ document.addEventListener("DOMContentLoaded", function () {
       position6,
       font6,
       fontSize6,
-      textInputs6,
       editable
     );
-    imageSignatureInput.addEventListener("change", function () {
-      var file = imageSignatureInput.files[0];
-      var reader = new FileReader();
-      reader.onloadend = function () {
-        SignImage.src = reader.result;
-      };
-      if (file) {
-        reader.readAsDataURL(file);
-        console.log(reader);
-      }
-      else{
-        SignImage.src = defaultSignPNG;
 
-      }
-      
-    });
-    
+    var text7 = "Lorem ipsum dolor sit amet consectetur. Tristique in in velit malesuada. Diam morbi ullamcorper dictum faucibus urna ut vestibulum pharetra arcu." ;
+    var font7 = "Roboto";
+    var position7 = ["50","60"];
+    var fontSize7 = "2";
+    var editable = 1;
+    // Adding Text
+    addText(
+      ctx,
+      text7,
+      position7,
+      font7,
+      fontSize7,
+      editable
+    );
+
+    var text8 = "mamang" ;
+    var font8 = "Roboto";
+    var position8 = ["50","88"];
+    var fontSize8 = "2";
+    var editable = 1;
+    // Adding Text
+    addText(
+      ctx,
+      text8,
+      position8,
+      font8,
+      fontSize8,
+      editable
+    );
+
   }
 
   
-  imageBackgroundInput.addEventListener("change", function () {
-    var file = imageBackgroundInput.files[0];
-    var reader = new FileReader();
-    reader.onloadend = function () {
-      certImage.src = reader.result;
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      certImage.src = defaultCertPNG;
-    }
-  });
-
   function addText(
     ctx = ctx,
     text = "Default Text",
     position = [0, 0],
     font,
     fontSize = 5 * defaultFontSize,
-    dom,
     editable = "1"
   ) {
     
@@ -247,8 +209,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var textWidth = ctx.measureText(text).width * (100 / canvas.width);
     
     var textHeight = fontSize;
-    dom.dataset.width = textWidth - 100;
-    dom.dataset.height = textHeight;
     // console.log(textWidth,textHeight);
   
     // Setting Text Position
@@ -293,3 +253,17 @@ function printAtWordWrap( context , text, x, y, lineHeight, fitWidth){
         context.fillText( words.join(' '), x, y + (lineHeight*currentLine) );
 }
 
+
+downloadButton.addEventListener("click", function () {
+    selectedElement = null;
+    drawTextfromInputs();
+  
+    var pdf = new jsPDF("l", "cm", [508,285.75]);
+    const imgData = canvas.toDataURL('image/png');
+
+    const imgProps= pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save("certificate.pdf");
+  });

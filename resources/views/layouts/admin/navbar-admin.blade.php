@@ -52,6 +52,11 @@
 
                         </div>
                         <hr>
+                        <a href="/admin/my-profile" class="sub-menu-link">
+                            <span class="iconify me-2" data-icon="mdi:user" data-width="30"></span>
+                            <p style="margin: 0">View Profile</p>
+                            <span>></span>
+                        </a>
                         <a href="{{ route('logout_action') }}" class="sub-menu-link">
                             <span class="iconify me-2" data-icon="mdi:logout" data-width="30"></span>
                             <p style="margin: 0">Log Out</p>

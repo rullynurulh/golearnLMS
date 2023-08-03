@@ -189,4 +189,8 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
 
     Route::get('/admin/frontpage-account', [AdminController::class, 'getAccountContent']);
     Route::post('/admin/frontpage-account/save', [AdminController::class, 'saveAccountContent'])->name('admin_save_account_content');
+
+    Route::get('/admin/my-profile', function () {
+        return view('/admin/admin-my-profile');
+    });
 });

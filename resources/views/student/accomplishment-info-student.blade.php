@@ -34,19 +34,21 @@
                             
                             <div class="col-3 d-flex align-items-center justify-content-center">
                                 
-                                <button class="btn btn-certificate-view">Download Certificate</button>
+                                <button  id="save_and_download" class="btn btn-certificate-view">Download Certificate</button>
                             </div>
                             
                         </div>
                     </div>
-                    <div class="box-recommend min-height-recommend">
-                        <div class="row m-3">
-                            <div class="col">
-                                <div class="pt-4 pb-4">
-                                </div>
+                    <div class="box-recommend mt-2 p-4">
+
+                        <hr class="my-3" style="opacity: 1; border: 2px solid white; margin:0">
+                        <div class="preview m-5 d-flex align-items-center" style="min-height: 500px">
+                            <canvas id="certificatecanvas"></canvas>
+                            <div style="display: block">
+                                <img src="" alt="" id="image_dummy">
                             </div>
                         </div>
-
+                        <hr class="my-3" style="opacity: 1; border: 2px solid white; margin:0">
                     </div>
                 </div>
                 
@@ -55,5 +57,5 @@
         </div>
         
     </section>
-    
+    <script src="{{ URL::asset('student_certificate.js') }}"></script>
 @endsection
