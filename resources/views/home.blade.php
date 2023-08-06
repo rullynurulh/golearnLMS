@@ -43,29 +43,32 @@
                         <div class="col-3 d-flex align-items-center" style="margin-bottom: 8rem">
                             <h1 class="text-white" style="margin: 0px;">{{ $home['category_list_title'] }}
                         </div>
-                        <div class="col-7 ">
-                            <div class="swiper" style="margin-right: 0px">
+                        <div class="col-6 d-flex align-items-center swiper-container">
+                            <div class="swiper " style="margin-right: 0px">
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper">
                                     <!-- Slides -->
                                     @foreach ($category as $c)
                                         <div class="swiper-slide">
-                                            <div class="card text-left">
-                                                <img class="card-img-top" src="holder.js/100px180/" alt="">
+                                            <div class="card text-left" style="background: #2F70AF">
                                                 <div class="card-body">
-                                                    <h4 class="card-title">{{ $c['name'] }}</h4>
-                                                    <p class="card-text">Body</p>
+                                                </div>
+                                                <img class="card-img-top" src="{{ $c['image'] }}" alt="">
+                                                <div class="card-body">
+                                                    <h4 class="card-title" style="color: white">{{ $c['name'] }}</h4>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
-                                    ...
+                                    
                                 </div>
                                 <!-- If we need pagination -->
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
                             </div>
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -112,24 +115,84 @@
                                 </div>
                             </div>
                             <div class="containter mx-3">
-                                <div class="swiper mt-5 px-3" style="margin-right: 0px">
+                                <div class="swiper swiper2 mt-5 px-3" style="margin-right: 0px">
                                     <!-- Additional required wrapper -->
                                     <div class="swiper-wrapper">
                                         <!-- Slides -->
                                         @foreach ($courses as $course)
                                             <div class="swiper-slide">
-                                                <div class="card text-left">
-                                                    <img class="card-img-top card-img-top-1" src="{{ $course['image'] }}"
-                                                        alt="">
-                                                    <div class="card-body">
+                                                <div class="card text-left"
+                                                    style="text-decoration: none; color: black;">
+                                                    @if (!is_null($course['image']))
+                                                        <img class="card-img-top card-img-top-1" src="/{{ $course['image'] }}"
+                                                            alt="">
+                                                    @else
+                                                        <img class="card-img-top card-img-top-1" src="images/course.jpg" alt="">
+                                                    @endif
+
+                                                    <div class="card-body p-3">
+                                                        <div class="pb-3">
+                                                            <span class="iconify" data-icon="material-symbols:star"
+                                                                style="color: #fdcf73; margin-top: -5px;" data-width="20"></span>
+                                                            <span class="iconify" data-icon="material-symbols:star"
+                                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                                data-width="20"></span>
+                                                            <span class="iconify" data-icon="material-symbols:star"
+                                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                                data-width="20"></span>
+                                                            <span class="iconify" data-icon="material-symbols:star-outline"
+                                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                                data-width="20"></span>
+                                                            <span class="iconify" data-icon="material-symbols:star-outline"
+                                                                style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
+                                                                data-width="20"></span>
+                                                            <span>(20 Review)</span>
+                                                        </div>
+
                                                         <h4 class="card-title">{{ $course['name'] }}</h4>
-                                                        <p class="card-text">Body</p>
+                                                        <hr class="mb-3">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="row mb-5 d-flex justify-content-between">
+                                                                    <div class="col-2">
+                                                                        @if (!is_null($course['instructor_image']))
+                                                                            <img src="/{{ $course['instructor_image'] }}"
+                                                                                style="width: 75px; border-radius: 50%">
+                                                                        @else
+                                                                            <img src="images/guru1.jpg"
+                                                                                style="width: 75px; border-radius: 50%">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="col-9 d-flex justify-content-between align-items-center"
+                                                                        style="padding-left: 1.5rem">
+                                                                        <span
+                                                                            class=" text-center">{{ $course['instructor_name'] }}</span>
+                                                                        <div class="row pe-2">
+                                                                            <div class="col">
+                                                                                <span class="iconify" data-icon="mdi:user"
+                                                                                    style="color: #d9d9d9;"
+                                                                                    data-width="24"></span>{{ $course['student_enrolled'] }}
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
+
                                 </div>
+
+                                
+                            </div>
+                            <div class="row pt-4 d-flex align-items-center justify-content-center">
+                                <a href="/courses" class="col pt-4 d-flex align-items-center justify-content-center"style="text-decoration: none; color: #2D3D75">View All Courses <span class="iconify" data-icon="mingcute:right-fill" data-width="25"></span></a>
                             </div>
                         </div>
                     </div>

@@ -60,7 +60,7 @@
         const swiper = new Swiper('.swiper', {
             // Optional parameters
             slidesPerView: 3,
-            spaceBetween: 30,
+            spaceBetween: 25,
             direction: 'horizontal',
             loop: true,
             speed: 900,
@@ -98,6 +98,19 @@
                 el: '.swiper-pagination1',
                 clickable: true,
                 dynamicBullets: true,
+            },
+
+        });
+
+        const swiper2 = new Swiper('.swiper2', {
+            // Optional parameters
+            slidesPerView: 4,
+            spaceBetween: 20,
+            direction: 'horizontal',
+            loop: true,
+            speed: 900,
+            autoplay: {
+                delay: 3000,
             },
 
         });
