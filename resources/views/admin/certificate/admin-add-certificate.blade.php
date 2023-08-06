@@ -465,7 +465,40 @@ document.addEventListener("DOMContentLoaded", function () {
       editable
     );
 
+    var textInputs6 = document.getElementById("certif_title");
+    var text6 = textInputs6.value;
+    var font6 = textInputs6.dataset.font;
+    var position6 = [textInputs6.dataset.x, textInputs6.dataset.y];
+    var fontSize6 = textInputs6.dataset.fontsize;
+    var editable = 1;
+    // Adding Text
+    addText(
+      ctx,
+      text6,
+      position6,
+      font6,
+      fontSize6,
+      textInputs6,
+      editable
+    );
 
+    var text7 = "Date :";
+    var font7 = "Roboto";
+    var position7 = [65, 50];
+    var fontSize7 = 2;
+    var editable = 1;
+
+    // Adding Text
+    addText(
+        ctx,
+        text7,
+        position7,
+        font6,
+        fontSize7,
+        textInputs4,
+        editable
+    );
+    
     imageSignatureInput.addEventListener("change", function () {
       var file = imageSignatureInput.files[0];
       var reader = new FileReader();
