@@ -30,6 +30,7 @@ return array(
     'App\\Models\\AboutUsContent' => $baseDir . '/app/Models/AboutUsContent.php',
     'App\\Models\\AccountContent' => $baseDir . '/app/Models/AccountContent.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
+    'App\\Models\\Certificate' => $baseDir . '/app/Models/Certificate.php',
     'App\\Models\\CertificateSetting' => $baseDir . '/app/Models/CertificateSetting.php',
     'App\\Models\\Chapter' => $baseDir . '/app/Models/Chapter.php',
     'App\\Models\\Course' => $baseDir . '/app/Models/Course.php',

@@ -13,6 +13,7 @@ use App\Models\AboutUsContent;
 use App\Models\AccountContent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Certificate;
 use App\Models\CertificateSetting;
 
 class AdminController extends Controller
@@ -414,5 +415,59 @@ class AdminController extends Controller
         }
 
         return back();
+    }
+
+    public function getAddCertificate()
+    {
+        $course = Course::all(['name']);
+        $teacher = User::where(['role' => 'teacher'])->get(['name']);
+        $certificate = CertificateSetting::first();
+        return view('/admin/certificate/admin-add-certificate', [
+            'course' => $course,
+            'teacher' => $teacher,
+            'certificate' => $certificate
+        ]);
+    }
+
+    public function saveCertificate(Request $request)
+    {
+
+        $data = $request->validate([
+            'background_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+            'signature' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
+        ]);
+
+        $background_image_name = uniqid() . '.' . $data['background_image']->getClientOriginalExtension();
+        $background_image_path = 'images/certificate/' . $background_image_name;
+        $request->background_image->move(public_path('images/certificate'), $background_image_name);
+
+
+        $signature_image_name = uniqid() . '.' . $data['signature']->getClientOriginalExtension();
+        $signature_image_path = 'images/certificate/' . $signature_image_name;
+        $request->signature->move(public_path('images/certificate'), $signature_image_name);
+
+
+        Certificate::create([
+
+            'background_image' => $background_image_path,
+            'signature' => $signature_image_path,
+            'body' => $request->body,
+            'course_name' => $request->course_name,
+            'teacher_name' => $request->teacher_name,
+            'title' => $request->title,
+
+
+        ]);
+
+
+        return back();
+    }
+
+    public function getListCertificate()
+    {
+        $certificate = Certificate::all();
+        return view('/admin/certificate/admin-list-certificate', [
+            'certificate' => $certificate
+        ]);
     }
 }
