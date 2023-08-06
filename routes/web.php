@@ -161,17 +161,12 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
 
 
 
-    // Route::get('/admin/certificate-list', function () {
-    //     return view('/admin/certificate/admin-certificate-list');
-    // });
-
-    // Route::get('/admin/certificate-add', function () {
-    //     return view('/admin/certificate/admin-add-certificate');
-    // });
 
 
     Route::get('/admin/certificate-list', [AdminController::class, 'getListCertificate']);
     Route::get('/admin/certificate-add', [AdminController::class, 'getAddCertificate']);
+    Route::get('/admin/certificate-delete/{id}', [AdminController::class, 'deleteCertificate'])->name('admin_delete_certificate');
+    Route::get('/admin/certificate-edit/{id}', [AdminController::class, 'getEditCertificate'])->name('admin_get_edit_certificate');
     Route::post('/admin/certificate-add/save', [AdminController::class, 'saveCertificate'])->name('admin_save_certificate');
 
     Route::get('/admin/certificate-setting', [AdminController::class, 'getCertificateSetting']);

@@ -466,7 +466,27 @@ class AdminController extends Controller
     public function getListCertificate()
     {
         $certificate = Certificate::all();
-        return view('/admin/certificate/admin-list-certificate', [
+        return view('/admin/certificate/admin-certificate-list', [
+            'certificate' => $certificate
+        ]);
+    }
+
+    public function deleteCertificate($id)
+    {
+        Certificate::whereId($id)->delete();
+        return back();
+    }
+
+    public function getEditCertificate($id)
+    {
+        $course = Course::all(['name']);
+        $teacher = User::where(['role' => 'teacher'])->get(['name']);
+        $certificate = CertificateSetting::first();
+        $data_certificate = Certificate::where(['id' => $id])->first();
+        return view('/admin/certificate/admin-edit-certificate', [
+            'data_certificate' => $data_certificate,
+            'course' => $course,
+            'teacher' => $teacher,
             'certificate' => $certificate
         ]);
     }
