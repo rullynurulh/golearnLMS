@@ -213,7 +213,15 @@ border-radius: 2px;
     top: -3rem !important; 
 }
 
-
+.swiper-container .swiper-button-prev{
+    left: -40px;
+}
+.swiper-container .swiper-button-next{
+    right: -40px;
+}
+.swiper-container .swiper-pagination{
+    bottom: -30px!important;
+}
 
 .box-teacher-name{
 
