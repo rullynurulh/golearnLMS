@@ -165,9 +165,10 @@
                         <div class="col-3">
                             <h3 class="my-4 ms-2"style="margin-bottom: 0" id="titleText">New Certificate</h3>
                             <div class="box-recommend mt-2 p-4">
-                                <form action="{{ route('admin_save_certificate') }}" method="POST" class="form_certificate"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('admin_update_certificate') }}" method="POST"
+                                    class="form_certificate" enctype="multipart/form-data">
                                     @csrf
+                                    <input type="text" name="id" value="{{ $data_certificate['id'] }}" hidden>
                                     <div class="col">
                                         <div class="form-group mb-2">
                                             <label for="background_image" class="form-label "
@@ -184,7 +185,7 @@
                                             <input type="text" data-x="50" data-y="15" data-fontsize="3"
                                                 data-font="Roboto" name="title" id="certif_title"
                                                 class="form-control px-3 py-2 certinputs" placeholder="Enter Title"
-                                                value="Certificate Title" />
+                                                value="{{ $data_certificate['title'] }}" />
                                         </div>
                                     </div>
                                     <div class="col">
@@ -194,7 +195,7 @@
                                             <input type="text" data-x="50" data-y="60" data-fontsize="2"
                                                 data-font="Roboto" name="body" id="body"
                                                 class="form-control px-3 py-2 certinputs"
-                                                value="Lorem ipsum dolor sit amet consectetur. Tristique in in velit malesuada. Diam morbi ullamcorper dictum faucibus urna ut vestibulum pharetra arcu." />
+                                                value="{{ $data_certificate['body'] }}" />
                                         </div>
                                     </div>
 
@@ -207,7 +208,12 @@
                                                 data-fontsize="2" name="course_name" id="course_name"
                                                 class="form-select px-3 py-2">
                                                 @foreach ($course as $c)
-                                                    <option value="{{ $c['name'] }}">{{ $c['name'] }}</option>
+                                                    @if ($c['name'] == $data_certificate['course_name'])
+                                                        <option value="{{ $c['name'] }}" selected>{{ $c['name'] }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $c['name'] }}">{{ $c['name'] }}</option>
+                                                    @endif
                                                 @endforeach
 
                                             </select>
@@ -223,7 +229,12 @@
                                                 data-fontsize="2" name="teacher_name" id="teacher_name"
                                                 class="form-select px-3 py-2 certicheck">
                                                 @foreach ($teacher as $t)
-                                                    <option value="{{ $t['name'] }}">{{ $t['name'] }}</option>
+                                                    @if ($t['name'] == $data_certificate['teacher_name'])
+                                                        <option value="{{ $t['name'] }}" selected>{{ $t['name'] }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $t['name'] }}">{{ $t['name'] }}</option>
+                                                    @endif
                                                 @endforeach
 
                                             </select>

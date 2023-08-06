@@ -173,7 +173,7 @@
                                             <label for="background_image" class="form-label "
                                                 style="font-size: 23px">Background Image </label>
                                             <input type="file" name="background_image" id="background_image"
-                                                class="form-control px-3 py-2" />
+                                                class="form-control px-3 py-2" required />
                                         </div>
                                     </div>
                                     <div class="col">
@@ -234,7 +234,7 @@
                                             <label for="signature" class="form-label "
                                                 style="font-size: 23px">Signature</label>
                                             <input type="file" name="signature" id="signature"
-                                                class="form-control px-3 py-2" />
+                                                class="form-control px-3 py-2" required />
                                         </div>
                                     </div>
                                     <!-- Buttons Sign in -->

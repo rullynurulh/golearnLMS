@@ -10,7 +10,9 @@ use App\Models\Enrolled;
 use App\Models\Question;
 use App\Models\Curriculum;
 use App\Models\QuizResult;
+use App\Models\Certificate;
 use Illuminate\Http\Request;
+use App\Models\CertificateSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -33,7 +35,7 @@ class StudentController extends Controller
             ->join('courses', 'courses.id', '=', 'enrolleds.courses')
             ->join('curricula', 'curricula.courses', '=', 'courses.id')
             ->where(['enrolleds.student' => auth()->user()->id])
-            ->select('enrolleds.*', 'courses.id as courses_id', 'courses.name as courses_name',  DB::raw("count(curricula.id) as lesson"))
+            ->select('enrolleds.*', 'courses.id as courses_id', 'courses.name as courses_name',  'courses.image as courses_image',  DB::raw("count(curricula.id) as lesson"))
             ->groupBy('courses.id')
             ->orderBy('id', 'desc')
             ->get();
@@ -65,7 +67,7 @@ class StudentController extends Controller
             ->join('courses', 'courses.id', '=', 'enrolleds.courses')
             ->join('curricula', 'curricula.courses', '=', 'courses.id')
             ->where(['enrolleds.student' => auth()->user()->id])
-            ->select('enrolleds.*', 'courses.id as courses_id', 'courses.name as courses_name',  DB::raw("count(curricula.id) as lesson"))
+            ->select('enrolleds.*', 'courses.id as courses_id', 'courses.name as courses_name', 'courses.image as courses_image',  DB::raw("count(curricula.id) as lesson"))
             ->groupBy('courses.id')
             ->orderBy('courses.id', 'desc')
             ->get();
@@ -356,5 +358,43 @@ class StudentController extends Controller
 
 
         return view('/courses/course-quiz-result', ['quiz_result' => $quiz_result,  'isVisited' => $isVisited,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence, 'progress' => $progress]);
+    }
+
+    public function getStudentAccomplishment()
+    {
+
+        $enroll =  DB::table('enrolleds')
+            ->join('courses', 'courses.id', '=', 'enrolleds.courses')
+            ->join('curricula', 'curricula.courses', '=', 'courses.id')
+            ->where(['enrolleds.student' => auth()->user()->id])
+            ->select('enrolleds.*', 'courses.id as courses_id', 'courses.name as courses_name',  'courses.image as courses_image',  DB::raw("count(curricula.id) as lesson"))
+            ->groupBy('courses.id')
+            ->orderBy('id', 'desc')
+            ->get();
+        $enroll = json_decode(json_encode($enroll), true);
+
+
+        $enrolleds = [];
+        foreach ($enroll as $e) {
+            $completed_lesson = (explode('-', $e['curriculum_visited']));
+            if (Certificate::where('course_name', '=', $e['courses_name'])->count() > 0 && sizeof($completed_lesson) == $e['lesson']) {
+                $certif =  DB::table('certificates')
+                    ->join('courses', 'courses.name', '=', 'certificates.course_name')
+                    ->where(['certificates.course_name' => $e['courses_name']])
+                    ->select('certificates.*', 'courses.name as courses_name', 'courses.image as courses_image')
+                    ->first();
+                $certif = json_decode(json_encode($certif), true);
+                array_push($enrolleds, $certif);
+            }
+        }
+
+        return view('/student/accomplishment-student', ['enrolleds' => $enrolleds]);
+    }
+
+    public function getStudentAccomplishmentInfo($id)
+    {
+        $certif = Certificate::whereId($id)->first();
+        $certif_setting = CertificateSetting::first();
+        return view('/student/accomplishment-info-student', ['certificate' => $certif, 'certificate_setting' => $certif_setting]);
     }
 }

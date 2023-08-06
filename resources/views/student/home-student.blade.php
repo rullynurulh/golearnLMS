@@ -21,7 +21,13 @@
                         @foreach ($enrolleds as $enrolled)
                             <div class="course-continue mb-4">
                                 <div class="row">
-                                    <img src="images/course.jpg" style="width: 300px; border-radius: 20px ">
+                                    @if (is_null($enrolled['courses_image']))
+                                        <img src="{{ URL::asset($enrolled['courses_image']) }}"
+                                            style="width: 300px; border-radius: 20px ">
+                                    @else
+                                        <img src="images/course.jpg" style="width: 300px; border-radius: 20px ">
+                                    @endif
+
                                     <div class="col p-3 me-5">
                                         <div class="course-title">{{ $enrolled['courses_name'] }}</div>
                                         @php

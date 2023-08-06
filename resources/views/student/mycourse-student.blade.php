@@ -25,8 +25,13 @@
                             @foreach ($courses_enrolleds as $courses)
                                 <div class="col-3 mb-4">
                                     <div class="card text-left" style="text-decoration: none; color: black;">
-                                        <img class="card-img-top card-img-top-1" src="{{ URL::asset('images/course.jpg') }}"
-                                            alt="">
+                                        @if (is_null($courses['courses_image']))
+                                            <img class="card-img-top card-img-top-1"
+                                                src="{{ URL::asset('images/course.jpg') }}" alt="">
+                                        @else
+                                            <img class="card-img-top card-img-top-1"
+                                                src="{{ URL::asset($courses['courses_image']) }}" alt="">
+                                        @endif
                                         <div class="card-body p-3">
                                             <div class="pb-3">
                                                 <span class="iconify" data-icon="material-symbols:star"

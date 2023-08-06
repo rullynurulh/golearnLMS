@@ -338,7 +338,7 @@
                                                 </label>
                                                 <input type="number" name="font_size" id="font_size"
                                                     class="form-control px-3 py-2 certinputs"
-                                                    value="{{ $certificate['show_student'] == 'yes' ? $certificate['font_size'] : '30' }}" />
+                                                    value="{{ $certificate['show_student'] == 'yes' ? $certificate['font_size'] : '3' }}" />
                                             </div>
                                         </div>
                                     @else

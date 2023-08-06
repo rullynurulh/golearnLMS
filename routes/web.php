@@ -67,18 +67,16 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
 
     Route::get('/student/mycourse', [StudentController::class, 'getStudentCourses']);
     Route::get('/student/leaderboard/{course_id}', [StudentController::class, 'getCoursesLeaderboard'])->name('student_course_leaderboard');
-    // Route::get('/student/leaderboard', function () {
-    //     return view('/student/student-leaderboard');
+
+
+    Route::get('/student/accomplishment', [StudentController::class, 'getStudentAccomplishment']);
+
+    // Route::get('/student/accomplishment-info', function () {
+    //     return view('/student/accomplishment-info-student');
     // });
 
+    Route::get('/student/accomplishment-info/{id}', [StudentController::class, 'getStudentAccomplishmentInfo'])->name('student_accomplishment_info');
 
-
-    Route::get('/student/accomplishment', function () {
-        return view('/student/accomplishment-student');
-    });
-    Route::get('/student/accomplishment-info', function () {
-        return view('/student/accomplishment-info-student');
-    });
 
     Route::get('/course/{course_id}/{now_curriculum}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
     Route::get('/course/quiz/start/{course_id}/{now_curriculum}/{quiz_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
@@ -168,6 +166,8 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::get('/admin/certificate-delete/{id}', [AdminController::class, 'deleteCertificate'])->name('admin_delete_certificate');
     Route::get('/admin/certificate-edit/{id}', [AdminController::class, 'getEditCertificate'])->name('admin_get_edit_certificate');
     Route::post('/admin/certificate-add/save', [AdminController::class, 'saveCertificate'])->name('admin_save_certificate');
+
+    Route::post('/admin/certificate-edit/save', [AdminController::class, 'updateCertificate'])->name('admin_update_certificate');
 
     Route::get('/admin/certificate-setting', [AdminController::class, 'getCertificateSetting']);
     Route::post('/admin/certificate-setting/save', [AdminController::class, 'saveCertificateSetting'])->name('admin_save_certificate_setting');

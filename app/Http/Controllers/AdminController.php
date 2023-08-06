@@ -490,4 +490,42 @@ class AdminController extends Controller
             'certificate' => $certificate
         ]);
     }
+
+    public function updateCertificate(Request $request)
+    {
+        $certif = Certificate::find($request->id);
+        if ($request->hasFile('background_image')) {
+
+            $data = $request->validate([
+                'background_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
+            ]);
+
+            $background_image_name = uniqid() . '.' . $data['background_image']->getClientOriginalExtension();
+            $background_image_path = 'images/certificate/' . $background_image_name;
+            $request->background_image->move(public_path('images/certificate'), $background_image_name);
+
+            $certif->background_image = $background_image_path;
+        }
+
+        if ($request->hasFile('signature')) {
+
+            $data = $request->validate([
+                'signature' => 'required|image|mimes:jpg,png,jpeg,gif,svg'
+            ]);
+
+            $signature_image_name = uniqid() . '.' . $data['signature']->getClientOriginalExtension();
+            $signature_image_path = 'images/certificate/' . $signature_image_name;
+            $request->signature->move(public_path('images/certificate'), $signature_image_name);
+
+            $certif->signature = $signature_image_path;
+        }
+
+        $certif->body = $request->body;
+        $certif->course_name = $request->course_name;
+        $certif->teacher_name = $request->teacher_name;
+        $certif->title = $request->title;
+        $certif->update();
+
+        return redirect('/admin/certificate-list');
+    }
 }
