@@ -2,6 +2,7 @@
 var defaultCertPNG = "../images/certificate/dummy.png";
 var defaultSignPNG = "../images/certificate/algebra.png";
 var logo = "../images/logo_golearn.png"
+var empty = "../images/certificate/Empty.png"
 
 var defaultFontSize = 20;
 var defaultFont = "Arial";
@@ -44,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
     SignImage.src = defaultSignPNG;
     logoImage.src =logo;
     var dimentionRatio = certImage.width / certImage.height;
-  
     // When Image Loads Successfully
     certImage.onload = function () {
       // Setting Canvas Size
@@ -116,9 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
     radiocheck4.addEventListener("click", function () {
       drawTextfromInputs();
     });
-    var radiocheck3 = document.getElementById("show_logo_no");
+    var radiocheck5 = document.getElementById("show_logo_no");
     
-    radiocheck4.addEventListener("click", function () {
+    radiocheck5.addEventListener("click", function () {
 
       drawTextfromInputs();
     });
@@ -277,8 +277,18 @@ document.addEventListener("DOMContentLoaded", function () {
           editable
         );
       }
+      
       if(document.getElementById("show_logo_yes").checked == true)  {
-        ctx.drawImage(logoImage, 0, 0, 100, 100);
+        var position_logo_x = document.getElementById("position_logo_x").value;
+        var position_logo_y = document.getElementById("position_logo_y").value;
+        logoImage.src = logo;
+        ctx.drawImage(logoImage, position_logo_x, position_logo_y, 90, 100);
+      }
+      if(document.getElementById("show_logo_no").checked == true)  {
+        var position_logo_x = document.getElementById("position_logo_x").value;
+        var position_logo_y = document.getElementById("position_logo_y").value;
+        logoImage.src = empty;
+        ctx.drawImage(logoImage, position_logo_x, position_logo_y, 90, 100);
       }
     }
     
