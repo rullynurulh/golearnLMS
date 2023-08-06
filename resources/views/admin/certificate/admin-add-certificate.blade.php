@@ -195,7 +195,7 @@
                                             <label for="course_name" class="form-label " style="font-size: 23px">Course Name
                                             </label>
                                             <select type="select" data-x="30" data-y="50" data-font="Roboto"
-                                            data-fontsize="3" name="course_name" id="course_name" class="form-select px-3 py-2">
+                                            data-fontsize="2" name="course_name" id="course_name" class="form-select px-3 py-2">
                                                 <option selected value="0">Open this select menu</option>
                                                 <option value="1">One</option>
                                                 <option value="2">Two</option>

@@ -251,7 +251,7 @@
                                                         style="font-size: 23px">Position X
                                                     </label>
                                                     <input type="number" name="position_student_x"
-                                                        id="position_student_x" class="form-control px-3 py-2" />
+                                                        id="position_student_x" class="form-control px-3 py-2 certinputs" value="50" />
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -260,7 +260,7 @@
                                                         style="font-size: 23px">Position Y
                                                     </label>
                                                     <input type="number" name="position_student_y"
-                                                        id="position_student_y" class="form-control px-3 py-2" />
+                                                        id="position_student_y" class="form-control px-3 py-2 certinputs" value="30"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -270,7 +270,7 @@
                                             <label for="font_size" class="form-label" style="font-size: 23px">Font Size
                                             </label>
                                             <input type="number" name="font_size" id="font_size"
-                                                class="form-control px-3 py-2" placeholder="30" />
+                                                class="form-control px-3 py-2 certinputs" value="30" />
                                         </div>
                                     </div>
                                     <hr class="my-3" style="opacity: 1; border: 1px solid white; margin:0">
@@ -312,9 +312,9 @@
                                         <div class="row form-group mb-2">
                                             <label for="show_course_name_yes" class="form-label"
                                                 style="font-size: 23px">Show Course Name</label>
-                                            <div class="col-3 form-radio d-flex align-items-center">
+                                            <div class="col-3 form-radio d-flex align-items-center" >
                                                 <input class="form-radio-input me-2" type="radio"
-                                                    name="show_course_name" id="show_course_name_yes" checked
+                                                    name="show_course" id="show_course_name_yes" checked
                                                     value="yes_course_name">
                                                 <label class="form-radio-label" for="show_course_name_yes">
                                                     YES
@@ -322,7 +322,7 @@
                                             </div>
                                             <div class="col-3 form-radio d-flex align-items-center">
                                                 <input class="form-radio-input me-2" type="radio"
-                                                    name="show_course_name" id="show_course_name_no"
+                                                    name="show_course" id="show_course_name_no"
                                                     value="no_course_name">
                                                 <label class="form-radio-label" for="show_course_name_no">
                                                     NO
@@ -372,7 +372,7 @@
                                             <label for="signature" class="form-label" style="font-size: 23px">Signature
                                                 Image</label>
                                             <input type="file" name="signature" id="signature"
-                                                class="form-control px-3 py-2" />
+                                                class="form-control px-3 py-2 " />
                                         </div>
                                     </div>
 
@@ -384,16 +384,16 @@
                                                         style="font-size: 23px">Signature Height
                                                     </label>
                                                     <input type="number" name="signature_height" id="signature_height"
-                                                        class="form-control px-3 py-2" />
+                                                        class="form-control px-3 py-2 certinputs" value="150"/>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group mb-2">
                                                     <label for="signature_width" class="form-label"
-                                                        style="font-size: 23px">Signature Width
+                                                        style="font-size: 23px ">Signature Width
                                                     </label>
                                                     <input type="number" name="signature_width" id="signature_width"
-                                                        class="form-control px-3 py-2" />
+                                                        class="form-control px-3 py-2 certinputs"  value="150"/>
                                                 </div>
                                             </div>
                                         </div>

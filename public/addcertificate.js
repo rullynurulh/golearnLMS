@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       canvas.height = 1080;
       defaultFontSize = canvas.width / 100;
       console.log(defaultFontSize);
+
       drawTextfromInputs();
       addListenerToInputs();
     };
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.fillStyle = "black";
   
     ctx.drawImage(certImage, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(SignImage, (canvas.width-150)/2, 820, 100, 100);
     
     // Getting Input Values
     var text1 = "Proudly Presented To";
@@ -193,11 +195,14 @@ document.addEventListener("DOMContentLoaded", function () {
       textInputs6,
       editable
     );
+
+
     imageSignatureInput.addEventListener("change", function () {
       var file = imageSignatureInput.files[0];
       var reader = new FileReader();
       reader.onloadend = function () {
         SignImage.src = reader.result;
+        ctx.drawImage(SignImage, 800, 800, 100, 100);
       };
       if (file) {
         reader.readAsDataURL(file);
@@ -211,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
   }
-
+  
   
   imageBackgroundInput.addEventListener("change", function () {
     var file = imageBackgroundInput.files[0];
