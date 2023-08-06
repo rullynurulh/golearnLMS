@@ -59,48 +59,48 @@
     </section>
     <script>
         //  Initializing variables
-var defaultCertPNG = "../images/certificate/dummy.png";
-var defaultSignPNG = "../images/certificate/algebra.png";
-var logo = "../images/logo_golearn.png"
-var defaultFontSize = 20;
-var defaultFont = "Arial";
-var defaultColor = "black";
-var prevX = 0;
-var prevY = 0;
+    var defaultCertPNG = "../images/certificate/dummy.png";
+    var defaultSignPNG = "../images/certificate/algebra.png";
+    var logo = "../images/logo_golearn.png"
 
-// Defining Canvas
-var canvas = document.getElementById("certificatecanvas");
-var ctx = canvas.getContext("2d");
-var certImage = new Image();
-var logoImage = new Image();
-var SignImage = new Image();
+    var defaultFontSize = 20;
+    var defaultFont = "Arial";
+    var defaultColor = "black";
+    var prevX = 0;
+    var prevY = 0;
 
-var canvasOffset = canvas.getBoundingClientRect();
-var offsetX = canvasOffset.left;
-var offsetY = canvasOffset.top;
-var scrollX = window.pageXOffset;
-var scrollY = window.pageYOffset;
-var startX = 0;
-var startY = 0;
-var selectedElement = null;
-var dragMode = false;
+    // Defining Canvas
+    var canvas = document.getElementById("certificatecanvas");
+    var ctx = canvas.getContext("2d");
+    var certImage = new Image();
+    var logoImage = new Image();
+    var SignImage = new Image();
 
-// Defining Sheet Stuffs
-var titles = null;
-var sheetData = null;
-var progress = document.getElementById("progress");
-var loaderbody = document.querySelector(".loaderbody");
+    var canvasOffset = canvas.getBoundingClientRect();
+    var offsetX = canvasOffset.left;
+    var offsetY = canvasOffset.top;
+    var scrollX = window.pageXOffset;
+    var scrollY = window.pageYOffset;
+    var startX = 0;
+    var startY = 0;
+    var selectedElement = null;
+    var dragMode = false;
 
-// Defining DOM Elements
-var Inputs = document.getElementById("inputs");
-var downloadButton = document.getElementById("save_and_download");
-var imageBackgroundInput = document.getElementById("background_image");
-var showLogo = document.getElementById("show_logo_yes");
-var imageSignatureInput = document.getElementById("signature");
-document.addEventListener("DOMContentLoaded", function () {
-    // Creating Image from PNG file
+    // Defining Sheet Stuffs
+    var titles = null;
+    var sheetData = null;
+    var progress = document.getElementById("progress");
+    var loaderbody = document.querySelector(".loaderbody");
+
+    // Defining DOM Elements
+    var Inputs = document.getElementById("inputs");
+    var downloadButton = document.getElementById("save_and_download");
+    var imageBackgroundInput = document.getElementById("background_image");
+    var showLogo = document.getElementById("show_logo_yes");
+    var imageSignatureInput = document.getElementById("signature");
     certImage.src = defaultCertPNG;
     SignImage.src = defaultSignPNG;
+    logoImage.src = logo;
     var dimentionRatio = certImage.width / certImage.height;
   
     // When Image Loads Successfully
@@ -113,15 +113,17 @@ document.addEventListener("DOMContentLoaded", function () {
       drawTextfromInputs();
     };
 
-  });
-
   function drawTextfromInputs() {
     // Clearing Canvas with white background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
-  
+    
     ctx.drawImage(certImage, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(logoImage, 1675, 110, 90, 100);
+    var signX = (canvas.width - 150) / 2;
+    var signY = 840 - (150 / 3);
+    ctx.drawImage(SignImage, signX, signY, 150, 150);
     // Getting Input Values
     var text1 = "Certificate Title";
     var font1 = "Roboto";
@@ -246,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
       editable
     );
 
+   
   }
 
   
