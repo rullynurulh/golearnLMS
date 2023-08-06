@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     Route::get('/student/setting', function () {
         return view('/student/setting-student');
     });
-    Route::get('/change-password', [MainController::class, 'changePassword'])->name('change_password');
+    Route::post('/change-password', [MainController::class, 'changePassword'])->name('change_password');
 });
 
 
@@ -167,9 +167,14 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::get('/admin/certificate-add', function () {
         return view('/admin/certificate/admin-add-certificate');
     });
-    Route::get('/admin/certificate-setting', function () {
-        return view('/admin/certificate/admin-certificate-setting');
-    });
+
+    // Route::get('/admin/certificate-setting', function () {
+    //     return view('/admin/certificate/admin-certificate-setting');
+    // });
+
+    Route::get('/admin/certificate-setting', [AdminController::class, 'getCertificateSetting']);
+    Route::post('/admin/certificate-setting/save', [AdminController::class, 'saveCertificateSetting'])->name('admin_save_certificate_setting');
+
 
 
     Route::get('/admin/frontpage-home', [AdminController::class, 'getHomeContent']);
@@ -190,7 +195,12 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::get('/admin/frontpage-account', [AdminController::class, 'getAccountContent']);
     Route::post('/admin/frontpage-account/save', [AdminController::class, 'saveAccountContent'])->name('admin_save_account_content');
 
-    Route::get('/admin/my-profile', function () {
-        return view('/admin/admin-my-profile');
-    });
+
+
+    Route::get('/admin/my-profile', [UserController::class, 'getProfile']);
+
+    Route::post('/admin/myprofile/save', [UserController::class, 'updateProfile'])->name('admin_update_profile');
+    Route::post('/admin/myprofile/change-profile-picture', [UserController::class, 'changeProfilePicture'])->name('admin_change_profile_picture');
+
+    Route::post('/admin-change-password', [MainController::class, 'changePassword'])->name('admin_change_password');
 });

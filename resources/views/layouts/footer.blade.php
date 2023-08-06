@@ -10,7 +10,6 @@
                         <a class="me-3" href="{{ $s['link'] }}"><img src="{{ URL::asset($s['image']) }}"
                                 width="40" height="40" alt=""></a>
                     @endforeach
-
                 </div>
             </div>
 

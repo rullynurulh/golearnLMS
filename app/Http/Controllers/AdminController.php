@@ -13,7 +13,7 @@ use App\Models\AboutUsContent;
 use App\Models\AccountContent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use App\Models\CertificateSetting;
 
 class AdminController extends Controller
 {
@@ -33,7 +33,7 @@ class AdminController extends Controller
         $enrolls = json_decode(json_encode($enrolls), true);
 
         foreach ($enrolls as $key => $enroll) {
-            $enrolls[$key]['enrolled_at'] = (int)(((time() - strtotime($enroll['enrolled_at'])) % 3600) / 60);
+            $enrolls[$key]['enrolled_at'] = (int)(((time() - strtotime($enroll['enrolled_at']))));
         }
 
 
@@ -349,6 +349,69 @@ class AdminController extends Controller
         }
 
 
+
+        return back();
+    }
+
+    public function getCertificateSetting()
+    {
+        $certificate = CertificateSetting::first();
+        return view('/admin/certificate/admin-certificate-setting', [
+            'certificate' => $certificate
+        ]);
+    }
+
+    public function saveCertificateSetting(Request $request)
+    {
+        $getCertificate = CertificateSetting::first();
+        if ($getCertificate) {
+            $certificate = CertificateSetting::find($getCertificate['id']);
+        } else {
+            $certificate = new CertificateSetting();
+        }
+
+        $certificate->show_logo = $request->show_logo;
+
+        if ($request->show_logo == "yes") {
+
+            $certificate->position_logo_x = $request->position_logo_x;
+            $certificate->position_logo_y = $request->position_logo_y;
+        } else {
+
+            $certificate->position_logo_x = null;
+            $certificate->position_logo_y = null;
+        }
+
+
+        $certificate->show_student =  $request->show_student;
+
+        if ($request->show_student == "yes") {
+
+            $certificate->position_student_x = $request->position_student_x;
+            $certificate->position_student_y = $request->position_student_y;
+            $certificate->font_size = $request->font_size;
+        } else {
+
+            $certificate->position_student_x = null;
+            $certificate->position_student_y = null;
+            $certificate->font_size = null;
+        }
+
+        $certificate->text_1 = $request->text_1;
+        $certificate->text_2 = $request->text_2;
+        $certificate->body_position = $request->body_position;
+        $certificate->show_course = $request->show_course;
+        $certificate->show_date = $request->show_date;
+        $certificate->footer_title = $request->footer_title;
+        $certificate->signature_height = $request->signature_height;
+        $certificate->signature_width = $request->signature_width;
+
+
+        if ($getCertificate) {
+            $certificate->update();
+        } else {
+            $certificate->save();
+        }
 
         return back();
     }

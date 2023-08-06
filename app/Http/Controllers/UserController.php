@@ -12,8 +12,12 @@ class UserController extends Controller
 
     public function getProfile()
     {
-        $student = User::where(['id' => Auth()->user()->id])->first();
-        return view('/student/myprofile-student', ['student' => $student]);
+        $user = User::where(['id' => Auth()->user()->id])->first();
+        if ($user['role'] == 'student') {
+            return view('/student/myprofile-student', ['student' => $user]);
+        } else {
+            return view('/admin/admin-my-profile', ['user' => $user]);
+        }
     }
 
     public function updateProfile(Request $request)
@@ -31,7 +35,7 @@ class UserController extends Controller
         ]);
 
 
-        return redirect('/student/myprofile');
+        return back();
     }
 
     public function changeProfilePicture(Request $request)
@@ -55,7 +59,7 @@ class UserController extends Controller
             'image' => $image_path
         ]);
 
-        return redirect('/student/myprofile');
+        return back();
     }
 
     public function getListStudents()

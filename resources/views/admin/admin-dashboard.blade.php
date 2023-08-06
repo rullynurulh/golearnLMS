@@ -266,7 +266,12 @@
                                     <h5 style="font-weight: 400">{{ $teachersById[$enroll['teachers_id']] }}</h5>
                                 </div>
                                 <div class="col-2 d-flex justify-content-center">
-                                    <h5 style="font-weight: 400">{{ $enroll['enrolled_at'] }} Minute Ago</h5>
+                                    <h5 style="font-weight: 400">
+                                        @if (floor($enroll['enrolled_at'] / 3600) > 0)
+                                            {{ floor($enroll['enrolled_at'] / 3600) }} Hour Ago
+                                        @endif
+                                        {{ floor(($enroll['enrolled_at'] % 3600) / 60) }} Minute Ago
+                                    </h5>
                                 </div>
                             </div>
                         @endforeach
