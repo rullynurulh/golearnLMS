@@ -268,6 +268,15 @@
                                                                     class="form-control form-control-lg p-3" required />
                                                             </div>
                                                         </div>
+                                                        <div class="col ">
+                                                            <div class="form-group mb-2">
+                                                                <label for="form-label text-white"
+                                                                    style="font-size: 23px">File (PDF)</label>
+                                                                <input type="file" name="source_file" id="source_file"
+                                                                    placeholder="Input File..."
+                                                                    class="form-control form-control-lg p-3" required />
+                                                            </div>
+                                                        </div>
                                                         <div class="col">
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
