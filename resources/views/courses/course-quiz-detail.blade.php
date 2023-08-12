@@ -146,7 +146,7 @@
                 <div class="content p-5">
                     <div class="card card-quiz text-left" style="margin-top: 3rem">
                         <div class="row ">
-                            <div class="col-4 d-flex align-items-center">
+                            <div class="col-3 d-flex align-items-center">
                                 <div class="row p-3">
                                     <h5 id="timer">00:00:00</h5>
                                     <h3>{{ $quiz['title'] }}</h3>
@@ -154,9 +154,20 @@
                                 </div>
 
                             </div>
-                            <div class="col-4 d-flex align-items-center justify-content-center">
-                                <div class="row p-3">
-                                    Hint
+                            <div class="col-5 d-flex align-items-center justify-content-center">
+                                <div class="mx-1 pages pages-code d-flex justify-content-end align-items-center">
+                                    
+                                    <li class="d-flex justify-content-center align-items-center button-hint ">
+                                        <button
+                                            class="btn btn-primary ">
+                                            Hint
+                                        </button>
+                                    </li>
+                                    <li class=" d-flex justify-content-end align-items-center text-hint px-3" style="border: 1px solid black">
+                                        <h4 style="margin-bottom: 0" >3</h4>
+                                        
+                                    </li>
+    
                                 </div>
 
                             </div>

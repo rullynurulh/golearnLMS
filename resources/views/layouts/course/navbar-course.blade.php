@@ -45,7 +45,7 @@
                             
                         </div>
                         <hr>
-                        <a href="#" class="sub-menu-link" >
+                        <a href="{{ route('logout_action') }}" class="sub-menu-link" >
                             <span class="iconify me-2" data-icon="mdi:logout" data-width="30"></span>
                             <p style="margin: 0">Log Out</p>
                             <span>></span>
