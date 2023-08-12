@@ -208,8 +208,7 @@
                                     <div class="col">
                                         <div class="form-group mb-2">
                                             <label for="form-label text-white" style="font-size: 23px">Question</label>
-                                            <textarea name="question" id="question" rows="6" class="form-control p-2 text-black" required>
-                                                 </textarea>
+                                            <textarea name="question" id="question" rows="6" class="form-control p-2 text-black" required></textarea>
                                         </div>
                                     </div>
                                     <div class="row d-flex justify-content-start mb-2">

@@ -161,7 +161,27 @@
                                 allowfullscreen></iframe>
 
                         </div>
-
+                        
+                        <div class="container p-5 d-flex justify-content-center align-items-center">
+                            <div>
+                                <object
+                                  data={{ URL::asset('lesson-file/64d7061ba8f6b.pdf') }}
+                                  type="application/pdf"
+                                  width="1080"
+                                  height="678"
+                                >
+                          
+                                  <iframe
+                                    src={{ URL::asset('lesson-file/64d7061ba8f6b.pdf') }}
+                                    width="500"
+                                    height="678"
+                                  >
+                                  <p>This browser does not support PDF!</p>
+                                  </iframe>
+                                </object>
+                              </div>
+                          
+                        </div>
                     </div>
                 </div>
 

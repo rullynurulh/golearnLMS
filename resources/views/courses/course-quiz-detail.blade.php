@@ -202,6 +202,10 @@
                     <div class="box-quiz min-height-quiz">
                         <div class="row">
                             <div class="col-10 p-5">
+                                <div class="d-flex justify-content-center">
+                                    <img  src={{ URL::asset('question-file/64d70b685b15e.png') }} alt="" max-height="400px">
+                                </div>
+                                <br>
                                 <span style="font-size: 20px; font-weight: 500" id="question_text">question</span>
                                 <div class="col">
                                     <div id="multiple_choice">
