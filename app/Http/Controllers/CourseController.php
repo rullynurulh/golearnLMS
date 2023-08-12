@@ -172,19 +172,29 @@ class CourseController extends Controller
         $chapter = Chapter::whereId($chapter_id)->first();
         $course = Course::whereId($course_id)->first();
 
-        // $lesson = Lesson::all();
-        // $lessonsById = [];
-        // foreach ($lesson as $t) {
-        //     $lessonsById[$t['curriculum']] = $t;
-        // }
+        $curricula_id = [];
+        foreach ($curricula as $t) {
+            array_push($curricula_id, $t['id']);
+        }
 
-        // $curriculum_quiz = CurriculumQuiz::all();
-        // $quizById = [];
-        // foreach ($curriculum_quiz as $t) {
-        //     $quizById[$t['curriculum']] = $t;
-        // }
+        $curriculaById = [];
+        foreach ($curricula as $t) {
+            $curriculaById[$t['id']] = $t;
+        }
 
-        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled, 'certificate' => $certificate, 'course_certificate' => $course_certificate]);
+        $lesson = Lesson::whereIn('curriculum', $curricula_id)->get();
+        $lessonsById = [];
+        foreach ($lesson as $t) {
+            $lessonsById[$t['curriculum']] = $t;
+        }
+
+        $curriculum_quiz = CurriculumQuiz::whereIn('curriculum', $curricula_id)->get();
+        $quizById = [];
+        foreach ($curriculum_quiz as $t) {
+            $quizById[$t['curriculum']] = $t;
+        }
+
+        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled, 'certificate' => $certificate, 'course_certificate' => $course_certificate, 'lessonsById' => $lessonsById, 'quizById' => $quizById, 'curriculaById' => $curriculaById]);
     }
 
     public function addCurriculum(Request $request)
@@ -193,7 +203,13 @@ class CourseController extends Controller
 
         if ($request->category == 'lesson') {
 
-            $lesson = new Lesson();
+            if ($request->has('id')) {
+
+                $lesson = Lesson::where(['curriculum' => $request->id])->first();
+            } else {
+
+                $lesson = new Lesson();
+            }
 
             if ($request->hasFile('file')) {
 
@@ -211,35 +227,70 @@ class CourseController extends Controller
                 $lesson->source = $request->source;
             }
 
-            $data = Curriculum::create([
-                'name' => $request->name,
-                'chapter' => $request->chapter,
-                'courses' => $request->courses,
-                'category' => $request->category,
-                'description' => $request->description,
-                'privacy' => $request->privacy
+            if ($request->has('id')) {
 
-            ]);
+                $data = Curriculum::whereId($request->id)->update([
+                    'name' => $request->name,
+                    'chapter' => $request->chapter,
+                    'courses' => $request->courses,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'privacy' => $request->privacy
 
-            $lesson->curriculum = $data['id'];
+                ]);
+            } else {
+
+                $data = Curriculum::create([
+                    'name' => $request->name,
+                    'chapter' => $request->chapter,
+                    'courses' => $request->courses,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'privacy' => $request->privacy
+
+                ]);
+            }
+
             $lesson->duration = $request->duration;
             $lesson->source = $request->source;
-            $lesson->save();
+            $lesson->update();
+            if ($request->has('id')) {
+            } else {
+                $lesson->curriculum = $data['id'];
+                $lesson->save();
+            }
         } else {
 
-            $data = Curriculum::create([
-                'name' => Quiz::whereId($request->quiz)->first()['title'],
-                'chapter' => $request->chapter,
-                'courses' => $request->courses,
-                'category' => $request->category,
-                'description' => $request->description,
-                'privacy' => $request->privacy
-            ]);
+            if ($request->has('id')) {
 
-            CurriculumQuiz::create([
-                'curriculum' => $data['id'],
-                'quiz' => $request->quiz
-            ]);
+                $data = Curriculum::whereId($request->id)->update([
+                    'name' => Quiz::whereId($request->quiz)->first()['title'],
+                    'chapter' => $request->chapter,
+                    'courses' => $request->courses,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'privacy' => $request->privacy
+                ]);
+
+                CurriculumQuiz::where(['curriculum' => $request->id])->update([
+                    'quiz' => $request->quiz
+                ]);
+            } else {
+
+                $data = Curriculum::create([
+                    'name' => Quiz::whereId($request->quiz)->first()['title'],
+                    'chapter' => $request->chapter,
+                    'courses' => $request->courses,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'privacy' => $request->privacy
+                ]);
+
+                CurriculumQuiz::create([
+                    'curriculum' => $data['id'],
+                    'quiz' => $request->quiz
+                ]);
+            }
         }
 
         return back();

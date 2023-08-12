@@ -241,6 +241,8 @@
                                                         enctype="multipart/form-data" method="POST">
                                                         @csrf
                                                         <div class="row">
+                                                            <input type="text" name="id" id="fromlesson_id"
+                                                                hidden>
                                                             <input type="text" name="chapter" id=""
                                                                 value="{{ $chapter['id'] }}" hidden>
                                                             <input type="text" name="courses" id=""
@@ -251,7 +253,7 @@
                                                                 <div class="form-group mb-2">
                                                                     <label for="form-label" style="font-size: 23px">Lesson
                                                                         Name </label>
-                                                                    <input type="text" name="name" id="lessonname"
+                                                                    <input type="text" name="name" id="lesson_name"
                                                                         class="form-control form-control-lg p-3"
                                                                         required />
                                                                 </div>
@@ -288,8 +290,8 @@
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Description</label>
-                                                                <textarea class="form-control form-control-lg p-3 text-black" id="descripction" name="description" rows="5"
-                                                                    required></textarea>
+                                                                <textarea class="form-control form-control-lg p-3 text-black" id="lesson_description" name="description"
+                                                                    rows="5" required></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row d-flex justify-content-start">
@@ -298,7 +300,7 @@
                                                             </div>
                                                             <div class="col-1 d-flex align-items-center"
                                                                 style="font-size: 20px">
-                                                                <input class="me-2" type="radio" id="radio1"
+                                                                <input class="me-2" type="radio" id="lesson_radio1"
                                                                     style="font-size: 20px" name="privacy" value="unlock"
                                                                     checked>
                                                                 Unlock
@@ -306,7 +308,7 @@
                                                             </div>
                                                             <div class="col-1  d-flex align-items-center"
                                                                 style="font-size: 20px">
-                                                                <input class="me-2" type="radio"id="radio2"
+                                                                <input class="me-2" type="radio"id="lesson_radio2"
                                                                     style="font-size: 20px" name="privacy"
                                                                     value="lock">
                                                                 Lock
@@ -346,6 +348,7 @@
                                                     <form action="{{ route('admin_save_curriculum') }}"
                                                         enctype="multipart/form-data" method="POST">
                                                         @csrf
+                                                        <input type="text" name="id" id="fromquiz_id" hidden>
                                                         <input type="text" name="chapter" id=""
                                                             value="{{ $chapter['id'] }}" hidden>
                                                         <input type="text" name="courses" id=""
@@ -359,13 +362,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="col">
-
-
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Quiz</label>
-                                                                <select name="quiz" id="quiz"
-                                                                    placeholder="Select Quiz" class="form-select p-3">
+                                                                <select name="quiz" id="existing_quiz"
+                                                                    placeholder="Select Quiz" class="form-select p-3"
+                                                                    required>
                                                                     @foreach ($quizzes as $quiz)
                                                                         <option value="{{ $quiz['id'] }}">
                                                                             {{ $quiz['title'] }}
@@ -378,8 +380,8 @@
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Description</label>
-                                                                <textarea class="form-control form-control-lg p-3 text-black" id="descripction" name="description" rows="5"
-                                                                    required></textarea>
+                                                                <textarea class="form-control form-control-lg p-3 text-black" id="quiz_description" name="description"
+                                                                    rows="5" required></textarea>
                                                             </div>
                                                         </div>
 
@@ -389,7 +391,7 @@
                                                             </div>
                                                             <div class="col-1 d-flex align-items-center"
                                                                 style="font-size: 20px">
-                                                                <input class="me-2" type="radio" id="radio1"
+                                                                <input class="me-2" type="radio" id="quiz_radio1"
                                                                     style="font-size: 20px" name="privacy" value="unlock"
                                                                     checked>
                                                                 Unlock
@@ -397,7 +399,7 @@
                                                             </div>
                                                             <div class="col-1  d-flex align-items-center"
                                                                 style="font-size: 20px">
-                                                                <input class="me-2" type="radio"id="radio2"
+                                                                <input class="me-2" type="radio"id="quiz_radio2"
                                                                     style="font-size: 20px" name="privacy"
                                                                     value="lock">
                                                                 Lock
@@ -460,7 +462,7 @@
                                             <div class="col-2 d-flex justify-content-end align-items-center">
                                                 <div class="col d-flex justify-content-end align-items-center">
 
-                                                    <a href="/admin/edit-course"
+                                                    <a onClick="showModal({{ $curriculum['id'] }})"
                                                         style="border: none; background-color:none">
                                                         <span class="iconify me-1" data-icon="fa-solid:edit"
                                                             style="color: black;" data-width="27"></span></a>
@@ -469,10 +471,10 @@
                                                         style="border: none;"> <span class="iconify ms-2"
                                                             data-icon="bi:trash-fill" style="color: black;"
                                                             data-width="25"></span></a>
-                                                    |
+                                                    {{-- |
                                                     <a href="" style="border: none;"> <span class="iconify ms-2"
                                                             data-icon="mingcute:add-fill" style="color: black;"
-                                                            data-width="25"></span></a>
+                                                            data-width="25"></span></a> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -610,30 +612,75 @@
             });
         })(jQuery);
     </script>
-    {{-- <script>
+    <script>
         let lesson = @json($lessonsById);
+        let curriculum = @json($curriculaById);
+        let quiz = @json($quizById);
 
         function showModal(id) {
 
-            // Get the modal
-            var modal_edit = document.getElementById("myModal_add_lesson");
-            modal_edit.style.display = "block";
 
-            // Get the <span> element that closes the modal
-            var span_edit = document.getElementsByClassName("close_add_lesson")[0];
+            if (curriculum[id]['category'] == 'lesson') {
 
-            // When the user clicks on <span> (x), close the modal
-            span_edit.onclick = function() {
-                modal_edit.style.display = "none";
+                // Get the modal
+                var modal_edit = document.getElementById("myModal_add_lesson");
+                modal_edit.style.display = "block";
+
+                // Get the <span> element that closes the modal
+                var span_edit = document.getElementsByClassName("close_add_lesson")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span_edit.onclick = function() {
+                    modal_edit.style.display = "none";
+                    document.getElementById("fromlesson_id").value = ''
+                    document.getElementById("lesson_name").value = ''
+                    document.getElementById("lesson_description").value = ''
+                    document.getElementById("source").value = ''
+                    document.getElementById("duration").value = ''
+                    document.getElementById("lesson_radio1").checked = true
+
+                }
+
+                document.getElementById("fromlesson_id").value = id
+                document.getElementById("lesson_name").value = curriculum[id]['name']
+                document.getElementById("lesson_description").value = curriculum[id]['description']
+                document.getElementById("source").value = lesson[id]['source']
+                document.getElementById("duration").value = lesson[id]['duration']
+                if (curriculum[id]['privacy'] == 'unlock') {
+                    document.getElementById("lesson_radio1").checked = true
+                } else {
+                    document.getElementById("lesson_radio2").checked = true
+                }
+            } else {
+                // Get the modal
+                var modal_edit = document.getElementById("myModal_add_quiz");
+                modal_edit.style.display = "block";
+
+                // Get the <span> element that closes the modal
+                var span_edit = document.getElementsByClassName("close_add_quiz")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span_edit.onclick = function() {
+                    modal_edit.style.display = "none";
+                    document.getElementById("quiz_description").value = ''
+                    document.getElementById('existing_quiz').value = ''
+                    document.getElementById("quiz_radio1").checked = true
+                    document.getElementById("fromquiz_id").value = ''
+                }
+                document.getElementById("fromquiz_id").value = id
+                document.getElementById("quiz_description").value = curriculum[id]['description']
+                document.getElementById('existing_quiz').value = quiz[id]['quiz']
+                if (curriculum[id]['privacy'] == 'unlock') {
+                    document.getElementById("quiz_radio1").checked = true
+                } else {
+                    document.getElementById("quiz_radio2").checked = true
+                }
+
             }
-
-            // document.getElementById("fromchapter_id").value = id
-            // document.getElementById("fromchapter_name").value = chapter[id]['name']
-
 
 
         }
-    </script> --}}
+    </script>
     <script>
         // Get the modal
         var modal_lesson = document.getElementById("myModal_add_lesson");
