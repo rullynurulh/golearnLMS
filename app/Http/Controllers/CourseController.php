@@ -144,6 +144,24 @@ class CourseController extends Controller
 
         if ($request->category == 'lesson') {
 
+            $lesson = new Lesson();
+
+            if ($request->hasFile('file')) {
+
+                $data_file = $request->validate([
+                    'file' => 'mimes:pdf'
+                ]);
+
+                $file_name = uniqid() . '.' . $data_file['file']->getClientOriginalExtension();
+                $file_path = 'lesson-file/' . $file_name;
+                $request->file->move(public_path('lesson-file'), $file_name);
+                $lesson->file = $file_path;
+            }
+
+            if ($request->has('source')) {
+                $lesson->source = $request->source;
+            }
+
             $data = Curriculum::create([
                 'name' => $request->name,
                 'chapter' => $request->chapter,
@@ -154,12 +172,10 @@ class CourseController extends Controller
 
             ]);
 
-
-            Lesson::create([
-                'curriculum' => $data['id'],
-                'duration' => $request->duration,
-                'source' => $request->source
-            ]);
+            $lesson->curriculum = $data['id'];
+            $lesson->duration = $request->duration;
+            $lesson->source = $request->source;
+            $lesson->save();
         } else {
 
             $data = Curriculum::create([
