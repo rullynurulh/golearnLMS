@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::post('/admin/add-course/add', [CourseController::class, 'addCourse'])->name('admin_add_course');
     Route::get('/admin/courses-list/delete/{id}', [CourseController::class, 'deleteCourse'])->name('admin_delete_course');
 
+    Route::post('/admin/course/add-certificate', [CourseController::class, 'addCourseCertificate'])->name('admin_add_course_certificate');
 
     Route::get('/admin/edit-course/{id}', [CourseController::class, 'getEditCourse'])->name('admin_edit_course');
     Route::post('/admin/edit-course/add-chapter', [CourseController::class, 'addChapter'])->name('admin_add_chapter');
@@ -139,6 +140,7 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::get('/admin/add-curriculum/{course_id}/{chapter_id}', [CourseController::class, 'getAddCurriculum'])->name('admin_add_curriculum');
     Route::post('/admin/add-curriculum/add', [CourseController::class, 'addCurriculum'])->name('admin_save_curriculum');
     Route::get('/admin/edit-curriculum/delete/{id}', [CourseController::class, 'deleteCurriculum'])->name('admin_delete_curriculum');
+
 
 
     Route::get('/admin/add-quiz', [QuizController::class, 'getAddQuiz']);

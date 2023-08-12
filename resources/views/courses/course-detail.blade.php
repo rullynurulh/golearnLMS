@@ -154,34 +154,29 @@
             <div class="bg-white" style="padding-bottom: 9rem; padding-left:20rem; ">
                 <div class="content p-5">
                     <div class="box-recommend min-height-recommend" style="margin-top: 3rem;">
-                        <div class="container p-5 d-flex justify-content-center align-items-center">
-                            <iframe width="1300px" height="600px" src="{{ $lesson['source'] }}"
-                                title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen></iframe>
+                        @if (!is_null($lesson['source']))
+                            <div class="container p-5 d-flex justify-content-center align-items-center">
+                                <iframe width="1300px" height="600px" src="{{ $lesson['source'] }}"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
 
-                        </div>
-                        
-                        <div class="container p-5 d-flex justify-content-center align-items-center">
-                            <div>
-                                <object
-                                  data={{ URL::asset('lesson-file/64d7061ba8f6b.pdf') }}
-                                  type="application/pdf"
-                                  width="1080"
-                                  height="678"
-                                >
-                          
-                                  <iframe
-                                    src={{ URL::asset('lesson-file/64d7061ba8f6b.pdf') }}
-                                    width="500"
-                                    height="678"
-                                  >
-                                  <p>This browser does not support PDF!</p>
-                                  </iframe>
-                                </object>
-                              </div>
-                          
-                        </div>
+                            </div>
+                        @endif
+                        @if (!is_null($lesson['file']))
+                            <div class="container p-5 d-flex justify-content-center align-items-center">
+                                <div>
+                                    <object data={{ URL::asset($lesson['file']) }} type="application/pdf" width="1080"
+                                        height="678">
+                                        <iframe src={{ URL::asset($lesson['file']) }} width="500" height="678">
+                                            <p>This browser does not support PDF!</p>
+                                        </iframe>
+                                    </object>
+                                </div>
+
+                            </div>
+                        @endif
+
                     </div>
                 </div>
 

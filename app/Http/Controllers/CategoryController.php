@@ -71,6 +71,7 @@ class CategoryController extends Controller
 
     function deleteCategory($id)
     {
+        unlink(Category::whereId($id)->first()->image);
         Category::whereId($id)->delete();
         return back();
     }

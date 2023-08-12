@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use App\Models\CertificateSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\CourseCertificate;
+use App\Models\QuizHelpMode;
 
 class StudentController extends Controller
 {
@@ -210,9 +212,6 @@ class StudentController extends Controller
             $lesson = Lesson::where(['curriculum' => $now_curriculum])->first();
             return view('/courses/course-detail', ['isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'lesson' => $lesson, 'course_suequence' => $course_suequence, 'progress' => $progress]);
         } else {
-
-
-
             $quiz = DB::table('curricula')
                 ->join('curriculum_quizzes', 'curriculum_quizzes.curriculum', '=', 'curricula.id')
                 ->join('quizzes', 'quizzes.id', '=', 'curriculum_quizzes.quiz')
@@ -282,9 +281,17 @@ class StudentController extends Controller
             ->first();
         $quiz = json_decode(json_encode($quiz), true);
 
+        $quiz_hint = 0;
+        if ($quiz['help_mode'] == 'yes') {
+            $quiz_hint = QuizHelpMode::first()->max_help_mode;
+        }
 
 
-        return view('/courses/course-quiz-detail', ['enroll_id' => $enrolled['id'], 'isVisited' => $isVisited, 'questions' => $questions, 'questionsById' => $questionsById,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence], ['progress' => $progress]);
+        $now_chapter = Curriculum::whereId($now_curriculum)->first()->chapter;
+        $first_curriculum = Curriculum::where(['chapter' => $now_chapter])->orderBy('id', 'asc')->first()->id;
+
+
+        return view('/courses/course-quiz-detail', ['enroll_id' => $enrolled['id'], 'isVisited' => $isVisited, 'questions' => $questions, 'questionsById' => $questionsById,  'quiz' => $quiz, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence, 'progress' => $progress, 'quiz_hint' => $quiz_hint, 'first_curriculum' => $first_curriculum]);
     }
 
     public function saveQuizScore($course_id, $now_curriculum, $quiz_id, $enroll_id, $result)
@@ -377,10 +384,10 @@ class StudentController extends Controller
         $enrolleds = [];
         foreach ($enroll as $e) {
             $completed_lesson = (explode('-', $e['curriculum_visited']));
-            if (Certificate::where('course_name', '=', $e['courses_name'])->count() > 0 && sizeof($completed_lesson) == $e['lesson']) {
+            if (CourseCertificate::where('course', '=', $e['courses_id'])->count() > 0 && sizeof($completed_lesson) == $e['lesson']) {
                 $certif =  DB::table('certificates')
                     ->join('courses', 'courses.name', '=', 'certificates.course_name')
-                    ->where(['certificates.course_name' => $e['courses_name']])
+                    ->join('course_certificates', 'course_certificates.certificate', '=', 'certificates.id')
                     ->select('certificates.*', 'courses.name as courses_name', 'courses.image as courses_image')
                     ->first();
                 $certif = json_decode(json_encode($certif), true);

@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use App\Models\CurriculumQuiz;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Certificate;
+use App\Models\CourseCertificate;
 
 class CourseController extends Controller
 {
@@ -83,6 +85,23 @@ class CourseController extends Controller
         return redirect('/admin/courses-list');
     }
 
+    public function addCourseCertificate(Request $request)
+    {
+
+        if (CourseCertificate::where(['course' => $request->course])->count() == 0) {
+            CourseCertificate::create([
+                'course' => $request->course,
+                'certificate' => $request->certificate
+            ]);
+        } else {
+            CourseCertificate::where(['course' => $request->course])->update([
+                'certificate' => $request->certificate
+            ]);
+        }
+
+        return back();
+    }
+
     public function getEditCourse($id)
     {
         $enrolleds = DB::table('enrolleds')
@@ -95,23 +114,40 @@ class CourseController extends Controller
             ->get();
         $enrolleds = json_decode(json_encode($enrolleds), true);
         $student_enrolled = Enrolled::where(['courses' => $id])->count();
+        $certificate = Certificate::all();
+        $course_certificate = CourseCertificate::where(['course' => $id])->first();
 
         $chapters = Chapter::where(['courses' => $id])->get();
+
+        $chaptersById = [];
+        foreach ($chapters as $t) {
+            $chaptersById[$t['id']] = $t;
+        }
+
         $course = Course::where(['id' => $id])->first();
-        return view('/admin/courses/admin-edit-course', ['chapters' => $chapters, 'course' => $course, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled]);
+        return view('/admin/courses/admin-edit-course', ['chapters' => $chapters, 'course' => $course, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled, 'certificate' => $certificate, 'course_certificate' => $course_certificate, 'chaptersById' => $chaptersById]);
     }
 
     public function addChapter(Request $request)
     {
-        $request->validate([
 
+        $request->validate([
             'name' => 'required',
         ]);
 
-        Chapter::create([
-            'name' => $request->name,
-            'courses' => $request->courses
-        ]);
+        if ($request->has('chapter_id')) {
+
+            Chapter::whereId($request->chapter_id)->update([
+                'name' => $request->name,
+            ]);
+        } else {
+
+            Chapter::create([
+                'name' => $request->name,
+                'courses' => $request->courses
+            ]);
+        }
+
 
 
         return back();
@@ -129,13 +165,26 @@ class CourseController extends Controller
             ->get();
         $enrolleds = json_decode(json_encode($enrolleds), true);
         $student_enrolled = Enrolled::where(['courses' => $course_id])->count();
-
+        $certificate = Certificate::all();
+        $course_certificate = CourseCertificate::where(['course' => $course_id])->first();
         $curricula = Curriculum::where(['chapter' => $chapter_id])->get();
         $quizzes = Quiz::where('status', '=', 'save')->get();
         $chapter = Chapter::whereId($chapter_id)->first();
         $course = Course::whereId($course_id)->first();
 
-        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled]);
+        // $lesson = Lesson::all();
+        // $lessonsById = [];
+        // foreach ($lesson as $t) {
+        //     $lessonsById[$t['curriculum']] = $t;
+        // }
+
+        // $curriculum_quiz = CurriculumQuiz::all();
+        // $quizById = [];
+        // foreach ($curriculum_quiz as $t) {
+        //     $quizById[$t['curriculum']] = $t;
+        // }
+
+        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled, 'certificate' => $certificate, 'course_certificate' => $course_certificate]);
     }
 
     public function addCurriculum(Request $request)
@@ -198,6 +247,7 @@ class CourseController extends Controller
 
     public function deleteCourse($id)
     {
+        unlink(Course::whereId($id)->first()->image);
         Course::whereId($id)->delete();
         return back();
     }

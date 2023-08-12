@@ -115,7 +115,7 @@ class QuizController extends Controller
         if ($request->hasFile('file')) {
 
             $data = $request->validate([
-                'file' => 'max:2048'
+                'file' => 'max:9048'
             ]);
 
 

@@ -156,18 +156,19 @@
                             </div>
                             <div class="col-5 d-flex align-items-center justify-content-center">
                                 <div class="mx-1 pages pages-code d-flex justify-content-end align-items-center">
-                                    
+
                                     <li class="d-flex justify-content-center align-items-center button-hint ">
-                                        <button
+                                        <a onclick="getCourseHint()" target="_blank" rel="noopener"
                                             class="btn btn-primary ">
                                             Hint
-                                        </button>
+                                        </a>
                                     </li>
-                                    <li class=" d-flex justify-content-end align-items-center text-hint px-3" style="border: 1px solid black">
-                                        <h4 style="margin-bottom: 0" >3</h4>
-                                        
+                                    <li class=" d-flex justify-content-end align-items-center text-hint px-3"
+                                        style="border: 1px solid black">
+                                        <h4 style="margin-bottom: 0" id="jumlah_hint">0</h4>
+
                                     </li>
-    
+
                                 </div>
 
                             </div>
@@ -202,16 +203,15 @@
                     <div class="box-quiz min-height-quiz">
                         <div class="row">
                             <div class="col-10 p-5">
-                                <div class="d-flex justify-content-center">
-                                    <img  src={{ URL::asset('question-file/64d70b685b15e.png') }} alt="" max-height="400px">
+                                <div class="d-flex justify-content-center" id="question_image">
                                 </div>
                                 <br>
                                 <span style="font-size: 20px; font-weight: 500" id="question_text">question</span>
                                 <div class="col">
                                     <div id="multiple_choice">
                                         <div class="option d-flex align-items-center my-3">
-                                            <input class="radio-button-input" type="radio" id="option_a" name="answer"
-                                                value="a" oninput="getAnswer()">
+                                            <input class="radio-button-input" type="radio" id="option_a"
+                                                name="answer" value="a" oninput="getAnswer()">
                                             <span class="ms-2" id="text_option_a" style="font-size: 19px">
                                                 a</span>
                                         </div>
@@ -279,6 +279,22 @@
 
     </section>
     <script>
+        var hint = {{ $quiz_hint }}
+        document.getElementById("jumlah_hint").innerHTML = hint
+
+        function getCourseHint() {
+            if (hint > 0) {
+                hint--
+                document.getElementById("jumlah_hint").innerHTML = hint
+                window.open(
+                    "{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $first_curriculum]) }}",
+                    "_blank");
+
+
+            }
+        }
+    </script>
+    <script>
         var total_seconds = {{ $quiz['duration'] * 60 }};
         var hour = parseInt(total_seconds / 3600);
         var minutes = parseInt((total_seconds % 3600) / 60);
@@ -315,6 +331,7 @@
 
         function getQuestion(nomor) {
 
+
             if (question[nomor]['type'] == 'multiple choice') {
 
                 document.getElementById("multiple_choice").style.display = "block";
@@ -337,10 +354,22 @@
                 document.getElementById("long_text").style.display = "block";
                 document.getElementById("question_text").innerHTML = question[nomor]['question'];
 
+                document.getElementById("answer").value = ''
                 if (answer[nomor] != null) {
 
                     document.getElementById("answer").value = answer[nomor];
                 }
+            }
+
+            if (question[nomor]['file'] != null) {
+
+                var img = '<img  src="/' + question[nomor]['file'] +
+                    '" alt="" style="max-width: 800px; max-height: 700px; object-fit: cover;">';
+                document.getElementById('question_image').innerHTML = img;
+                console.log(img);
+
+            } else {
+                document.getElementById('question_image').innerHTML = ''
             }
 
 

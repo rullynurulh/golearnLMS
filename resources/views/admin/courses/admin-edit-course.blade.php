@@ -198,7 +198,41 @@
                             Leaderboard</li>
                     </div>
                     <section class="section-curriculum sections">
+
                         <article>
+                            <div id="myModal_add_quiz" class="modal">
+                                <div class="modal-content">
+                                    <div class="box-modal p-4">
+                                        <div class="row d-flex justify-content-between">
+                                            <div class="col-4 d-flex align-items-center">
+                                                <span class="title-modal px-5">Update Chapter</span>
+                                            </div>
+                                            <div class="col-2 d-flex justify-content-end">
+                                                <span class="close_add_quiz close me-3">&times;</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-form p-4">
+                                        <form action="{{ route('admin_add_chapter') }}" enctype="multipart/form-data"
+                                            method="POST">
+                                            @csrf
+                                            <div class="col pe-4">
+                                                <div class="form-group mb-2">
+                                                    <label for="form-label text-white" style="font-size: 20px">Chapter
+                                                        Name </label>
+                                                    <input type="text" name="name" id="fromchapter_name"
+                                                        class="form-control p-2" required />
+                                                    <input type="text" id="fromchapter_id" name="chapter_id" hidden>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-center pt-1">
+                                                <button class="btn btn-button btn-shadow text-dark px-4 "
+                                                    type="submit">save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="box-recommend mt-2 p-4">
                                 <div class="row d-flex justify-content-start ">
                                     <div class="add-new-course">
@@ -246,7 +280,7 @@
                                             <div class="col-2 d-flex justify-content-end align-items-center">
                                                 <div class="col d-flex justify-content-end align-items-center">
 
-                                                    <a href="/admin/edit-course"
+                                                    <a onClick="showModal({{ $chapter['id'] }})"
                                                         style="border: none; background-color:none">
                                                         <span class="iconify me-1" data-icon="fa-solid:edit"
                                                             style="color: black;" data-width="27"></span></a>
@@ -276,13 +310,24 @@
                                     <h4>Assign Certificate</h4>
                                 </div>
                                 <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                                <form class="p-3">
+                                <form action="{{ route('admin_add_course_certificate') }}" method="POST"
+                                    class="p-3">
+                                    @csrf
                                     <div class="form-group mb-2">
+                                        <input type="text" name="course" id="" value="{{ $course['id'] }}"
+                                            hidden>
                                         <label for="form-label text-white"
                                             style="font-size: 20px; margin-bottom: 5px;">Select Certificate </label>
-                                        <select name="certificate" id="certificate" class="form-select p-2" />
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
+                                        <select name="certificate" id="certificate" class="form-select p-2">
+                                            @foreach ($certificate as $c)
+                                                @if ($course_certificate && $c['id'] == $course_certificate['certificate'])
+                                                    <option selected value="{{ $c['id'] }}">{{ $c['title'] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $c['id'] }}">{{ $c['title'] }}</option>
+                                                @endif
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div class="d-flex justify-content-end pt-1 mb-1">
@@ -367,6 +412,31 @@
 
         </div>
     </section>
+
+    <script>
+        let chapter = @json($chaptersById);
+
+        function showModal(id) {
+
+            // Get the modal
+            var modal_edit = document.getElementById("myModal_add_quiz");
+            modal_edit.style.display = "block";
+
+            // Get the <span> element that closes the modal
+            var span_edit = document.getElementsByClassName("close_add_quiz")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span_edit.onclick = function() {
+                modal_edit.style.display = "none";
+            }
+
+            document.getElementById("fromchapter_id").value = id
+            document.getElementById("fromchapter_name").value = chapter[id]['name']
+
+
+
+        }
+    </script>
     <script>
         function copyToClipboard(element) {
             var $temp = $("<input>");

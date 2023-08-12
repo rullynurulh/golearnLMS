@@ -23,20 +23,20 @@ class CategorySeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        DB::table('categories')->insert([
-            'name' => 'arab',
-            'image' => 'images/category-image/course.jpg',
-            'status' => 'active',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // DB::table('categories')->insert([
+        //     'name' => 'arab',
+        //     'image' => 'images/category-image/course.jpg',
+        //     'status' => 'active',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
-        DB::table('categories')->insert([
-            'name' => 'desain',
-            'image' => 'images/category-image/course.jpg',
-            'status' => 'active',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // DB::table('categories')->insert([
+        //     'name' => 'desain',
+        //     'image' => 'images/category-image/course.jpg',
+        //     'status' => 'active',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
     }
 }

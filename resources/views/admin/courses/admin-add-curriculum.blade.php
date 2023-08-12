@@ -489,13 +489,24 @@
                                     <h4>Assign Certificate</h4>
                                 </div>
                                 <hr class="mb-3" style="opacity: 1; border: 2px solid white; margin:0">
-                                <form class="p-3" action="">
+                                <form action="{{ route('admin_add_course_certificate') }}" method="POST"
+                                    class="p-3">
+                                    @csrf
                                     <div class="form-group mb-2">
+                                        <input type="text" name="course" id="" value="{{ $course['id'] }}"
+                                            hidden>
                                         <label for="form-label text-white"
                                             style="font-size: 20px; margin-bottom: 5px;">Select Certificate </label>
-                                        <select name="certificate" id="certificate" class="form-select p-2" />
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
+                                        <select name="certificate" id="certificate" class="form-select p-2">
+                                            @foreach ($certificate as $c)
+                                                @if ($course_certificate && $c['id'] == $course_certificate['certificate'])
+                                                    <option selected value="{{ $c['id'] }}">{{ $c['title'] }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $c['id'] }}">{{ $c['title'] }}</option>
+                                                @endif
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div class="d-flex justify-content-end pt-1 mb-1">
@@ -599,6 +610,30 @@
             });
         })(jQuery);
     </script>
+    {{-- <script>
+        let lesson = @json($lessonsById);
+
+        function showModal(id) {
+
+            // Get the modal
+            var modal_edit = document.getElementById("myModal_add_lesson");
+            modal_edit.style.display = "block";
+
+            // Get the <span> element that closes the modal
+            var span_edit = document.getElementsByClassName("close_add_lesson")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span_edit.onclick = function() {
+                modal_edit.style.display = "none";
+            }
+
+            // document.getElementById("fromchapter_id").value = id
+            // document.getElementById("fromchapter_name").value = chapter[id]['name']
+
+
+
+        }
+    </script> --}}
     <script>
         // Get the modal
         var modal_lesson = document.getElementById("myModal_add_lesson");

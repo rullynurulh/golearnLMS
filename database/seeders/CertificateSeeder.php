@@ -22,7 +22,7 @@ class CertificateSeeder extends Seeder
             'show_student' => 'yes',
             'position_student_x' => '50',
             'position_student_y' => '30',
-            'font_size' => '30',
+            'font_size' => '3',
             'text_1' => 'This is to certify that',
             'text_2' => 'has successfully completed the course',
             'body_position' => 'center',
