@@ -162,6 +162,13 @@
         <div class="margin-left">
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div class="content p-5">
+                    <div>
+                        @if ($errors->has('file'))
+                            <script>
+                                alert('File must be a PDF')
+                            </script>
+                        @endif
+                    </div>
                     <div class="box-recommend p-4 mb-4">
                         <h3 style="margin-bottom: 0">Course | All Course</h3>
                     </div>
@@ -265,16 +272,16 @@
                                                                     style="font-size: 23px">Source</label>
                                                                 <input type="text" name="source" id="source"
                                                                     placeholder="Input File..."
-                                                                    class="form-control form-control-lg p-3" required />
+                                                                    class="form-control form-control-lg p-3" />
                                                             </div>
                                                         </div>
                                                         <div class="col ">
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">File (PDF)</label>
-                                                                <input type="file" name="source_file" id="source_file"
+                                                                <input type="file" name="file" id="source_file"
                                                                     placeholder="Input File..."
-                                                                    class="form-control form-control-lg p-3" required />
+                                                                    class="form-control form-control-lg p-3" />
                                                             </div>
                                                         </div>
                                                         <div class="col">

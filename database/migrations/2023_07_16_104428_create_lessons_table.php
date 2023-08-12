@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('curriculum')
                 ->references('id')->on('curricula')->onDelete('cascade');
             $table->unsignedBigInteger('duration');
-            $table->string('source');
+            $table->string('source')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }
