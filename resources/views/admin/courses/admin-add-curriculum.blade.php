@@ -268,16 +268,22 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col ">
+                                                        <label for="form-label text-white "
+                                                                    style="font-size: 23px">Source </label>
+                                                        <select class="form-select mb-2" aria-label="Select Source" id="select_source">
+                                                            <option value="source_link"selected>Source Link</option>
+                                                            <option value="source_file">Source Pdf</option>
+                                                        </select>
+                                                        <div class="col" id="source_link" >
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
-                                                                    style="font-size: 23px">Source</label>
+                                                                    style="font-size: 23px">Source Link</label>
                                                                 <input type="text" name="source" id="source"
                                                                     placeholder="Input File..."
                                                                     class="form-control form-control-lg p-3" />
                                                             </div>
                                                         </div>
-                                                        <div class="col ">
+                                                        <div class="col" id="source_file" style="display: none;">
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">File (PDF)</label>
@@ -603,6 +609,24 @@
             document.execCommand("copy");
             $temp.remove();
         }
+
+    </script>
+    <script>
+        jQuery(document).ready(function(){
+            $("#select_source").change(function() {
+                console.log($(this).val());
+                if($(this).val() == "source_link"){
+                    $("#source_link").css('display', 'block');
+                    $("#source_file").css('display', 'none');
+                    console.log($(this).val());
+                }else if($(this).val() == "source_file"){
+                    $("#source_link").css('display', 'none');
+                    $("#source_file").css('display', 'block');
+                    console.log($(this).val());
+                }
+            });
+        });
+
     </script>
     <script>
         (function($) {
