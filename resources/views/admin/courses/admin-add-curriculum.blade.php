@@ -667,7 +667,7 @@
                     document.getElementById("quiz_description").value = ''
                     document.getElementById('existing_quiz').value = ''
                     document.getElementById("quiz_radio1").checked = true
-                    document.getElementById("id_input_lesson").innerHTML = ''
+                    document.getElementById("id_input_quiz").innerHTML = ''
                 }
                 document.getElementById("id_input_quiz").innerHTML = '<input type="text" value="' + id +
                     '" name="id" id="fromlesson_id" hidden>'
