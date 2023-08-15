@@ -241,8 +241,8 @@
                                                         enctype="multipart/form-data" method="POST">
                                                         @csrf
                                                         <div class="row">
-                                                            <input type="text" name="id" id="fromlesson_id"
-                                                                hidden>
+                                                            <div id="id_input_lesson">
+                                                            </div>
                                                             <input type="text" name="chapter" id=""
                                                                 value="{{ $chapter['id'] }}" hidden>
                                                             <input type="text" name="courses" id=""
@@ -348,7 +348,8 @@
                                                     <form action="{{ route('admin_save_curriculum') }}"
                                                         enctype="multipart/form-data" method="POST">
                                                         @csrf
-                                                        <input type="text" name="id" id="fromquiz_id" hidden>
+                                                        <div id="id_input_quiz">
+                                                        </div>
                                                         <input type="text" name="chapter" id=""
                                                             value="{{ $chapter['id'] }}" hidden>
                                                         <input type="text" name="courses" id=""
@@ -632,7 +633,7 @@
                 // When the user clicks on <span> (x), close the modal
                 span_edit.onclick = function() {
                     modal_edit.style.display = "none";
-                    document.getElementById("fromlesson_id").value = ''
+                    document.getElementById("id_input_lesson").innerHTML = ''
                     document.getElementById("lesson_name").value = ''
                     document.getElementById("lesson_description").value = ''
                     document.getElementById("source").value = ''
@@ -641,7 +642,8 @@
 
                 }
 
-                document.getElementById("fromlesson_id").value = id
+                document.getElementById("id_input_lesson").innerHTML = '<input type="text" value="' + id +
+                    '" name="id" id="fromlesson_id" hidden>'
                 document.getElementById("lesson_name").value = curriculum[id]['name']
                 document.getElementById("lesson_description").value = curriculum[id]['description']
                 document.getElementById("source").value = lesson[id]['source']
@@ -665,9 +667,10 @@
                     document.getElementById("quiz_description").value = ''
                     document.getElementById('existing_quiz').value = ''
                     document.getElementById("quiz_radio1").checked = true
-                    document.getElementById("fromquiz_id").value = ''
+                    document.getElementById("id_input_lesson").innerHTML = ''
                 }
-                document.getElementById("fromquiz_id").value = id
+                document.getElementById("id_input_quiz").innerHTML = '<input type="text" value="' + id +
+                    '" name="id" id="fromlesson_id" hidden>'
                 document.getElementById("quiz_description").value = curriculum[id]['description']
                 document.getElementById('existing_quiz').value = quiz[id]['quiz']
                 if (curriculum[id]['privacy'] == 'unlock') {
