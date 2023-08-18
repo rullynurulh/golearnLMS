@@ -295,7 +295,7 @@
         //  Initializing variables
         var defaultCertPNG = "../../" + @json($data_certificate['background_image']);
         var defaultSignPNG = "../../" + @json($data_certificate['signature']);
-        var logo = "../images/logo_golearn.png"
+        var logo = "../../images/logo_golearn.png"
         var defaultFontSize = 20;
         var defaultFont = "Arial";
         var defaultColor = "black";
@@ -336,6 +336,7 @@
             // Creating Image from PNG file
             certImage.src = defaultCertPNG;
             SignImage.src = defaultSignPNG;
+            logoImage.src = logo;
             var dimentionRatio = certImage.width / certImage.height;
 
             // When Image Loads Successfully
@@ -349,6 +350,20 @@
                 drawTextfromInputs();
                 addListenerToInputs();
             };
+
+            SignImage.onload = function() {
+
+                ctx.drawImage(SignImage, (canvas.width - 150) / 2, 820, 100, 100);
+            }
+            logoImage.onload = function() {
+
+                if (@json($certificate['show_logo'] == 'yes')) {
+                    var position_logo_x = @json($certificate['position_logo_x']);
+                    var position_logo_y = @json($certificate['position_logo_y']);
+                    ctx.drawImage(logoImage, position_logo_x, position_logo_y, 90, 100);
+
+                }
+            }
 
         });
 
@@ -385,6 +400,12 @@
 
             ctx.drawImage(certImage, 0, 0, canvas.width, canvas.height);
             ctx.drawImage(SignImage, (canvas.width - 150) / 2, 820, 100, 100);
+            if (@json($certificate['show_logo'] == 'yes')) {
+                var position_logo_x = @json($certificate['position_logo_x']);
+                var position_logo_y = @json($certificate['position_logo_y']);
+                ctx.drawImage(logoImage, position_logo_x, position_logo_y, 90, 100);
+
+            }
 
             // Getting Input Values
             var text1 = @json($certificate['text_1']);
@@ -536,8 +557,10 @@
                 var file = imageSignatureInput.files[0];
                 var reader = new FileReader();
                 reader.onloadend = function() {
+                    // SignImage.src = reader.result;
+                    // ctx.drawImage(SignImage, 800, 800, 100, 100);
                     SignImage.src = reader.result;
-                    ctx.drawImage(SignImage, 800, 800, 100, 100);
+                    drawTextfromInputs();
                 };
                 if (file) {
                     reader.readAsDataURL(file);

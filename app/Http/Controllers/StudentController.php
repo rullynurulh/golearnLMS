@@ -16,6 +16,7 @@ use App\Models\CertificateSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\CourseCertificate;
+use App\Models\CurriculumVisited;
 use App\Models\QuizHelpMode;
 
 class StudentController extends Controller
@@ -45,17 +46,32 @@ class StudentController extends Controller
 
 
         $enrolleds = [];
-        foreach ($enroll as $e) {
-            $completed_lesson = (explode('-', $e['curriculum_visited']));
-            if (sizeof($completed_lesson) < $e['lesson']) {
-                $e['completed_lesson'] = sizeof($completed_lesson);
-                $next_curriculum = Curriculum::whereId($completed_lesson[sizeof($completed_lesson) - 1])->first(['name', 'id']);
-                $e['next_task_name'] = $next_curriculum['name'];
-                $e['next_task_id'] = $next_curriculum['id'];
-                array_push($enrolleds, $e);
-            }
-            if (count($enrolleds) == 2) {
-                break;
+
+        if ($enroll) {
+            foreach ($enroll as $e) {
+                $total_curriculum_visited = CurriculumVisited::where('enrolled', $e['id'])->count();
+                if ($total_curriculum_visited < $e['lesson']) {
+                    $completed_lesson = DB::table('curriculum_visiteds')
+                        ->select('curriculum_visiteds.*', 'curricula.name as curriculum_name')
+                        ->join('curricula', 'curricula.id', '=', 'curriculum_visiteds.curriculum')
+                        ->where('enrolled', '=', $e['id'])
+                        ->orderBy('id', 'desc')
+                        ->first();
+                    $completed_lesson = json_decode(json_encode($completed_lesson), true);
+                    $e['completed_lesson'] = $total_curriculum_visited;
+                    if ($completed_lesson) {
+                        $e['next_task_name'] = $completed_lesson['curriculum_name'];
+                        $e['next_task_id'] = $completed_lesson['curriculum'];
+                    } else {
+                        $curriculum = Curriculum::where(['courses' => $e['courses_id']])->orderBy('id', 'asc')->first();
+                        $e['next_task_name'] = $curriculum['name'];
+                        $e['next_task_id'] = $curriculum['id'];
+                    }
+                    array_push($enrolleds, $e);
+                }
+                if (count($enrolleds) == 2) {
+                    break;
+                }
             }
         }
 
@@ -77,13 +93,28 @@ class StudentController extends Controller
 
 
         $courses_enrolleds = [];
-        foreach ($enroll as $e) {
-            $completed_lesson = (explode('-', $e['curriculum_visited']));
-            $e['completed_lesson'] = sizeof($completed_lesson);
-            $next_curriculum = Curriculum::whereId($completed_lesson[sizeof($completed_lesson) - 1])->first(['name', 'id']);
-            $e['next_task_name'] = $next_curriculum['name'];
-            $e['next_task_id'] = $next_curriculum['id'];
-            array_push($courses_enrolleds, $e);
+
+        if ($enroll) {
+            foreach ($enroll as $e) {
+                $total_curriculum_visited = CurriculumVisited::where('enrolled', $e['id'])->count();
+                $completed_lesson = DB::table('curriculum_visiteds')
+                    ->select('curriculum_visiteds.*', 'curricula.name as curriculum_name')
+                    ->join('curricula', 'curricula.id', '=', 'curriculum_visiteds.curriculum')
+                    ->where('enrolled', '=', $e['id'])
+                    ->orderBy('id', 'desc')
+                    ->first();
+                $completed_lesson = json_decode(json_encode($completed_lesson), true);
+                $e['completed_lesson'] = $total_curriculum_visited;
+                if ($completed_lesson) {
+                    $e['next_task_name'] = $completed_lesson['curriculum_name'];
+                    $e['next_task_id'] = $completed_lesson['curriculum'];
+                } else {
+                    $curriculum = Curriculum::where(['courses' => $e['courses_id']])->orderBy('id', 'asc')->first();
+                    $e['next_task_name'] = $curriculum['name'];
+                    $e['next_task_id'] = $curriculum['id'];
+                }
+                array_push($courses_enrolleds, $e);
+            }
         }
 
         return view('/student/mycourse-student', ['courses_enrolleds' => $courses_enrolleds]);
@@ -123,29 +154,33 @@ class StudentController extends Controller
         $course['outcome'] = explode("\n", $course['outcome']);
 
 
-        $now_curriculum = -1;
 
-        $curriculum = Enrolled::where(['courses' => $id, 'student' => auth()->user()->id])->first();
-
-        if (!is_null($curriculum)) {
-
-            $curriculum_visited = explode("-", $curriculum['curriculum_visited']);
-            $now_curriculum = $curriculum_visited[sizeof($curriculum_visited) - 1];
-        }
 
         $chapters = Chapter::where(['courses' => $id])->get();
-
         foreach ($chapters as $chapter) {
 
             $chapter['curriculum'] = Curriculum::where(['chapter' => $chapter['id'], 'privacy' => 'unlock'])->get();
         }
 
-        $status = "enrolled";
 
-        if (Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->count() == 0) {
+        $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->first();
+        $now_curriculum = -1;
 
+        if (!$enrolled) {
             $status = "not_enrolled";
+        } else {
+            $status = "enrolled";
+            $curriculum = CurriculumVisited::where(['enrolled' => $enrolled['id']])->orderBy('id', 'desc')->first();
+            if ($curriculum) {
+                $now_curriculum = $curriculum['curriculum'];
+            } else {
+                $curriculum = Curriculum::where(['courses' => $id])->orderBy('id', 'asc')->first();
+                if ($curriculum) {
+                    $now_curriculum = $curriculum['id'];
+                }
+            }
         }
+
 
 
 
@@ -159,8 +194,8 @@ class StudentController extends Controller
 
             'courses' => $request->courses,
             'student' => auth()->user()->id,
-            'point' => 0,
-            'curriculum_visited' => Curriculum::where(['courses' => $request->courses])->orderBy('id', 'asc')->first()['id']
+            // 'point' => 0,
+            // 'curriculum_visited' => Curriculum::where(['courses' => $request->courses])->orderBy('id', 'asc')->first()['id']
         ]);
 
 
@@ -171,29 +206,27 @@ class StudentController extends Controller
     {
 
         $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->first();
-        $curriculum_visited = explode("-", $enrolled['curriculum_visited']);
 
-        $enrolled['curriculum_visited'] .= '-' . $now_curriculum;
+        if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
 
-        if (!in_array($now_curriculum, $curriculum_visited)) {
-
-            array_push($curriculum_visited, $now_curriculum);
-            Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
-
-                'curriculum_visited' => $enrolled['curriculum_visited']
-
+            CurriculumVisited::create([
+                'curriculum' => $now_curriculum,
+                'enrolled' => $enrolled['id']
             ]);
         }
 
-        $progress = sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100;
+        $curriculum_visited = CurriculumVisited::where('enrolled',  $enrolled['id'])->get();
+
+
+
+        $progress = (int)((sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count()) * 100);
 
 
         $isVisited = [];
         for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
 
-            $isVisited[$curriculum_visited[$i]] = $curriculum_visited[$i];
+            $isVisited[$curriculum_visited[$i]['curriculum']] = $curriculum_visited[$i]['curriculum'];
         }
-
 
 
         $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get();
@@ -236,24 +269,24 @@ class StudentController extends Controller
     public function getQuizQuestion($course_id, $now_curriculum, $quiz_id)
     {
         $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->first();
-        $curriculum_visited = explode("-", $enrolled['curriculum_visited']);
 
-        $enrolled['curriculum_visited'] .= '-' . $now_curriculum;
+        if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
 
-        if (!in_array($now_curriculum, $curriculum_visited)) {
-
-            array_push($curriculum_visited, $now_curriculum);
-            Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
-
-                'curriculum_visited' => $enrolled['curriculum_visited']
-
+            CurriculumVisited::create([
+                'curriculum' => $now_curriculum,
+                'enrolled' => $enrolled['id']
             ]);
         }
+
+        $curriculum_visited = CurriculumVisited::where('enrolled',  $enrolled['id'])->get();
+
+        $progress = (int)(sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100);
+
 
         $isVisited = [];
         for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
 
-            $isVisited[$curriculum_visited[$i]] = $curriculum_visited[$i];
+            $isVisited[$curriculum_visited[$i]['curriculum']] = $curriculum_visited[$i]['curriculum'];
         }
 
         $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get();
@@ -265,7 +298,7 @@ class StudentController extends Controller
 
         $course_suequence = Course::whereId($course_id)->first()['sequence'];
 
-        $progress = sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100;
+
 
         $questions = Question::where(['quiz' => $quiz_id])->orderBy('id', 'asc')->get();
         $questionsById = [];
@@ -282,7 +315,7 @@ class StudentController extends Controller
         $quiz = json_decode(json_encode($quiz), true);
 
         $quiz_hint = 0;
-        if ($quiz['help_mode'] == 'yes') {
+        if ($quiz['help_mode'] == 'yes' && QuizHelpMode::count()) {
             $quiz_hint = QuizHelpMode::first()->max_help_mode;
         }
 
@@ -298,27 +331,26 @@ class StudentController extends Controller
     {
 
         $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->first();
-        $curriculum_visited = explode("-", $enrolled['curriculum_visited']);
 
-        $enrolled['curriculum_visited'] .= '-' . $now_curriculum;
+        if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
 
-        if (!in_array($now_curriculum, $curriculum_visited)) {
-
-            array_push($curriculum_visited, $now_curriculum);
-            Enrolled::where(['student' => auth()->user()->id, 'courses' => $course_id])->update([
-
-                'curriculum_visited' => $enrolled['curriculum_visited']
-
+            CurriculumVisited::create([
+                'curriculum' => $now_curriculum,
+                'enrolled' => $enrolled['id']
             ]);
         }
 
-        $progress = sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100;
+        $curriculum_visited = CurriculumVisited::where('enrolled',  $enrolled['id'])->get();
+
+
+
+        $progress = (int)(sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count() * 100);
 
 
         $isVisited = [];
         for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
 
-            $isVisited[$curriculum_visited[$i]] = $curriculum_visited[$i];
+            $isVisited[$curriculum_visited[$i]['curriculum']] = $curriculum_visited[$i]['curriculum'];
         }
 
         $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get();
@@ -383,8 +415,8 @@ class StudentController extends Controller
 
         $enrolleds = [];
         foreach ($enroll as $e) {
-            $completed_lesson = (explode('-', $e['curriculum_visited']));
-            if (CourseCertificate::where('course', '=', $e['courses_id'])->count() > 0 && sizeof($completed_lesson) == $e['lesson']) {
+            $completed_lesson = CurriculumVisited::where('enrolled', $e['id'])->count();
+            if (CourseCertificate::where('course', '=', $e['courses_id'])->count() > 0 && $completed_lesson == $e['lesson']) {
                 $certif =  DB::table('certificates')
                     ->join('courses', 'courses.name', '=', 'certificates.course_name')
                     ->join('course_certificates', 'course_certificates.certificate', '=', 'certificates.id')

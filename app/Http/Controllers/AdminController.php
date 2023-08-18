@@ -460,7 +460,7 @@ class AdminController extends Controller
         ]);
 
 
-        return back();
+        return redirect('/admin/certificate-list');
     }
 
     public function getListCertificate()

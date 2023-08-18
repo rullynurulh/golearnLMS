@@ -552,6 +552,7 @@ class ComposerStaticInite5c32a161aaa0841d7fbfec697c12674
         'App\\Models\\CourseCertificate' => __DIR__ . '/../..' . '/app/Models/CourseCertificate.php',
         'App\\Models\\Curriculum' => __DIR__ . '/../..' . '/app/Models/Curriculum.php',
         'App\\Models\\CurriculumQuiz' => __DIR__ . '/../..' . '/app/Models/CurriculumQuiz.php',
+        'App\\Models\\CurriculumVisited' => __DIR__ . '/../..' . '/app/Models/CurriculumVisited.php',
         'App\\Models\\Enrolled' => __DIR__ . '/../..' . '/app/Models/Enrolled.php',
         'App\\Models\\FooterContent' => __DIR__ . '/../..' . '/app/Models/FooterContent.php',
         'App\\Models\\HomeContent' => __DIR__ . '/../..' . '/app/Models/HomeContent.php',

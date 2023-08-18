@@ -31,7 +31,7 @@
                                     <div class="col p-3 me-5">
                                         <div class="course-title">{{ $enrolled['courses_name'] }}</div>
                                         @php
-                                            $progress = ($enrolled['completed_lesson'] / $enrolled['lesson']) * 100;
+                                            $progress = (int) (($enrolled['completed_lesson'] / $enrolled['lesson']) * 100);
                                         @endphp
                                         <div class="d-flex justify-content-end me-2">{{ $progress }}%</div>
                                         <div class="progress">

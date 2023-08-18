@@ -37,6 +37,7 @@ return array(
     'App\\Models\\CourseCertificate' => $baseDir . '/app/Models/CourseCertificate.php',
     'App\\Models\\Curriculum' => $baseDir . '/app/Models/Curriculum.php',
     'App\\Models\\CurriculumQuiz' => $baseDir . '/app/Models/CurriculumQuiz.php',
+    'App\\Models\\CurriculumVisited' => $baseDir . '/app/Models/CurriculumVisited.php',
     'App\\Models\\Enrolled' => $baseDir . '/app/Models/Enrolled.php',
     'App\\Models\\FooterContent' => $baseDir . '/app/Models/FooterContent.php',
     'App\\Models\\HomeContent' => $baseDir . '/app/Models/HomeContent.php',

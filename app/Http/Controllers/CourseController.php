@@ -117,7 +117,7 @@ class CourseController extends Controller
         $certificate = Certificate::all();
         $course_certificate = CourseCertificate::where(['course' => $id])->first();
 
-        $chapters = Chapter::where(['courses' => $id])->get();
+        $chapters = Chapter::where(['courses' => $id])->orderBy('id', 'asc')->get();
 
         $chaptersById = [];
         foreach ($chapters as $t) {

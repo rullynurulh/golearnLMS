@@ -628,6 +628,26 @@
                 drawTextfromInputs();
                 addListenerToInputs();
             };
+
+            logoImage.onload = function() {
+
+                if (document.getElementById("show_logo_yes").checked == true) {
+                    var position_logo_x = document.getElementById("position_logo_x").value;
+                    var position_logo_y = document.getElementById("position_logo_y").value;
+                    ctx.drawImage(logoImage, position_logo_x, position_logo_y, 90, 100);
+
+                }
+            }
+
+            SignImage.onload = function() {
+                var signature_height_input = document.getElementById("signature_height");
+                var signature_height = signature_height_input.value;
+                var signature_width_input = document.getElementById("signature_width");
+                var signature_width = signature_width_input.value;
+                ctx.drawImage(SignImage, (canvas.width - signature_width) / 2, (840 - (signature_height / 3)),
+                    signature_width,
+                    signature_height);
+            }
         });
 
         function addListenerToInputs() {
@@ -652,7 +672,6 @@
                 drawTextfromInputs();
             });
             var radiocheck1 = document.getElementById("show_course_name_no");
-
             radiocheck1.addEventListener("click", function() {
 
                 drawTextfromInputs();
@@ -672,7 +691,6 @@
             });
 
             var radiocheck3 = document.getElementById("show_student_yes");
-
             radiocheck3.addEventListener("click", function() {
 
                 drawTextfromInputs();
@@ -715,6 +733,8 @@
 
 
             ctx.drawImage(certImage, 0, 0, canvas.width, canvas.height);
+
+
             ctx.drawImage(SignImage, (canvas.width - signature_width) / 2, (840 - (signature_height / 3)), signature_width,
                 signature_height);
             // Getting Input Values
@@ -859,6 +879,7 @@
                 var position_logo_y = document.getElementById("position_logo_y").value;
                 logoImage.src = logo;
                 ctx.drawImage(logoImage, position_logo_x, position_logo_y, 90, 100);
+
             }
             if (document.getElementById("show_logo_no").checked == true) {
                 var position_logo_x = document.getElementById("position_logo_x").value;

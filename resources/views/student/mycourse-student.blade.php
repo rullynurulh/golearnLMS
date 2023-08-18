@@ -52,7 +52,7 @@
                                             </div>
 
                                             @php
-                                                $progress = ($courses['completed_lesson'] / $courses['lesson']) * 100;
+                                                $progress = (int) (($courses['completed_lesson'] / $courses['lesson']) * 100);
                                             @endphp
 
                                             @if ($progress == 100)
