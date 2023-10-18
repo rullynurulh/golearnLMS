@@ -25,10 +25,10 @@
 
 <body class="bg-light-1">
 
-    @extends('layouts.admin.navbar-admin')
+    @include('layouts.admin.navbar-admin')
+    @include('layouts.admin.sidebar')
       
     <div id="main">
-       
           @yield('container')
     </div>
 
