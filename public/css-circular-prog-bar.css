@@ -1,0 +1,23 @@
+.circular-progress {
+   width: 2.5rem;
+   height: 2.5rem;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+ .inner-circle {
+   position: absolute;
+   width: calc(2.5rem - 12px);
+   height: calc(2.5rem - 12px);
+   border-radius: 50%;
+   background-color: lightgrey;
+ }
+ 
+ .percentage {
+   font-size: 12px !important;
+   margin-bottom: 0;
+   position: relative;
+   font-size: var(--font-size);
+   color: rgb(0, 0, 0, 0.8);
+ }
