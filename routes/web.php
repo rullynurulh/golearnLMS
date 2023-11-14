@@ -43,7 +43,7 @@ Route::group(['middleware' => ['guest']], function () {
 
     // sign in
     Route::get('/signin', function () {
-        return view('signin');
+        return view('signIn');
     })->name('signin');
     Route::post('/signin', [MainController::class, 'signInAction'])->name('sigin_action');
 });

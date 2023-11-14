@@ -162,27 +162,33 @@ class MainController extends Controller
     }
 
     public function login(Request $request) {
-        dd($request->all());
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
 
-        $credentials = $request->only('email', 'password');
-        
-        $token = Auth::attempt($credentials);
-        if(!$token) {
+            $credentials = $request->only('email', 'password');
+
+            $token = Auth::attempt($credentials);
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Email/Password yang dimasukan salah.'
+                ], 401);
+            }
+
+            $user = Auth::user();
+            $user['token'] = $token;
+
             return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+                'message' => 'success',
+                'user' => $user
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'error',
+                'data' => $e->getMessage()
+            ], 500);
         }
-
-        $user = Auth::user();
-        $user['token'] = $token;
-
-        return response()->json([
-            'message' => 'success',
-            'data' => $user
-        ], 200);
     }
 }
