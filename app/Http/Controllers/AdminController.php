@@ -534,10 +534,15 @@ class AdminController extends Controller
         return redirect('/admin/certificate-list');
     }
 
-    public function indexChallenge() {
+    public function indexChallenge($user) {
         try {
-            $user = Auth::user()->id;
             $challenge = Challenge::where('created_by', $user)->get();
+
+            if($challenge->isEmpty()) {
+                return response()->json([
+                    'challenge' => []
+                ]);
+            }
 
             return response()->json([
                 'challenge' => $challenge
@@ -550,17 +555,15 @@ class AdminController extends Controller
         }
     }
 
-    public function createEditChallenge(Request $request) {
+    public function createEditChallenge(Request $request, $user) {
         try {
-            $user = Auth::user()->id;
             $challenge = Challenge::updateOrCreate(
                 ['id' => isset($request->id) ? $request->id : null],
                 [
                     'nama' => $request->nama,
                     'difficulty' => $request->difficulty,
-                    'hint' => $request->hint,
                     'created_by' => $user,
-                    'status' => $request->status
+                    'status' => isset($request->status) ? $request->status : 1
                 ]
             );
 
@@ -592,9 +595,55 @@ class AdminController extends Controller
         }
     }
 
+    public function publishChallenge($id) {
+        try {
+            $challenge = Challenge::find($id);
+            $challenge->status = 2;
+            $challenge->save();
+
+            return response()->json([
+                'message' => 'Challenge berhasil dipublish'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function unpublishChallenge($id) {
+        try {
+            $challenge = Challenge::find($id);
+            $challenge->status = 1;
+            $challenge->save();
+
+            return response()->json([
+                'message' => 'Challenge berhasil diunpublish'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
     public function indexQuestionChallenge($id) {
         try {
-            $question = QuestionChallenge::where('challenge_id', $id)->get();
+            // where response null return []
+
+            $question = QuestionChallenge::where('challenge_id', $id)
+            ->get()->map(function($item) {
+                $item->answer = json_decode($item->answer);
+                return $item;
+            });
+
+            if($question->isEmpty()) {
+                return response()->json([
+                    'question' => []
+                ]);
+            }
 
             return response()->json([
                 'question' => $question
@@ -607,23 +656,18 @@ class AdminController extends Controller
         }
     }
 
-    public function createEditQuestionChallenge(Request $request) {
+    public function createQuestion(Request $request, $challenge) {
         try {
-            $question = collect($request->json())->map(function ($item) {
-                $question = QuestionChallenge::updateOrCreate(
-                    ['id' => isset($item->id) ? $item->id : null],
-                    [
-                        'challenge_id' => $item->challenge_id,
-                        'question' => $item->question,
-                        'type' => $item->type,
-                        'answer' => $item->answer,
-                        // add file to storage path
-                        'file' => $item->file ? $this->uploadAndRenameFile($item->file) : null
-                    ]
-                );
-
-                return $question;
-            });
+            $question = QuestionChallenge::updateOrCreate(
+                ['id' => isset($request->id) ? $request->id : null],
+                [
+                    'challenge_id' => $challenge,
+                    'file' => $this->uploadAndRenameFile($request->file),
+                    'question' => $request->question,
+                    'type' => $request->typeAnswer,
+                    'answer' => json_encode($request->answer),
+                ]
+            );
 
             return response()->json([
                 'question' => $question,
@@ -645,7 +689,7 @@ class AdminController extends Controller
             }
 
             $uploadedFile = $file;
-            $name = time() . 'school.' . pathinfo($file, PATHINFO_EXTENSION);
+            $name = time() . 'questions.' . $file->getClientOriginalExtension();
             $uploadedFile->move(storage_path('app/public/photo'), $name);
 
             return $name;
@@ -654,9 +698,17 @@ class AdminController extends Controller
         return null;
     }
 
-    public function deleteQuestionChallenge($id) {
+    public function deleteQuestion($id) {
         try {
             $question = QuestionChallenge::find($id);
+            // when file not null
+            if($question->file) {
+                $currentFile = storage_path('app/public/photo/' . $question->file);
+                if (file_exists($currentFile)) {
+                    @unlink($currentFile);
+                }
+            }
+
             $question->delete();
 
             return response()->json([
@@ -682,6 +734,34 @@ class AdminController extends Controller
                 'message' => 'Terjadi kesalahan',
                 'error' => $e->getMessage()
             ]);
+        }
+    }
+
+    public function resultChallenge($id) {
+        try {
+            $result = ResultChallenge::where('challenge_id', $id)->get()->map(function($item) {
+                $item->user = User::find($item->user_id)->name;
+                return $item;
+            });
+
+            $challenge = Challenge::find($id)->nama;
+
+            if($result->isEmpty()) {
+                return response()->json([
+                    'challenge' => $challenge,
+                    'result' => []
+                ]);
+            }
+
+            return response()->json([
+                'challenge' => $challenge,  
+                'result' => $result
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $th->getMessage()
+            ], 500);
         }
     }
 }

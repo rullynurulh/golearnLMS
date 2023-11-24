@@ -205,3 +205,4 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
 });
 
 Route::view('/admin/{any?}', 'challenge')->where('any', '.*');
+Route::view('/student/{any?}', 'student.challengeStudent')->where('any', '.*');

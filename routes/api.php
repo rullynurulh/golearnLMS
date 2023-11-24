@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +24,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post("/login", [MainController::class, 'login']);
 
 Route::group(['prefix' => 'challenge'], function () {
-    Route::get('/', [AdminController::class, 'indexChallenge']);
-    Route::post('/', [AdminController::class, 'createEditChallenge']);
+    Route::get('/{user}', [AdminController::class, 'indexChallenge']);
+    Route::post('/{user}', [AdminController::class, 'createEditChallenge']);
     Route::delete('/{id}', [AdminController::class, 'deleteChallenge']);
+    Route::put('/{id}/publish', [AdminController::class, 'publishChallenge']);
+    Route::put('/{id}/unpublish', [AdminController::class, 'unpublishChallenge']);
+    Route::get('resultChallenge/{id}', [AdminController::class, 'resultChallenge']);
+
+
+    // student
+    Route::get('/{id}/student', [StudentController::class, 'getChallenge']);
+
 });
+
+Route::group(['prefix' => 'question'], function () {
+    Route::get('/{challenge}', [AdminController::class, 'indexQuestionChallenge']);
+    Route::post('/{challenge}', [AdminController::class, 'createQuestion']);
+    Route::delete('/{id}', [AdminController::class, 'deleteQuestion']);
+
+    // student
+    Route::post('/{id}/student', [StudentController::class, 'postAnswer']);
+});
+
+Route::get('/apiImage/{path}', [MainController::class, 'getImage']);
 
 

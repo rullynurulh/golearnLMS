@@ -15,9 +15,11 @@ use Illuminate\Http\Request;
 use App\Models\CertificateSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Challenge;
 use App\Models\CourseCertificate;
 use App\Models\CurriculumVisited;
 use App\Models\QuizHelpMode;
+use App\Models\ResultChallenge;
 
 class StudentController extends Controller
 {
@@ -435,5 +437,62 @@ class StudentController extends Controller
         $certif = Certificate::whereId($id)->first();
         $certif_setting = CertificateSetting::first();
         return view('/student/accomplishment-info-student', ['certificate' => $certif, 'certificate_setting' => $certif_setting]);
+    }
+
+    public function getChallenge($student) {
+        try {
+            $challenge = Challenge::all();
+
+            $studentChallenge = ResultChallenge::where('user_id', $student)->pluck('challenge_id')->toArray();
+
+            $challenge = $challenge->map(function ($item) use ($studentChallenge) {
+                if (in_array($item->id, $studentChallenge)) {
+                    $item->isDone = true;
+                    $item->resultChallenge = ResultChallenge::where('challenge_id', $item->id)->first();
+                } else {
+                    $item->isDone = false;
+                }
+                return $item;
+            });
+
+            if ($challenge->isEmpty()) {
+                return response()->json([
+                    'challenge' => [],
+                    'message' => 'Challenge not found'
+                ], 200);
+            }
+
+            return response()->json([
+                'challenge' => $challenge,
+                'message' => 'Challenge found'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'challenge' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function postAnswer(Request $request, $student) {
+        try {
+            $result = ResultChallenge::updateOrCreate([
+                'user_id' => $student,
+                'challenge_id' => $request->challenge_id
+            ], [
+                'score' => $request->score,
+                'time' => $request->time
+            ]);
+
+            return response()->json([
+                'result' => $result,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'result' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

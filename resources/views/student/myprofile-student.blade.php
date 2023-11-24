@@ -1,5 +1,24 @@
 @extends('layouts.student.main-student')
 @section('container')
+    <style>
+        /* Styles for the popover container */
+        .popover {
+            max-width: 100%;
+            background-color: gray;
+            /* Max Width of the popover (depending on the container!) */
+        }
+
+        .popover-body {
+            width: 400px;
+            /* Adjust as needed */
+            height: 300px;
+            /* Adjust as needed */
+        }
+
+        .popover-body img {
+            width: 100px;
+        }
+    </style>
     <section class="margin-top ">
         <div class="sidenav">
             <div class="content">
@@ -31,13 +50,66 @@
                                     <img class="image-profile mb-3" src="{{ URL::asset($student['image']) }}"
                                         alt="">
                                 @endif
-                                <form action="{{ route('change_profile_picture') }}" method="post"
+                                {{-- <form action="{{ route('change_profile_picture') }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div id="changeimage" class="d-flex justify-content-center">
                                         <button onclick="changeImage()" class="btn btn-change">Change</button>
                                     </div>
-                                </form>
+                                </form> --}}
+                                <!-- Button that triggers the popover -->
+                                <!-- Button that triggers the popover -->
+                                {{-- <div id="changeimage" class="d-flex justify-content-center">
+                                    <button class="btn btn-change" id="popover-btn">Show Popover</button>
+                                </div>
+
+                                <!-- Popover container -->
+                                <div class="popover" id="myPopover">
+                                    This is a popover content.
+                                </div> --}}
+                                <div style="display: none" id="popover-27">
+                                    <div class="popover" role="button">
+                                        <div class="popover-arrow"></div>
+                                        <div class="popover-body">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <img src="{{ URL::asset('images/avatar/image_1.png') }}"
+                                                        alt="" />
+                                                </div>
+                                                <div class="col-4">
+                                                    <img src="{{ URL::asset('images/avatar/image_2.png') }}"
+                                                        alt="" />
+                                                </div>
+                                                <div class="col-4">
+                                                    <img src="{{ URL::asset('images/avatar/image_3.png') }}"
+                                                        alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-4">
+                                                    <img src="{{ URL::asset('images/avatar/image_4.png') }}"
+                                                        alt="" />
+                                                </div>
+                                                <div class="col-4">
+                                                    <img src="{{ URL::asset('images/avatar/image_5.png') }}"
+                                                        alt="" />
+                                                </div>
+                                                <div class="col-4">
+                                                    <img src="{{ URL::asset('images/avatar/image_6.png') }}"
+                                                        alt="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-change" data-bs-toggle="popover" data-bs-container="body"
+                                        data-content-id="popover-27" data-bs-placement="bottom" href="#">
+                                        Change
+                                    </button>
+                                </div>
+
                             </div>
 
                         </div>
@@ -146,6 +218,13 @@
             </div>
 
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
+        </script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             (function($) {
                 $('.pages li').click(function() {
@@ -160,9 +239,9 @@
             var i;
 
             for (i = 0; i < coll.length; i++) {
+                var content = this.nextElementSibling;
                 coll[i].addEventListener("click", function() {
                     this.classList.toggle("active");
-                    var content = this.nextElementSibling;
                     if (content.style.maxHeight) {
                         content.style.maxHeight = null;
                     } else {
@@ -170,13 +249,26 @@
                     }
                 });
             }
-        </script>
-        <script>
-            function changeImage() {
-                document.getElementById("changeimage").innerHTML =
-                    '<input type="file" name="image" class="form-control" placeholder = "image" >' +
-                    '<button type="submit" class="btn btn-change">Save</button>'
-            }
+
+            var popoverTriggerList = [].slice.call(
+                document.querySelectorAll('[data-bs-toggle="popover"]')
+            );
+            var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+                const popoverId = popoverTriggerEl.attributes["data-content-id"];
+                if (popoverId) {
+                    const contentEl = $(`#${popoverId.value}`).html();
+                    return new bootstrap.Popover(popoverTriggerEl, {
+                        content: contentEl,
+                        html: true
+                    });
+                } else {
+                    //do something else cause data-content-id isn't there.
+                }
+            });
+
+            $(document).on("click", ".popover-body img", function() {
+                console.log("click");
+            });
         </script>
     </section>
 @endsection

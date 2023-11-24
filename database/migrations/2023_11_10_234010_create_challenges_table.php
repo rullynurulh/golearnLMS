@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('difficulty');
-            $table->integer('hint');
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('status')->unsigned();
             $table->timestamps();

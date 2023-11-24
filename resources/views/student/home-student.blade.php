@@ -6,6 +6,7 @@
                 <div class="row p-4">
                     <a href="/student" class="btn mb-3 btn-student-active">Dashboard</a>
                     <a href="/student/mycourse" class="btn mb-3 btn-student">My Course</a>
+                    <a href="/student/challenge" class="btn mb-3 btn-student">Challenge</a>
                     <a href="/student/myprofile" class="btn mb-3 btn-student">My Profile</a>
                     <a href="/student/accomplishment" class="btn mb-3 btn-student">Accomplishment</a>
                     <a href="/student/setting" class="btn mb-3 btn-student">Account Setting</a>
@@ -136,4 +137,8 @@
 
         </div>
     </section>
+    <script>
+        // save id auth user to local storage
+        localStorage.setItem('id', '{{ Auth::user()->id }}');
+    </script>
 @endsection
