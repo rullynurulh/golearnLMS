@@ -94,7 +94,7 @@ export default {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        await axios.delete(`/api/question/${id}`)
+                        await axios.delete(`/api/quiz/${id}`)
                         this.getQuestions()
                         this.$swal(
                             'Deleted!',
@@ -108,7 +108,7 @@ export default {
             })
         },
         publishChallenge() {
-            const idChallenge = this.$route.params.id
+            const idQuestion = this.$route.params.id
             this.$swal({
                 title: 'Apakah anda yakin?',
                 text: "Data yang disimpan tidak dapat diubah!",
@@ -118,15 +118,16 @@ export default {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, simpan!',
                 cancelButtonText: 'Batal'
-            }).then(async (result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     try {
-                        await axios.put(`/api/challenge/${idChallenge}/publish`)
+                        const data = {
+                            status: 'published'
+                        }
+                        axios.put(`/api/quiz/${idQuestion}/changeStatus`, data)
                         this.$swal('Data berhasil disimpan', '', 'success')
                         // push name route
-                        this.$router.push({
-                            name: 'teacher'
-                        })
+                        window.location.href = '/admin/add-quiz'
                     } catch (error) {
                         console.log(error)
                         this.$swal('Gagal menyimpan data', '', 'error')
@@ -135,7 +136,7 @@ export default {
             })
         },
         unpublishChallenge() {
-            const idChallenge = this.$route.params.id
+            const idQuiz = this.$route.params.id
             this.$swal({
                 title: 'Apakah anda yakin?',
                 text: "Data yang disimpan tidak dapat diubah!",
@@ -145,14 +146,14 @@ export default {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, simpan!',
                 cancelButtonText: 'Batal'
-            }).then(async (result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     try {
-                        await axios.put(`/api/challenge/${idChallenge}/unpublish`)
-                        this.$swal('Data berhasil disimpan', '', 'success')
-                        this.$router.push({
-                            name: 'teacher'
+                        axios.put(`/api/quiz/${idQuiz}/changeStatus`, {
+                            status: 'draft'
                         })
+                        this.$swal('Data berhasil disimpan', '', 'success')
+                        window.location.href = '/admin/add-quiz'
                     } catch (error) {
                         console.log(error)
                         this.$swal('Gagal menyimpan data', '', 'error')

@@ -52,6 +52,9 @@ Route::get('/apiImage/{path}', [MainController::class, 'getImage']);
 Route::group(['prefix' => 'quiz'], function () {
     Route::get('/{id}', [QuizController::class, 'getAddQuestion']);
     Route::post('/{id}', [QuizController::class, 'addQuestion']);
+    Route::delete('/{id}', [QuizController::class, 'deleteQuestion']);
+
+    Route::put('/{id}/changeStatus', [QuizController::class, 'updateQuizStatus']);
 });
 
 

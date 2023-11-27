@@ -175,8 +175,27 @@ class QuizController extends Controller
 
     public function deleteQuestion($id)
     {
-        Question::whereId($id)->delete();
-        return back();
+        try {
+            $question = Question::find($id);
+            // when file not null
+            if ($question->file) {
+                $currentFile = storage_path('app/public/photo/' . $question->file);
+                if (file_exists($currentFile)) {
+                    @unlink($currentFile);
+                }
+            }
+
+            $question->delete();
+
+            return response()->json([
+                'message' => 'Question berhasil dihapus'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function updateQuizStatus(Request $request)
