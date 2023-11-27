@@ -1,7 +1,7 @@
 @extends('layouts.student.main-student')
 @section('container')
     <section class="margin-top ">
-        <div class="sidenav">
+<div class="sidenav">
             <div class="content">
                 <div class="row p-4">
                     <a href="/student" class="btn mb-3 btn-student-active">Dashboard</a>

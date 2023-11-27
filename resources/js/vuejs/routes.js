@@ -3,6 +3,7 @@ import Teacher from "../vuejs/page/teacher/index.vue";
 import QuestionTeacher from "../vuejs/page/teacher/question.vue";
 import Student from "../vuejs/page/student/index.vue";
 import Result from "../vuejs/page/teacher/result.vue";
+import QuestionQuiz from "../vuejs/page/teacher/questionQuiz.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -26,6 +27,11 @@ const router = createRouter({
             path: "/student/challenge",
             name: "student",
             component: Student,
+        },
+        {
+            path: "/admin/quiz/add-question/:id",
+            name: "questionQuiz",
+            component: QuestionQuiz,
         },
     ],
 });

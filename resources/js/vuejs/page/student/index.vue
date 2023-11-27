@@ -75,7 +75,9 @@ export default {
                 if (this.challengeSelected) {
                     this.getResult()
                 } else {
-                    this.onSelectChallenge(this.challenges[0])
+                    if(this.challenges.length > 0) {
+                        this.onSelectChallenge(this.challenges[0])
+                    }
                 }
             } catch (error) {
                 console.log(error)
@@ -117,8 +119,8 @@ export default {
         <div class="margin-left">
 
             <div class="content p-5">
-                <div class="box-challenge p-4 mb-5" v-if="isOpenChallenge">
-                    <div class="d-flex">
+                <div class="box-challenge p-4 mb-5" >
+                    <div class="d-flex" v-if="isOpenChallenge">
                         <div class="p-2 flex-grow-1">
                             <h3 style="margin-bottom: 0;">{{ challengeSelected?.nama }}</h3>
                             <p class="pt-3" style="margin-bottom: 0;">Hint can get : {{ challengeSelected?.difficulty }}</p>
@@ -127,6 +129,9 @@ export default {
                             <p class="fw-bold pb-n2 text-center">{{ statusText(challengeSelected?.difficulty) }}</p>
                             <button class="btn btn-lg btn-primary" @click="openChallenge">Start</button>
                         </div>
+                    </div>
+                    <div class="d-flex" v-else>
+                        <h3 class="fw-bold">Tidak ada Challenge</h3>
                     </div>
                 </div>
 
@@ -144,5 +149,9 @@ export default {
 .box-challenge {
     border-radius: 10px;
     background: #FFC95E;
+}
+.content {
+    height: 85vh;
+    /* disable scroll */
 }
 </style>

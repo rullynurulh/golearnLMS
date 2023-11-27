@@ -18,6 +18,11 @@
         .popover-body img {
             width: 100px;
         }
+
+        .popover-body img:hover {
+            cursor: pointer;
+            scale: 1.2;
+        }
     </style>
     <section class="margin-top ">
         <div class="sidenav">
@@ -74,29 +79,29 @@
                                             <div class="row">
                                                 <div class="col-4">
                                                     <img src="{{ URL::asset('images/avatar/image_1.png') }}"
-                                                        alt="" />
+                                                        alt="image_1.png" />
                                                 </div>
                                                 <div class="col-4">
                                                     <img src="{{ URL::asset('images/avatar/image_2.png') }}"
-                                                        alt="" />
+                                                        alt="image_2.png" />
                                                 </div>
                                                 <div class="col-4">
                                                     <img src="{{ URL::asset('images/avatar/image_3.png') }}"
-                                                        alt="" />
+                                                        alt="image_3.png" />
                                                 </div>
                                             </div>
                                             <div class="row mt-4">
                                                 <div class="col-4">
                                                     <img src="{{ URL::asset('images/avatar/image_4.png') }}"
-                                                        alt="" />
+                                                        alt="image_4.png" />
                                                 </div>
                                                 <div class="col-4">
                                                     <img src="{{ URL::asset('images/avatar/image_5.png') }}"
-                                                        alt="" />
+                                                        alt="image_5.png" />
                                                 </div>
                                                 <div class="col-4">
                                                     <img src="{{ URL::asset('images/avatar/image_6.png') }}"
-                                                        alt="" />
+                                                        alt="image_6.png" />
                                                 </div>
                                             </div>
                                         </div>
@@ -232,6 +237,7 @@
                     $('.sections:nth-of-type(' + $(this).data('rel') + ')').stop().fadeIn(300, 'linear').siblings(
                         '.sections').stop().fadeOut(300, 'linear');
                 });
+
             })(jQuery);
         </script>
         <script>
@@ -267,7 +273,27 @@
             });
 
             $(document).on("click", ".popover-body img", function() {
-                console.log("click");
+                // get source of image
+                var imgSrc = $(this).attr("src");
+                // change image source of main image
+                $(".image-profile").attr("src", imgSrc);
+                // get after "/image"
+                var urlObject = new URL(imgSrc);
+                var path = urlObject.pathname.substring(1);
+
+
+                // send ajax request to server to update image
+                $.ajax({
+                    url: "{{ route('change_profile_picture') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        image: path
+                    },
+                    success: function(response) {
+                        window.location.reload();
+                    }
+                });
             });
         </script>
     </section>

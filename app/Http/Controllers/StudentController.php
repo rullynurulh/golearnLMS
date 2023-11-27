@@ -441,7 +441,7 @@ class StudentController extends Controller
 
     public function getChallenge($student) {
         try {
-            $challenge = Challenge::all();
+            $challenge = Challenge::where('status', 2)->get();
 
             $studentChallenge = ResultChallenge::where('user_id', $student)->pluck('challenge_id')->toArray();
 

@@ -147,7 +147,6 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('admin_add_quiz');
     Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
 
-    Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuestion'])->name('admin_add_question');
     Route::post('/admin/quiz/add-question/add', [QuizController::class, 'addQuestion'])->name('admin_save_question');
     Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQuestion'])->name('admin_delete_question');
 

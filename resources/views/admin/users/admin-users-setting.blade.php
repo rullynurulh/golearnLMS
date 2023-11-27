@@ -17,22 +17,22 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/user-teacher">
+                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/user-teacher">
+                                            <li>
                                                 Teacher
-                                            </a>
-                                        </li>
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/user-student">
+                                            </li>
+                                        </a>
+                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/user-student">
+                                            <li>
                                                 Student
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
 
-                                        <li class="d-flex align-items-center chapter-info ">
-                                            <a class="chapter-info" href="/admin/users-setting">
+                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/users-setting">
+                                            <li>
                                                 User Setting
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
                                     </ul>
                                 </div>
                             </div>
@@ -42,16 +42,19 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/courses-categories">
-                                                Categories
+                                        @if (auth()->user()->role == 'admin')
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/courses-categories">
+                                                <li>
+                                                    Categories
+                                                </li>
                                             </a>
-                                        </li>
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/courses-list">
+                                        @endif
+                                        <a class="d-flex align-items-center chapter-info mb-2 " href="/admin/courses-list">
+                                            <li>
                                                 Course List
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
                                     </ul>
                                 </div>
 
@@ -62,16 +65,31 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/add-quiz">
+                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/add-quiz">
+                                            <li>
                                                 Add Quiz
-                                            </a>
-                                        </li>
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info">
+                                            </li>
+                                        </a>
+                                        <a href="/admin/quiz-setting" class="d-flex align-items-center chapter-info mb-2 ">
+                                            <li>
                                                 Quiz Setting
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="mb-2">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
+                                    Challenge
+                                </button>
+                                <div class="content-collapse">
+                                    <ul class="list-lesson">
+                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/add-challenge">
+                                            <li>
+                                                Add Challenge
+                                            </li>
+                                        </a>
                                     </ul>
                                 </div>
 
@@ -82,22 +100,25 @@
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/certificate-list">
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/certificate-list">
+                                            <li>
                                                 Certificate List
-                                            </a>
-                                        </li>
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/certificate-add">
+                                            </li>
+                                        </a>
+                                        <a class="d-flex align-items-center chapter-info mb-2 "
+                                            href="/admin/certificate-add">
+                                            <li>
                                                 Add Certificate
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
 
-                                        <li class="d-flex align-items-center chapter-info ">
-                                            <a class="chapter-info" href="/admin/certificate-setting">
+                                        <a class="d-flex align-items-center chapter-info mb-2"
+                                            href="/admin/certificate-setting">
+                                            <li>
                                                 Certificate Setting
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
                                     </ul>
                                 </div>
 
@@ -106,38 +127,46 @@
                                 <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Front Page
                                 </button>
-                                <div class="content-collapse">
-                                    <ul class="list-lesson">
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/frontpage-home">
-                                                Home Content
+                                @if (auth()->user()->role == 'admin')
+                                    <div class="content-collapse">
+                                        <ul class="list-lesson">
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-home">
+                                                <li>
+                                                    Home Content
+                                                </li>
                                             </a>
-                                        </li>
-                                        <li class="d-flex align-items-center chapter-info mb-2 ">
-                                            <a class="chapter-info" href="/admin/frontpage-social">
-                                                Social Setting
-                                            </a>
-                                        </li>
 
-                                        <li class="d-flex align-items-center chapter-info ">
-                                            <a class="chapter-info" href="/admin/frontpage-footer">
-                                                Footer Setting
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-social">
+                                                <li>
+                                                    Social Setting
+                                                </li>
                                             </a>
-                                        </li>
 
-                                        <li class="d-flex align-items-center chapter-info ">
-                                            <a class="chapter-info" href="/admin/frontpage-account">
-                                                Account Setting
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-footer">
+                                                <li>
+                                                    Footer Setting
+                                                </li>
                                             </a>
-                                        </li>
 
-                                        <li class="d-flex align-items-center chapter-info ">
-                                            <a class="chapter-info" href="/admin/frontpage-about-us">
-                                                About Us
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-account">
+                                                <li>
+                                                    Account Setting
+                                                </li>
                                             </a>
-                                        </li>
-                                    </ul>
-                                </div>
+
+                                            <a class="d-flex align-items-center chapter-info mb-2 "
+                                                href="/admin/frontpage-about-us">
+                                                <li>
+                                                    About Us
+                                                </li>
+                                            </a>
+                                        </ul>
+                                    </div>
+                                @endif
 
                             </div>
                         </article>

@@ -40,7 +40,20 @@ class UserController extends Controller
 
     public function changeProfilePicture(Request $request)
     {
-        dd($request->all());
+        // if (!is_null($user['image'])) {
+        //     unlink($user['image']);
+        // }
+
+        // $image_name = uniqid() . '.' . $request->image->getClientOriginalExtension();
+        // $image_path = 'images/profile-picture/' . $image_name;
+        // $request->image->move(public_path('images/profile-picture'), $image_name);
+
+        #Update the new image
+        User::where(['id' => auth()->user()->id])->update([
+            'image' => $request->image,
+        ]);
+
+        return response()->json(['success' => 'Image Uploaded Successfully']);
     }
 
     public function getListStudents()
