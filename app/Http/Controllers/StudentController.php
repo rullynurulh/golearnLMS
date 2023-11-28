@@ -266,6 +266,54 @@ class StudentController extends Controller
         }
     }
 
+    public function getCourse($student, $course_id, $now_curriculum)
+    {
+        try {
+            $enrolled = Enrolled::where(['student' => $student, 'courses' => $course_id])->first();
+            if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
+
+                CurriculumVisited::create([
+                    'curriculum' => $now_curriculum,
+                    'enrolled' => $enrolled['id']
+                ]);
+            }
+            
+            $curriculum_visited = CurriculumVisited::where('enrolled',  $enrolled['id'])->get();
+            $progress = (int)((sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count()) * 100);
+
+
+            // $isVisited = [];
+            // for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
+
+            //     $isVisited[$curriculum_visited[$i]['curriculum']] = $curriculum_visited[$i]['curriculum'];
+            // }
+
+            $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($now_curriculum) {
+                $item->curriculum = Curriculum::where(['chapter' => $item->id])->orderBy('id', 'asc')->get()->map(function ($item) use ($now_curriculum) {
+                    $item->isVisited = CurriculumVisited::where(['curriculum' => $item->id])->count() > 0;
+                    $item->isNow = $item->id == $now_curriculum;
+                    return $item;
+                });
+                return $item;
+            });
+
+            
+
+            return response()->json([
+                // 'enrolled' => $enrolled,
+                // 'curriculum_visited' => $curriculum_visited,
+                // 'progress' => $progress,
+                'chapters' => $chapters,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'enrolled' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
 
     public function getQuizQuestion($course_id, $now_curriculum, $quiz_id)

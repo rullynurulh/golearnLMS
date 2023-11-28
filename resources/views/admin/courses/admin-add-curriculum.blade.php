@@ -53,13 +53,16 @@
                                 <div class="row d-flex justify-content-start ">
                                     <div class="add-new-course">
                                         <div class="d-flex justify-content-start">
-                                            <div class="col-3">
+                                            <div class="col-5">
                                                 <button id="myBtn_add_lesson" class="btn btn-add-chapter p-2"> <span
                                                         class="iconify me-1" data-icon="el:plus-sign"
                                                         data-width="24"></span> Add Lesson</button>
                                                 |
                                                 <button id="myBtn_add_quiz" class="btn btn-add-chapter p-2">Add
                                                     Quiz</button>
+                                                |
+                                                <button id="myBtn_add_challenge" class="btn btn-add-chapter p-2">Add
+                                                    Challenge</button>
                                             </div>
 
                                         </div>
@@ -96,8 +99,7 @@
                                                                     <label for="form-label" style="font-size: 23px">Lesson
                                                                         Name </label>
                                                                     <input type="text" name="name" id="lesson_name"
-                                                                        class="form-control form-control-lg p-3"
-                                                                        required />
+                                                                        class="form-control form-control-lg p-3" required />
                                                                 </div>
                                                             </div>
                                                             <div class="col ">
@@ -105,18 +107,18 @@
                                                                     <label for="form-label text-white"
                                                                         style="font-size: 23px">Duration (minute)</label>
                                                                     <input type="number" name="duration" id="duration"
-                                                                        class="form-control form-control-lg p-3"
-                                                                        required />
+                                                                        class="form-control form-control-lg p-3" required />
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <label for="form-label text-white "
-                                                                    style="font-size: 23px">Source </label>
-                                                        <select class="form-select mb-2" aria-label="Select Source" id="select_source">
+                                                        <label for="form-label text-white " style="font-size: 23px">Source
+                                                        </label>
+                                                        <select class="form-select mb-2" aria-label="Select Source"
+                                                            id="select_source">
                                                             <option value="source_link"selected>Source Link</option>
                                                             <option value="source_file">Source Pdf</option>
                                                         </select>
-                                                        <div class="col" id="source_link" >
+                                                        <div class="col" id="source_link">
                                                             <div class="form-group mb-2">
                                                                 <label for="form-label text-white"
                                                                     style="font-size: 23px">Source Link</label>
@@ -249,6 +251,94 @@
                                                             <div class="col-1  d-flex align-items-center"
                                                                 style="font-size: 20px">
                                                                 <input class="me-2" type="radio"id="quiz_radio2"
+                                                                    style="font-size: 20px" name="privacy"
+                                                                    value="lock">
+                                                                Lock
+                                                                <label for="radio2"></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <!-- Buttons Sign in -->
+                                                        <div class="d-flex justify-content-center pt-1 mb-1">
+                                                            <button class="btn btn-button btn-shadow text-dark px-4 "
+                                                                type="submit">save</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="myModal_add_challenge" class="modal">
+                                            <div class="modal-content">
+                                                <div class="box-modal p-4">
+                                                    <div class="row d-flex justify-content-between">
+                                                        <div class="col-4 d-flex align-items-center">
+                                                            <span class="title-modal px-5">Add Challenge</span>
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end">
+                                                            <span class="close_add_challenge close me-3">&times;</span>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="box-form p-4">
+                                                    <form action="{{ route('admin_save_curriculum') }}"
+                                                        enctype="multipart/form-data" method="POST">
+                                                        @csrf
+                                                        <div id="id_input_challenge">
+                                                        </div>
+                                                        <input type="text" name="chapter" id=""
+                                                            value="{{ $chapter['id'] }}" hidden>
+                                                        <input type="text" name="courses" id=""
+                                                            value="{{ $course['id'] }}" hidden>
+                                                        <input type="text" name="category" id=""
+                                                            value="challenge" hidden>
+                                                        <div class="col pe-4">
+                                                            <div class="form-group mb-2">
+                                                                <label for="form-label" style="font-size: 23px">Existing
+                                                                    Challenge </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group mb-2">
+                                                                <label for="form-label text-white"
+                                                                    style="font-size: 23px">Challenge</label>
+                                                                <select name="challenge" id="existing_challenge"
+                                                                    placeholder="Select Quiz" class="form-select p-3"
+                                                                    required>
+                                                                    @foreach ($challenge as $chl)
+                                                                        <option value="{{ $chl['id'] }}">
+                                                                            {{ $chl['nama'] }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group mb-2">
+                                                                <label for="form-label text-white"
+                                                                    style="font-size: 23px">Description</label>
+                                                                <textarea class="form-control form-control-lg p-3 text-black" id="challenge_description" name="description"
+                                                                    rows="5" required></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row d-flex justify-content-start">
+                                                            <div class="col-1 d-flex align-items-center">
+                                                                <p style="font-size: 23px; margin-bottom:0;">Privacy</p>
+                                                            </div>
+                                                            <div class="col-1 d-flex align-items-center"
+                                                                style="font-size: 20px">
+                                                                <input class="me-2" type="radio" id="challenge_radio1"
+                                                                    style="font-size: 20px" name="privacy" value="unlock"
+                                                                    checked>
+                                                                Unlock
+                                                                <label for="radio1"></label>
+                                                            </div>
+                                                            <div class="col-1  d-flex align-items-center"
+                                                                style="font-size: 20px">
+                                                                <input class="me-2" type="radio"id="challenge_radio2"
                                                                     style="font-size: 20px" name="privacy"
                                                                     value="lock">
                                                                 Lock
@@ -451,24 +541,22 @@
             document.execCommand("copy");
             $temp.remove();
         }
-
     </script>
     <script>
-        jQuery(document).ready(function(){
+        jQuery(document).ready(function() {
             $("#select_source").change(function() {
                 console.log($(this).val());
-                if($(this).val() == "source_link"){
+                if ($(this).val() == "source_link") {
                     $("#source_link").css('display', 'block');
                     $("#source_file").css('display', 'none');
                     console.log($(this).val());
-                }else if($(this).val() == "source_file"){
+                } else if ($(this).val() == "source_file") {
                     $("#source_link").css('display', 'none');
                     $("#source_file").css('display', 'block');
                     console.log($(this).val());
                 }
             });
         });
-
     </script>
     <script>
         (function($) {
@@ -483,6 +571,7 @@
         let lesson = @json($lessonsById);
         let curriculum = @json($curriculaById);
         let quiz = @json($quizById);
+        let challenge = @json($challengeById);
 
         function showModal(id) {
 
@@ -519,6 +608,32 @@
                 } else {
                     document.getElementById("lesson_radio2").checked = true
                 }
+            } else if(curriculum[id]['category'] == 'challenge'){
+                var modal_edit = document.getElementById("myModal_add_challenge");
+                modal_edit.style.display = "block";
+
+                // Get the <span> element that closes the modal
+                var span_edit = document.getElementsByClassName("close_add_challenge")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span_edit.onclick = function() {
+                    modal_edit.style.display = "none";
+                    document.getElementById("existing_challenge").value = ''
+                    document.getElementById("challenge_description").value = ''
+                    document.getElementById("challenge_radio1").checked = true
+                    document.getElementById("id_input_challenge").innerHTML = ''
+
+                }
+
+                document.getElementById("id_input_challenge").innerHTML = '<input type="text" value="' + id +
+                    '" name="id" id="fromlesson_id" hidden>'
+                document.getElementById("challenge_description").value = curriculum[id]['description']
+                document.getElementById('existing_challenge').value = challenge[id]['challenge']
+                if (curriculum[id]['privacy'] == 'unlock') {
+                    document.getElementById("challenge_radio1").checked = true
+                } else {
+                    document.getElementById("challenge_radio2").checked = true
+                }   
             } else {
                 // Get the modal
                 var modal_edit = document.getElementById("myModal_add_quiz");
@@ -602,5 +717,34 @@
                 modal_quiz.style.display = "none";
             }
         }
+    </script>
+    <script>
+        // modal challenge
+        var modal_challenge = document.getElementById("myModal_add_challenge");
+
+        // Get the button that opens the modal
+        var btn_challenge = document.getElementById("myBtn_add_challenge");
+
+        // Get the <span> element that closes the modal
+        var span_add_challenge = document.getElementsByClassName("close_add_challenge")[0];
+
+        // When the user clicks the button, open the modal
+        btn_challenge.onclick = function() {
+            modal_challenge.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span_add_challenge.onclick = function() {
+            modal_challenge.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal_challenge) {
+                modal_challenge.style.display = "none";
+            }
+        }
+
+
     </script>
 @endsection

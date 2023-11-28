@@ -16,7 +16,9 @@ use App\Models\CurriculumQuiz;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Models\Challenge;
 use App\Models\CourseCertificate;
+use App\Models\CurriculumChallenges;
 
 class CourseController extends Controller
 {
@@ -169,6 +171,7 @@ class CourseController extends Controller
         $course_certificate = CourseCertificate::where(['course' => $course_id])->first();
         $curricula = Curriculum::where(['chapter' => $chapter_id])->get();
         $quizzes = Quiz::where('status', '=', 'save')->get();
+        $challenge = Challenge::where('status', '=', 2)->get();
         $chapter = Chapter::whereId($chapter_id)->first();
         $course = Course::whereId($course_id)->first();
 
@@ -194,13 +197,17 @@ class CourseController extends Controller
             $quizById[$t['curriculum']] = $t;
         }
 
-        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled, 'certificate' => $certificate, 'course_certificate' => $course_certificate, 'lessonsById' => $lessonsById, 'quizById' => $quizById, 'curriculaById' => $curriculaById]);
+        $curriculum_challenge = CurriculumChallenges::whereIn('curriculum', $curricula_id)->get();
+        $challengeById = [];
+        foreach ($curriculum_challenge as $t) {
+            $challengeById[$t['curriculum']] = $t;
+        }
+
+        return view('/admin/courses/admin-add-curriculum', ['chapter' => $chapter, 'course' => $course, 'curricula' => $curricula, 'quizzes' => $quizzes, 'enrolleds' => $enrolleds, 'student_enrolled' => $student_enrolled, 'certificate' => $certificate, 'course_certificate' => $course_certificate, 'lessonsById' => $lessonsById, 'quizById' => $quizById, 'curriculaById' => $curriculaById, 'challenge' => $challenge, 'challengeById' => $challengeById]);
     }
 
     public function addCurriculum(Request $request)
     {
-
-
         if ($request->category == 'lesson') {
 
             if ($request->has('id')) {
@@ -258,6 +265,38 @@ class CourseController extends Controller
             } else {
                 $lesson->curriculum = $data['id'];
                 $lesson->save();
+            }
+        } else if($request->category == 'challenge'){
+            if ($request->has('id')) {
+
+                $data = Curriculum::whereId($request->id)->update([
+                    'name' => Challenge::whereId($request->challenge)->first()['nama'],
+                    'chapter' => $request->chapter,
+                    'courses' => $request->courses,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'privacy' => $request->privacy
+
+                ]);
+
+                CurriculumChallenges::where(['curriculum' => $request->id])->update([
+                    'challenge' => $request->challenge
+                ]);
+            } else {
+
+                $data = Curriculum::create([
+                    'name' => Challenge::whereId($request->challenge)->first()['nama'],
+                    'chapter' => $request->chapter,
+                    'courses' => $request->courses,
+                    'category' => $request->category,
+                    'description' => $request->description,
+                    'privacy' => $request->privacy
+
+                ]);
+                CurriculumChallenges::create([
+                    'curriculum' => $data['id'],
+                    'challenge' => $request->challenge
+                ]);
             }
         } else {
 

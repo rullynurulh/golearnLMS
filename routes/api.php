@@ -57,4 +57,6 @@ Route::group(['prefix' => 'quiz'], function () {
     Route::put('/{id}/changeStatus', [QuizController::class, 'updateQuizStatus']);
 });
 
-
+Route::group(['prefix' => 'student'], function () {
+    Route::get('course/{student}/{course_id}/{now_curriculum}', [StudentController::class, 'getCourse']);
+});

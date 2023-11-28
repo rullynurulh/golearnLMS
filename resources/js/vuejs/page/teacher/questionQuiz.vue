@@ -122,7 +122,7 @@ export default {
                 if (result.isConfirmed) {
                     try {
                         const data = {
-                            status: 'published'
+                            status: 'save'
                         }
                         axios.put(`/api/quiz/${idQuestion}/changeStatus`, data)
                         this.$swal('Data berhasil disimpan', '', 'success')
