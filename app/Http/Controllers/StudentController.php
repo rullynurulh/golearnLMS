@@ -270,6 +270,7 @@ class StudentController extends Controller
     public function getCourse($student, $course_id)
     {
         try {
+
             $enrolled = Enrolled::where(['student' => $student, 'courses' => $course_id])->first();
 
             $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled, $student) {
@@ -284,10 +285,14 @@ class StudentController extends Controller
                 return $item;
             });
 
+            // hitung progress isVisited dari result
+
+            $progress = (int)(sizeof($result->where('isVisited', true)) / Curriculum::where(['courses' => $course_id])->count() * 100);
+
             return response()->json([
                 // 'enrolled' => $enrolled,
                 // 'curriculum_visited' => $curriculum_visited,
-                // 'progress' => $progress,
+                'progress' => $progress,
                 'chapters' => $result,
                 'message' => 'Success'
             ], 200);
