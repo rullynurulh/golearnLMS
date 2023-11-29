@@ -336,8 +336,14 @@ class StudentController extends Controller
                     return $lesson;
                     break;
                 case 'quiz':
-                    $quiz = QuizResult::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->first();
-                    return $quiz;
+                    $quiz = QuizResult::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) {
+                        $item->percentage = Quiz::whereId($item->quiz)->first()->min_percentage;
+                        $item->percentageStudent = (int)($item->correct_answer / $item->total_question * 100);
+                        $item->isPassed = $item->percentageStudent >= $item->percentage ? true : false;
+                        return $item;
+                    });
+                    // change to object
+                    return $quiz[0];
                     break;
                 default:
                     $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->first();
