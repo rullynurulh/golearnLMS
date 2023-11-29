@@ -208,6 +208,7 @@ class CourseController extends Controller
 
     public function addCurriculum(Request $request)
     {
+        dd($request->all());
         if ($request->category == 'lesson') {
 
             if ($request->has('id')) {
@@ -240,6 +241,7 @@ class CourseController extends Controller
                     'name' => $request->name,
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
+                    'id_category' => $lesson->id,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy
@@ -251,6 +253,7 @@ class CourseController extends Controller
                     'name' => $request->name,
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
+                    'id_category' => $lesson->id,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy
@@ -273,6 +276,7 @@ class CourseController extends Controller
                     'name' => Challenge::whereId($request->challenge)->first()['nama'],
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
+                    'id_category' => $request->challenge,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy
@@ -288,6 +292,7 @@ class CourseController extends Controller
                     'name' => Challenge::whereId($request->challenge)->first()['nama'],
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
+                    'id_category' => $request->challenge,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy
@@ -306,6 +311,7 @@ class CourseController extends Controller
                     'name' => Quiz::whereId($request->quiz)->first()['title'],
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
+                    'id_category' => $request->quiz,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy
@@ -320,6 +326,7 @@ class CourseController extends Controller
                     'name' => Quiz::whereId($request->quiz)->first()['title'],
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
+                    'id_category' => $request->quiz,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy

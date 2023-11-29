@@ -58,5 +58,5 @@ Route::group(['prefix' => 'quiz'], function () {
 });
 
 Route::group(['prefix' => 'student'], function () {
-    Route::get('course/{student}/{course_id}/{now_curriculum}', [StudentController::class, 'getCourse']);
+    Route::get('course/{student}/{course_id}', [StudentController::class, 'getCourse']);
 });

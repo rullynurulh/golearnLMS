@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('chapter');
             $table->foreign('chapter')
                 ->references('id')->on('chapters')->onDelete('cascade');
+            $table->integer('id_category')->nullable();
             $table->string('name');
             $table->longText('description');
             $table->string('category');

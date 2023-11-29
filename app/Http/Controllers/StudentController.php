@@ -266,44 +266,21 @@ class StudentController extends Controller
         }
     }
 
-    public function getCourse($student, $course_id, $now_curriculum)
+    public function getCourse($student, $course_id)
     {
         try {
             $enrolled = Enrolled::where(['student' => $student, 'courses' => $course_id])->first();
-            if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
 
-                CurriculumVisited::create([
-                    'curriculum' => $now_curriculum,
-                    'enrolled' => $enrolled['id']
-                ]);
-            }
-            
-            $curriculum_visited = CurriculumVisited::where('enrolled',  $enrolled['id'])->get();
-            $progress = (int)((sizeof($curriculum_visited) / Curriculum::where(['courses' => $course_id])->count()) * 100);
-
-
-            // $isVisited = [];
-            // for ($i = 0; $i < sizeof($curriculum_visited); $i++) {
-
-            //     $isVisited[$curriculum_visited[$i]['curriculum']] = $curriculum_visited[$i]['curriculum'];
-            // }
-
-            $chapters = Chapter::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($now_curriculum) {
-                $item->curriculum = Curriculum::where(['chapter' => $item->id])->orderBy('id', 'asc')->get()->map(function ($item) use ($now_curriculum) {
-                    $item->isVisited = CurriculumVisited::where(['curriculum' => $item->id])->count() > 0;
-                    $item->isNow = $item->id == $now_curriculum;
-                    return $item;
-                });
+            $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled) {
+                $item->isVisited = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? true : false;
                 return $item;
             });
-
-            
 
             return response()->json([
                 // 'enrolled' => $enrolled,
                 // 'curriculum_visited' => $curriculum_visited,
                 // 'progress' => $progress,
-                'chapters' => $chapters,
+                'chapters' => $result,
                 'message' => 'Success'
             ], 200);
         } catch (\Throwable $e) {
@@ -312,6 +289,27 @@ class StudentController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function curriculumVisited($id_enrolled, $now_curriculum){
+        try {
+            if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
+
+                CurriculumVisited::create([
+                    'curriculum' => $now_curriculum,
+                    'enrolled' => $id_enrolled
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], 500);
+        }
+
     }
 
 
