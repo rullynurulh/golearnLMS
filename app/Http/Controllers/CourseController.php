@@ -241,7 +241,6 @@ class CourseController extends Controller
                     'name' => $request->name,
                     'chapter' => $request->chapter,
                     'courses' => $request->courses,
-                    'id_category' => $lesson->id,
                     'category' => $request->category,
                     'description' => $request->description,
                     'privacy' => $request->privacy
@@ -269,6 +268,10 @@ class CourseController extends Controller
                 $lesson->curriculum = $data['id'];
                 $lesson->save();
             }
+
+            Curriculum::whereId($data['id'])->update([
+                'id_category' => $lesson->id
+            ]);
         } else if($request->category == 'challenge'){
             if ($request->has('id')) {
 
