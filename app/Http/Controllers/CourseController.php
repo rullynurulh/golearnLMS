@@ -208,7 +208,6 @@ class CourseController extends Controller
 
     public function addCurriculum(Request $request)
     {
-        dd($request->all());
         if ($request->category == 'lesson') {
 
             if ($request->has('id')) {
@@ -267,11 +266,11 @@ class CourseController extends Controller
             } else {
                 $lesson->curriculum = $data['id'];
                 $lesson->save();
-            }
 
-            Curriculum::whereId($data['id'])->update([
-                'id_category' => $lesson->id
-            ]);
+                Curriculum::whereId($data['id'])->update([
+                    'id_category' => $lesson->id
+                ]);
+            }
         } else if($request->category == 'challenge'){
             if ($request->has('id')) {
 

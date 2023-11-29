@@ -18,6 +18,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Challenge;
 use App\Models\CourseCertificate;
 use App\Models\CurriculumVisited;
+use App\Models\QuestionChallenge;
 use App\Models\QuizHelpMode;
 use App\Models\ResultChallenge;
 
@@ -271,8 +272,15 @@ class StudentController extends Controller
         try {
             $enrolled = Enrolled::where(['student' => $student, 'courses' => $course_id])->first();
 
-            $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled) {
+            $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled, $student) {
                 $item->isVisited = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? true : false;
+                $item->soal = $this->getSoalByCategory($item->id_category, $item->category);
+                // jika getResultByCategory return null, maka isDone = false
+                $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category) ? true : false;
+                // jika isDone = true, maka result = getResultByCategory
+                if($item->isDone) {
+                    $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category);
+                }
                 return $item;
             });
 
@@ -283,6 +291,59 @@ class StudentController extends Controller
                 'chapters' => $result,
                 'message' => 'Success'
             ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'enrolled' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getSoalByCategory($id, $category) {
+        try {
+            switch ($category) {
+                case 'lesson':
+                    $lesson = Lesson::where(['curriculum' => $id])->first();
+                    return $lesson;
+                    break;
+                case 'quiz':
+                    $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) {
+                        $item->answer = json_decode($item->answer);
+                        return $item;
+                    });
+                    return $quiz;
+                    break;
+                default:
+                    return QuestionChallenge::where(['challenge_id' => $id])->get()->map(function ($item) {
+                        $item->answer = json_decode($item->answer);
+                        return $item;
+                    });
+                    break;
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'enrolled' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getResultByCategory($student, $enrolled, $category) {
+        try {
+            switch ($category) {
+                case 'lesson':
+                    $lesson = CurriculumVisited::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->first();
+                    return $lesson;
+                    break;
+                case 'quiz':
+                    $quiz = QuizResult::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->first();
+                    return $quiz;
+                    break;
+                default:
+                    $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->first();
+                    return $challenge;
+                    break;
+            }
         } catch (\Throwable $e) {
             return response()->json([
                 'enrolled' => [],
