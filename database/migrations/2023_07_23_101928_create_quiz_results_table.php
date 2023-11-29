@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('correct_answer');
             $table->unsignedBigInteger('wrong_answer');
             $table->unsignedBigInteger('total_question');
-            $table->unsignedBigInteger('duration');
+            $table->string('duration');
             $table->timestamps();
         });
     }

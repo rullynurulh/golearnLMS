@@ -314,6 +314,7 @@ class StudentController extends Controller
                 case 'quiz':
                     $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) {
                         $item->answer = json_decode($item->answer);
+                        $item->minutes = Quiz::whereId($item->quiz)->first()->duration;
                         return $item;
                     });
                     return $quiz;
