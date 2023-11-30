@@ -47,6 +47,7 @@
 
                     </div>
                 </div>
+                {{ auth()->user()->extra_hint}}
                 <div class="sub-menu-wrap" id="subMenu">
                     <div class="sub-menu">
                         <div class="user-info">

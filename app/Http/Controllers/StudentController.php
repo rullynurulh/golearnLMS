@@ -3,24 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Chapter;
 use App\Models\Enrolled;
 use App\Models\Question;
+use App\Models\Challenge;
 use App\Models\Curriculum;
 use App\Models\QuizResult;
 use App\Models\Certificate;
+use App\Models\QuizHelpMode;
 use Illuminate\Http\Request;
-use App\Models\CertificateSetting;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Models\Challenge;
+use App\Models\ResultChallenge;
 use App\Models\CourseCertificate;
 use App\Models\CurriculumVisited;
 use App\Models\QuestionChallenge;
-use App\Models\QuizHelpMode;
-use App\Models\ResultChallenge;
+use App\Models\CertificateSetting;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class StudentController extends Controller
 {
@@ -290,10 +291,10 @@ class StudentController extends Controller
             $progress = (int)(sizeof($result->where('isVisited', true)) / Curriculum::where(['courses' => $course_id])->count() * 100);
 
             return response()->json([
-                // 'enrolled' => $enrolled,
+                'enrolled' => $enrolled,
                 // 'curriculum_visited' => $curriculum_visited,
                 'progress' => $progress,
-                'chapters' => $result,
+                'curriculum' => $result,
                 'message' => 'Success'
             ], 200);
         } catch (\Throwable $e) {
@@ -386,7 +387,6 @@ class StudentController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
-
     }
 
 
@@ -597,6 +597,30 @@ class StudentController extends Controller
         }
     }
 
+    public function postAnswerQuiz(Request $request, $enrolled, $quiz) {
+        try {
+            $result = QuizResult::updateOrCreate([
+                'enrolled' => $enrolled,
+                'quiz' => $quiz
+            ], [
+                'correct_answer' => $request->correct_answer,
+                'wrong_answer' => $request->wrong_answer,
+                'total_question' => (int)$request->correct_answer + (int)$request->wrong_answer,
+                'duration' => $request->duration
+            ]);
+
+            return response()->json([
+                'result' => $result,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'result' => [],
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
     public function postAnswer(Request $request, $student) {
         try {
             $result = ResultChallenge::updateOrCreate([
@@ -606,6 +630,14 @@ class StudentController extends Controller
                 'score' => $request->score,
                 'time' => $request->time
             ]);
+
+            if($request->score > 0) {
+                $hint = User::whereId($student)->first()->extra_hint;
+                $hint += $request->score;
+                User::whereId($student)->update([
+                    'extra_hint' => $hint
+                ]);
+            }
 
             return response()->json([
                 'result' => $result,
