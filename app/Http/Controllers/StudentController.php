@@ -315,6 +315,10 @@ class StudentController extends Controller
                     $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) {
                         $item->answer = json_decode($item->answer);
                         $item->minutes = Quiz::whereId($item->quiz)->first()->duration;
+                        $item->help_mode = Quiz::whereId($item->quiz)->first()->help_mode;
+                        if($item->help_mode == 'yes') {
+                            $item->help_mode_max = QuizHelpMode::first()->max_help_mode;
+                        }
                         return $item;
                     });
                     return $quiz;
@@ -349,7 +353,7 @@ class StudentController extends Controller
                         return $item;
                     });
                     // change to object
-                    return $quiz[0];
+                    return isset($quiz[0]) ? $quiz[0] : null;
                     break;
                 default:
                     $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->first();
