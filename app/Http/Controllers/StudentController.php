@@ -276,7 +276,7 @@ class StudentController extends Controller
 
             $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled, $student) {
                 $item->isVisited = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? true : false;
-                $item->soal = $this->getSoalByCategory($item->id_category, $item->category);
+                $item->soal = $this->getSoalByCategory($item->id_category, $item->category, $enrolled->id, $item->id);
                 // jika getResultByCategory return null, maka isDone = false
                 $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category) ? true : false;
                 // jika isDone = true, maka result = getResultByCategory
@@ -305,7 +305,7 @@ class StudentController extends Controller
         }
     }
 
-    public function getSoalByCategory($id, $category) {
+    public function getSoalByCategory($id, $category, $enrolled, $curriculum) {
         try {
             switch ($category) {
                 case 'lesson':
@@ -313,12 +313,13 @@ class StudentController extends Controller
                     return $lesson;
                     break;
                 case 'quiz':
-                    $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) {
+                    $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) use ($enrolled, $curriculum) {
                         $item->answer = json_decode($item->answer);
                         $item->minutes = Quiz::whereId($item->quiz)->first()->duration;
                         $item->help_mode = Quiz::whereId($item->quiz)->first()->help_mode;
                         if($item->help_mode == 'yes') {
                             $item->help_mode_max = QuizHelpMode::first()->max_help_mode;
+                            $item->used_point= CurriculumVisited::where(['curriculum' => $curriculum, 'enrolled' => $enrolled])->first();
                         }
                         return $item;
                     });
@@ -647,6 +648,53 @@ class StudentController extends Controller
             return response()->json([
                 'result' => [],
                 'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function usedHint($student, $enrolled, $curriculum, $kondisi) {
+        try {
+            switch ($kondisi) {
+                case 'min':
+                    $usedHint = CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->first();
+                    if ($usedHint) {
+                        $usedHint = $usedHint->hint_used + 1;
+                        CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->update([
+                            'hint_used' => $usedHint
+                        ]);
+                    } else {
+                        $usedHint = 0;
+                    }
+                    return response()->json([
+                        'usedHint' => $usedHint,
+                        'message' => 'Success'
+                    ], 200);
+                    break;
+                default:
+                    $hint = User::whereId($student)->first()->extra_hint;
+                    $hint = $hint - 1;
+
+                    if ($hint < 0) {
+                        return response()->json([
+                            'usedHint' => [],
+                            'message' => 'Hint not enough'
+                        ], 200);
+                    } else {
+                        User::whereId($student)->update([
+                            'extra_hint' => $hint
+                        ]);
+                    }
+
+                    return response()->json([
+                        'usedHint' => $hint,
+                        'message' => 'Success'
+                    ], 200);
+                    break;
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'usedHint' => [],
+                'message' => $th->getMessage()
             ], 500);
         }
     }
