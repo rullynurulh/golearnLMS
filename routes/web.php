@@ -81,7 +81,8 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     Route::get('/course/{course_id}/{now_curriculum}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
     Route::get('/course/quiz/start/{course_id}/{now_curriculum}/{quiz_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
     Route::get('/course/quiz/save-result/{course_id}/{now_curriculum}/{quiz_id}/{enroll_id}/{result}', [StudentController::class, 'saveQuizScore'])->name('student_quiz_save_result');
-
+    
+    Route::view('/course/{any?}', 'student.challengeStudent')->where('any', '.*');
     //change password
     Route::get('/student/setting', function () {
         return view('/student/setting-student');

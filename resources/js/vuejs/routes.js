@@ -4,6 +4,7 @@ import QuestionTeacher from "../vuejs/page/teacher/question.vue";
 import Student from "../vuejs/page/student/index.vue";
 import Result from "../vuejs/page/teacher/result.vue";
 import QuestionQuiz from "../vuejs/page/teacher/questionQuiz.vue";
+import Course from "../vuejs/page/student/course.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -33,6 +34,11 @@ const router = createRouter({
             name: "questionQuiz",
             component: QuestionQuiz,
         },
+        {
+            path: "/course/:id",
+            name: "course",
+            component: Course,
+        }
     ],
 });
 

@@ -59,8 +59,8 @@ Route::group(['prefix' => 'quiz'], function () {
 
 Route::group(['prefix' => 'student'], function () {
     Route::get('course/{student}/{course_id}', [StudentController::class, 'getCourse']);
-    Route::get('visitedCourse/{enrolled}/{now_curriculum}', [StudentController::class, 'curriculumVisited']);
-    Route::post('postAnswerQuiz/{enrolled}/{quiz}', [StudentController::class, 'postAnswerQuiz']);
+    Route::post('visitedCourse', [StudentController::class, 'curriculumVisited']);
+    Route::post('postAnswerQuiz', [StudentController::class, 'postAnswerQuiz']);
 
-    Route::get('usedHint/{student}/{enrolled}/{curriculum}/{kondisi}', [StudentController::class, 'usedHint']);
+    Route::get('usedHint/{student}', [StudentController::class, 'usedHint']);
 });

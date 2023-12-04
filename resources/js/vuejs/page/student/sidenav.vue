@@ -1,86 +1,106 @@
 <script>
 export default {
-    props: ['challenges', 'challengeSelected'],
+    props: ['courses'],
     methods: {
-        selectChallenge(challenge) {
-            this.$emit('select-challenge', challenge)
+        checkCourse(course) {
+            // if visited all curriculum true return true
+            return course.curriculum.every((curriculum) => curriculum.isVisited)
         },
-        challengeisActive(challenge) {
-            return this.challengeSelected && this.challengeSelected.id === challenge.id
+        selectCurriculum(curriculum, key, curKey) {
+            if (key > 1) {
+                // cek curriculum sebelumnya next true, lewati jika category challenge
+                let cekAllIndexNextIsTrueExceptCategoryChallenge = this.courses[key - 1].curriculum.every((curriculum) => {
+                    return curriculum.category !== 'challenge' ? curriculum.next : true;
+                });
+
+                cekAllIndexNextIsTrueExceptCategoryChallenge ? this.$emit('openCurriculum', curriculum) : ''
+
+            } else {
+                // cek curriculum sebelumnya
+                if (curKey != 0) {
+                    let cekCurriculumBefore = this.courses[key].curriculum[curKey - 1].next
+                    cekCurriculumBefore ? this.$emit('openCurriculum', curriculum) : ''
+                    // console.log("cekCurriculumBefore", cekCurriculumBefore)
+                }
+
+                if( curriculum.category == 'challenge' ) {
+                    this.$emit('openCurriculum', curriculum)
+                }
+            }
+
+            if (curriculum.next == true) {
+                this.$emit('openCurriculum', curriculum)
+            }
         },
-        resultChallenge(score) {
-            if (score == 0) {
-                return '<span class="text-danger">Failed</span>'
-            } else if(score > 0) {
-                return '<span class="text-success">Passed</span>'
+        cekResult(curriculum) {
+            let category = curriculum.category
+            switch (category) {
+                case 'quiz' || 'challenge':
+                    if (curriculum?.result) {
+                        if(curriculum?.result?.isPassed) {
+                            return '<span class="text-success">Passed</span>'
+                        } else {
+                            return '<span class="text-danger">Failed</span>'
+                        }
+                    } else {
+                        return ''
+                    }
+                    break;
+                default:
+                    return ''
+                    break;
             }
         }
     },
 }
 </script>
 <template>
-    <div>
-        <div class="scrollable">
-            <div class="sidebar">
-                <div class="content mt-2 p-2">
-                    <div class="box-list-challenge mb-2"
-                        :class="{ 'box-list-challenge-active': challengeisActive(challenge) }"
-                        v-for="(challenge, idx) in challenges" :key="idx">
-                        <div class="row d-flex justify-content-start" @click="selectChallenge(challenge)">
-                            <div class="col-1 d-flex justify-content-start align-items-center">
-                                <input type="checkbox" :checked="challenge.isDone">
-                            </div>
-                            <div class="col-8 d-flex justify-content-start align-items-center">
-                                <div class="overflow-ecilips "
-                                    style=" overflow: hidden; text-overflow: ellipsis ; white-space: nowrap;  ">
-                                    <h5 style="font-weight: 500; margin-bottom:0; ">
-                                        {{ challenge.nama }}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-2 d-flex justify-content-end align-items-center">
-                                <div v-html="resultChallenge(challenge?.resultChallenge?.score)"></div>
-                            </div>
+    <div class="sidenav">
+        <div class="content">
+            <div class="row p-4">
+                <section class="section-curriculum sections">
+                    <article>
+                        <div v-for="(course, key) in courses" :key="key" class="mb-2">
+                            <button type="button" class="collapsible" @click="course.collapsed = !course.collapsed">
+                                <label class="mains">
+                                    <input type="checkbox" disabled="disabled" :checked="checkCourse(course)">
+                                    <span class="geekmark"></span>
+                                </label>
+                                {{ course.name }}
+                            </button>
+                            <div class="content-collapse" v-if="course.collapsed">
+                                <ul class="list-lesson">
+                                    <li class="detail-chapter mb-2" v-for="(curriculum, curKey) in course.curriculum"
+                                        :key="curKey">
+                                        <div class="d-flex align-items-center chapter-info" @click="selectCurriculum(curriculum, key, curKey)">
+                                            <label class="mains">
+                                                <input type="checkbox" :checked="curriculum.isVisited" disabled="disabled">
+                                                <span class="geekmark"></span>
+                                            </label>{{ curriculum.name }} 
+                                            <span class="text-right">
+                                                <div v-html="cekResult(curriculum)"></div>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>  
                         </div>
-                    </div>
-                </div>
+                    </article>
+                </section>
             </div>
         </div>
     </div>
 </template>
 <style>
-.sidebar {
-    position: absolute;
-    width: 250px;
-    height: 100%;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
+    .sidenav {
+        height: 100%;
+    }
 
-/* 
-.scrollable {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-} */
+    .chapter-info {
+        cursor: pointer;
+    }
 
-.box-list-challenge {
-    border-radius: 5px;
-    background: #EAEAEA;
-    padding: 1rem;
-}
-
-.box-list-challenge-active {
-    border-radius: 5px;
-    background: #CCCCCC;
-    scale: 1.1;
-    padding: 1rem;
-}
-
-.box-list-challenge:hover {
-    border-radius: 5px;
-    background: #CCCCCC;
-    padding: 1rem;
-}
+    .text-right {
+        margin-left: auto;
+    }
 </style>

@@ -252,7 +252,7 @@ class StudentController extends Controller
             $quiz = DB::table('curricula')
                 ->join('curriculum_quizzes', 'curriculum_quizzes.curriculum', '=', 'curricula.id')
                 ->join('quizzes', 'quizzes.id', '=', 'curriculum_quizzes.quiz')
-                ->where(['curricula.id' => $now_curriculum])
+                ->where(['curricula.id' => $now_curriculum]) 
                 ->select('quizzes.*', 'curriculum_quizzes.curriculum as curriculum')
                 ->first();
             $quiz = json_decode(json_encode($quiz), true);
@@ -276,19 +276,18 @@ class StudentController extends Controller
 
             $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled, $student) {
                 $item->isVisited = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? true : false;
+                $item->next = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->first()->next : false;
+                $item->chapter = Chapter::whereId($item->chapter)->first();
                 $item->soal = $this->getSoalByCategory($item->id_category, $item->category, $enrolled->id, $item->id);
                 // jika getResultByCategory return null, maka isDone = false
                 $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category) ? true : false;
                 // jika isDone = true, maka result = getResultByCategory
-                if($item->isDone) {
+                if ($item->isDone) {
                     $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category);
                 }
                 return $item;
             });
-
-            // hitung progress isVisited dari result
-
-            $progress = (int)(sizeof($result->where('isVisited', true)) / Curriculum::where(['courses' => $course_id])->count() * 100);
+            $progress = (int)((CurriculumVisited::where(['enrolled' => $enrolled->id])->count() / Curriculum::where(['courses' => $course_id])->count()) * 100);
 
             return response()->json([
                 'enrolled' => $enrolled,
@@ -305,7 +304,7 @@ class StudentController extends Controller
         }
     }
 
-    public function getSoalByCategory($id, $category, $enrolled, $curriculum) {
+    public function getSoalByCategory($id, $category) {
         try {
             switch ($category) {
                 case 'lesson':
@@ -313,14 +312,10 @@ class StudentController extends Controller
                     return $lesson;
                     break;
                 case 'quiz':
-                    $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) use ($enrolled, $curriculum) {
+                    $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) {
                         $item->answer = json_decode($item->answer);
                         $item->minutes = Quiz::whereId($item->quiz)->first()->duration;
                         $item->help_mode = Quiz::whereId($item->quiz)->first()->help_mode;
-                        if($item->help_mode == 'yes') {
-                            $item->help_mode_max = QuizHelpMode::first()->max_help_mode;
-                            $item->used_point= CurriculumVisited::where(['curriculum' => $curriculum, 'enrolled' => $enrolled])->first();
-                        }
                         return $item;
                     });
                     return $quiz;
@@ -358,7 +353,10 @@ class StudentController extends Controller
                     return isset($quiz[0]) ? $quiz[0] : null;
                     break;
                 default:
-                    $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->first();
+                    $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) {
+                        $item->isPassed = $item->score > 0 ? true : false;
+                        return $item;
+                    });
                     return $challenge;
                     break;
             }
@@ -370,13 +368,17 @@ class StudentController extends Controller
         }
     }
 
-    public function curriculumVisited($id_enrolled, $now_curriculum){
+    public function curriculumVisited(Request $request){
         try {
-            if (CurriculumVisited::where('curriculum',  $now_curriculum)->count() == 0) {
+            $now_curriculum = $request->curriculum;
+            $id_enrolled = $request->enrolled;
+            $next = isset($request->next) ? $request->next : false;
+            if (CurriculumVisited::where(['curriculum' => $now_curriculum, 'enrolled' => $id_enrolled])->count() == 0) {
 
                 CurriculumVisited::create([
                     'curriculum' => $now_curriculum,
-                    'enrolled' => $id_enrolled
+                    'enrolled' => $id_enrolled,
+                    'next' => $next
                 ]);
             }
 
@@ -598,11 +600,11 @@ class StudentController extends Controller
         }
     }
 
-    public function postAnswerQuiz(Request $request, $enrolled, $quiz) {
+    public function postAnswerQuiz(Request $request) {
         try {
             $result = QuizResult::updateOrCreate([
-                'enrolled' => $enrolled,
-                'quiz' => $quiz
+                'enrolled' => $request->enrolled,
+                'quiz' => $request->quiz
             ], [
                 'correct_answer' => $request->correct_answer,
                 'wrong_answer' => $request->wrong_answer,
@@ -612,12 +614,14 @@ class StudentController extends Controller
 
             return response()->json([
                 'result' => $result,
-                'message' => 'Success'
+                'message' => 'Success',
+                'success' => true
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'result' => [],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
+                'success' => false
             ], 500);
         }
     }
@@ -652,45 +656,26 @@ class StudentController extends Controller
         }
     }
 
-    public function usedHint($student, $enrolled, $curriculum, $kondisi) {
+    public function usedHint($student) {
         try {
-            switch ($kondisi) {
-                case 'min':
-                    $usedHint = CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->first();
-                    if ($usedHint) {
-                        $usedHint = $usedHint->hint_used + 1;
-                        CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->update([
-                            'hint_used' => $usedHint
-                        ]);
-                    } else {
-                        $usedHint = 0;
-                    }
-                    return response()->json([
-                        'usedHint' => $usedHint,
-                        'message' => 'Success'
-                    ], 200);
-                    break;
-                default:
-                    $hint = User::whereId($student)->first()->extra_hint;
-                    $hint = $hint - 1;
+            $hint = User::whereId($student)->first()->extra_hint;
+            $hint = $hint - 1;
 
-                    if ($hint < 0) {
-                        return response()->json([
-                            'usedHint' => [],
-                            'message' => 'Hint not enough'
-                        ], 200);
-                    } else {
-                        User::whereId($student)->update([
-                            'extra_hint' => $hint
-                        ]);
-                    }
-
-                    return response()->json([
-                        'usedHint' => $hint,
-                        'message' => 'Success'
-                    ], 200);
-                    break;
+            if ($hint < 0) {
+                return response()->json([
+                    'usedHint' => [],
+                    'message' => 'Hint not enough'
+                ], 200);
+            } else {
+                User::whereId($student)->update([
+                    'extra_hint' => $hint
+                ]);
             }
+
+            return response()->json([
+                'usedHint' => $hint,
+                'message' => 'Success'
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'usedHint' => [],
