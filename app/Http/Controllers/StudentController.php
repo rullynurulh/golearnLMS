@@ -316,6 +316,7 @@ class StudentController extends Controller
                         $item->answer = json_decode($item->answer);
                         $item->minutes = Quiz::whereId($item->quiz)->first()->duration;
                         $item->help_mode = Quiz::whereId($item->quiz)->first()->help_mode;
+                        $item->percentage = Quiz::whereId($item->quiz)->first()->min_percentage;
                         return $item;
                     });
                     return $quiz;
@@ -680,7 +681,7 @@ class StudentController extends Controller
 
             return response()->json([
                 'usedHint' => $hint,
-                'message' => 'Success'
+                'message' => 'success'
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

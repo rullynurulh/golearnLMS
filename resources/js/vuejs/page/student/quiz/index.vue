@@ -8,7 +8,7 @@ export default {
     props: ['quiz'],
     data() {
         return {
-            questions: null,
+            questions: [],
             question: null,
             questionIndex: 0,
             intervalId: null,
@@ -36,6 +36,8 @@ export default {
                 }
             })
             this.question = this.questions[this.questionIndex]
+            this.startTimer();
+            this.hitungMundur();
         },
         startTimer() {
             this.intervalId = setInterval(() => {
@@ -55,7 +57,7 @@ export default {
         },
         async submit() {
             // check every answer is selected or not undefined
-              const isAllAnswerSelected = this.questions.every(question => {
+            const isAllAnswerSelected = this.questions.every(question => {
                 return question.answer.some(answer => answer.isSelected)
             })
 
@@ -119,13 +121,21 @@ export default {
                 console.log(error);
             }
 
-            
+
         },
         tryagain() {
             delete this.quiz.result
         },
         next() {
             this.$emit('next')
+        },
+        async usedHint() {
+            const { data } = await axios.get(`/api/student/usedHint/${localStorage.getItem('id')}`)
+            if (data.message == 'success') {
+                window.location.reload()
+            } else {
+                this.$swal('Error', 'Hint gagal digunakan', 'error')
+            }
         }
     },
     computed: {
@@ -144,19 +154,12 @@ export default {
             return minutes + ':' + seconds;
         },
     },
-    created() {
-        this.getQuestion()
-    },
-    mounted() {
-        this.startTimer();
-        this.hitungMundur();
-    },
 }
 </script>
 <template>
     <div>
         <div class="bg-white" style="padding-bottom: 9rem; padding-left:20rem;" v-if="!quiz?.result">
-            <div class="content p-5">
+            <div class="content p-5" v-if="questions.length > 0">
                 <div class="card card-quiz text-left" style="margin-top: 3rem">
                     <div class="row ">
                         <div class="col-3 d-flex align-items-center">
@@ -169,7 +172,7 @@ export default {
                             <div class="mx-1 pages pages-code d-flex justify-content-end align-items-center"
                                 v-if="quiz.soal[0].help_mode == 'yes'">
                                 <li class="d-flex justify-content-center align-items-center button-hint ">
-                                    <a onclick="getCourseHint()" target="_blank" rel="noopener" class="btn btn-primary ">
+                                    <a @click="usedHint" class="btn btn-primary ">
                                         Hint
                                     </a>
                                 </li>
@@ -239,6 +242,32 @@ export default {
                     </div>
                 </div>
             </div>
+            <div class="content p-5" v-else>
+                <div class="box-recommend min-height-recommend p-2" style="margin-top: 3rem">
+                    <div class="card card-quiz text-left m-5">
+                        <div class="row p-4">
+                            <div class="col-10 d-flex align-items-center">
+                                <div class="row ">
+                                    <h3>{{ quiz.name }}</h3>
+                                    <p class="d-flex align-items-center">min. persentage {{ quiz.soal[0].percentage }}%
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-2 ">
+                                <div class="row d-flex align-items-center justify-content-end">
+
+                                    <span class="d-flex justify-content-end" style="font-weight: 600">{{
+                                        quiz.soal[0].minutes }} min</span>
+                                    <div class="div d-flex align-items-center justify-content-end">
+                                        <a @click="getQuestion" class="btn btn-certificate-view">Start</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <result v-else :quiz="quiz.result" @tryagain="tryagain" @next="next"></result>
     </div>
@@ -297,5 +326,10 @@ export default {
 
 input[type=checkbox] {
     visibility: visible;
+}
+
+.box-challenge {
+    border-radius: 10px;
+    background: #FFC95E;
 }
 </style>

@@ -4,12 +4,14 @@ import Header from './header.vue'
 import sidenav from './sidenav.vue'
 import lesson from './lesson/index.vue'
 import quiz from './quiz/index.vue'
+import challenge from './challenge/index.vue'
 export default {
     components: {
         Header,
         sidenav,
         lesson,
-        quiz
+        quiz,
+        challenge
     },
     data() {
         return {
@@ -250,6 +252,7 @@ export default {
             <div class="margin-left">
                 <lesson :lesson="curriculumSelected" v-if="curriculumSelected?.category == 'lesson'" />
                 <quiz :quiz="curriculumSelected" v-else-if="curriculumSelected?.category == 'quiz'" @refresh="getCourse" @next="next" />
+                <challenge :challenge="curriculumSelected" v-else-if="curriculumSelected?.category == 'challenge'" @refresh="getCourse" @next="next" />
             </div>
         </div>
 
