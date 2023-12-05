@@ -35,7 +35,7 @@ export default {
         cekResult(curriculum) {
             let category = curriculum.category
             switch (category) {
-                case 'quiz' || 'challenge':
+                case 'quiz':
                     if (curriculum?.result) {
                         if(curriculum?.result?.isPassed) {
                             return '<span class="text-success">Passed</span>'
@@ -45,10 +45,18 @@ export default {
                     } else {
                         return ''
                     }
-                    break;
+                case 'challenge':
+                    if (curriculum?.result) {
+                        if (curriculum?.result?.isPassed) {
+                            return '<span class="text-success">Passed</span>'
+                        } else {
+                            return '<span class="text-danger">Failed</span>'
+                        }
+                    } else {
+                        return ''
+                    }
                 default:
                     return ''
-                    break;
             }
         }
     },

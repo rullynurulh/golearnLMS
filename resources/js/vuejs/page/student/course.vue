@@ -251,8 +251,8 @@ export default {
 
             <div class="margin-left">
                 <lesson :lesson="curriculumSelected" v-if="curriculumSelected?.category == 'lesson'" />
-                <quiz :quiz="curriculumSelected" v-else-if="curriculumSelected?.category == 'quiz'" @refresh="getCourse" @next="next" />
-                <challenge :challenge="curriculumSelected" v-else-if="curriculumSelected?.category == 'challenge'" @refresh="getCourse" @next="next" />
+                <quiz :quiz="curriculumSelected" v-else-if="curriculumSelected?.category == 'quiz'" @refresh="getCourse" @next="next" :endCourse="endCourse" />
+                <challenge :challenge="curriculumSelected" v-else-if="curriculumSelected?.category == 'challenge'" @refresh="getCourse" @next="next" :endCourse="endCourse" />
             </div>
         </div>
 

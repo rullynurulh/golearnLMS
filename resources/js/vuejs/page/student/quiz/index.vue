@@ -5,7 +5,7 @@ export default {
     components: {
         result
     },
-    props: ['quiz'],
+    props: ['quiz', 'endCourse'],
     data() {
         return {
             questions: [],
@@ -257,7 +257,7 @@ export default {
                             <div class="col-2 ">
                                 <div class="row d-flex align-items-center justify-content-end">
 
-                                    <span class="d-flex justify-content-end" style="font-weight: 600">{{
+                                    <span class="d-flex justify-content-end" style="font-weight: 600; padding-right: 30px;">{{
                                         quiz.soal[0].minutes }} min</span>
                                     <div class="div d-flex align-items-center justify-content-end">
                                         <a @click="getQuestion" class="btn btn-certificate-view">Start</a>
@@ -269,7 +269,7 @@ export default {
                 </div>
             </div>
         </div>
-        <result v-else :quiz="quiz.result" @tryagain="tryagain" @next="next"></result>
+        <result v-else :quiz="quiz.result" :endCourse="endCourse" @tryagain="tryagain" @next="next"></result>
     </div>
 </template>
 <style>
@@ -326,10 +326,5 @@ export default {
 
 input[type=checkbox] {
     visibility: visible;
-}
-
-.box-challenge {
-    border-radius: 10px;
-    background: #FFC95E;
 }
 </style>
