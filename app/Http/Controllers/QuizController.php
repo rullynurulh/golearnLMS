@@ -128,18 +128,14 @@ class QuizController extends Controller
 
     public function addQuestion(Request $request, $quiz)
     {
-
         try {
-            $question = Question::updateOrCreate(
-                ['id' => isset($request->id) ? $request->id : null],
-                [
-                    'quiz' => $quiz,
-                    'file' => $this->uploadAndRenameFile($request->file),
-                    'question' => $request->question,
-                    'type' => $request->typeAnswer,
-                    'answer' => json_encode($request->answer),
-                ]
-            );
+            $question = Question::create([
+                'quiz' => $quiz,
+                'question' => $request->question,
+                'answer' => $request->answer,
+                'type' => $request->typeAnswer,
+                'file' => $this->uploadAndRenameFile($request->file)
+            ]);
 
             return response()->json([
                 'question' => $question,

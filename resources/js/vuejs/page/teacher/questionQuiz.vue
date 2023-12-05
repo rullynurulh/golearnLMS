@@ -57,20 +57,26 @@ export default {
             }
 
             const idQuiz = this.$route.params.id
-            const { data } = await axios.post(`/api/quiz/${idQuiz}`, this.formQuestion, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            const formData = new FormData()
+            formData.append('file', this.formQuestion.file)
+            formData.append('question', this.formQuestion.question)
+            formData.append('typeAnswer', this.formQuestion.typeAnswer)
+            formData.append('answer', JSON.stringify(this.formQuestion.answer))
+            try {
+                await axios.post(`/api/quiz/${idQuiz}`, formData)
+                this.$swal('Berhasil', 'Data berhasil disimpan', 'success')
+                this.formQuestion = {
+                    file: '',
+                    question: '',
+                    typeAnswer: 'single',
+                    answer: [],
                 }
-            }).then(res => res.data)
-            this.questions.push(data)
-            this.formQuestion = {
-                file: '',
-                question: '',
-                typeAnswer: 'single',
-                answer: [],
+                this.pushAnswer()
+                this.getQuestions()
+            } catch (error) {
+                console.log(error)
+                this.$swal('Gagal', 'Data gagal disimpan', 'error')
             }
-            this.pushAnswer()
-            this.getQuestions()
         },
         uploadGambar(file) {
             const validasi = ['image/jpeg', 'image/jpg', 'image/png']
@@ -266,14 +272,14 @@ export default {
                                 <div class="overflow-ecilips "
                                     style=" overflow: hidden; text-overflow: ellipsis ; white-space: nowrap;  ">
                                     <h5 style="font-weight: 500; margin-bottom:0; ">
-                                        {{ question.question }}
+                                        {{ question?.question }}
                                     </h5>
 
                                 </div>
                             </div>
                             <div class="col-2 d-flex justify-content-end align-items-center">
                                 <div class="col d-flex justify-content-end align-items-center">
-                                    <a href="#" @click="hapusJawaban(question.id)" style="border: none;">
+                                    <a href="#" @click="hapusJawaban(question?.id)" style="border: none;">
                                         <span class="iconify ms-2" data-icon="ph:x-bold" style="color: red;"
                                             data-width="25"></span></a>
                                 </div>

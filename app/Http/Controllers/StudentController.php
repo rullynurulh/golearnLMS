@@ -280,10 +280,10 @@ class StudentController extends Controller
                 $item->chapter = Chapter::whereId($item->chapter)->first();
                 $item->soal = $this->getSoalByCategory($item->id_category, $item->category, $enrolled->id, $item->id);
                 // jika getResultByCategory return null, maka isDone = false
-                $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category) ? true : false;
+                $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id) ? true : false;
                 // jika isDone = true, maka result = getResultByCategory
                 if ($item->isDone) {
-                    $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category);
+                    $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id);
                 }
                 return $item;
             });
@@ -335,7 +335,7 @@ class StudentController extends Controller
         }
     }
 
-    public function getResultByCategory($student, $enrolled, $category) {
+    public function getResultByCategory($student, $enrolled, $category, $curriculum) {
         try {
             switch ($category) {
                 case 'lesson':
@@ -343,10 +343,16 @@ class StudentController extends Controller
                     return $lesson;
                     break;
                 case 'quiz':
-                    $quiz = QuizResult::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) {
+                    $quiz = QuizResult::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) use ($enrolled, $curriculum) {
                         $item->percentage = Quiz::whereId($item->quiz)->first()->min_percentage;
                         $item->percentageStudent = (int)($item->correct_answer / $item->total_question * 100);
                         $item->isPassed = $item->percentageStudent >= $item->percentage ? true : false;
+                        // jika isPassed gagal maka update curriculum_visited next = false
+                        // if (!$item->isPassed) {
+                        //     CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->update([
+                        //         'next' => false
+                        //     ]);
+                        // }
                         return $item;
                     });
                     // change to object

@@ -70,7 +70,7 @@ export default {
                                 <div class="col-2" v-if="!quiz.isPassed"><a @click="tryagain" class="btn btn-button">Try
                                         Again</a>
                                 </div>
-                                <div class="col-2"><a @click="next" id="nextCourse" class="btn btn-button">Next Lesson
+                                <div class="col-2" v-else><a @click="next" id="nextCourse" class="btn btn-button">Next Lesson
                                     </a>
                                 </div>
                             </div>

@@ -170,7 +170,7 @@ export default {
                                 v-if="quiz.soal[0].help_mode == 'yes'">
                                 <li class="d-flex justify-content-center align-items-center button-hint ">
                                     <a onclick="getCourseHint()" target="_blank" rel="noopener" class="btn btn-primary ">
-                                        {{ quiz }}
+                                        Hint
                                     </a>
                                 </li>
                             </div>
