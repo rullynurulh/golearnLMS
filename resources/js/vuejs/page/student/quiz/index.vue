@@ -1,6 +1,6 @@
 <script>
 import axios from 'axios'
-import result from './result/index.vue'
+import result from './result.vue'
 export default {
     components: {
         result

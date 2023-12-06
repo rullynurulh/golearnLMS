@@ -3,7 +3,7 @@
     @vite('resources/css/app.css')
 
     <section class="margin-top">
-                <div class="sidenav">
+        <div class="sidenav">
             <div class="content content-nav">
                 <div class="row p-4">
                     <section class="section-curriculum sections">
@@ -62,7 +62,7 @@
 
                             </div>
                             <div class="mb-2">
-                                <button type="button" class="collapsible btn mb-2 btn-admin">
+                                <button type="button" class="collapsible btn mb-2 btn-admin btn-quiz">
                                     Quiz
                                 </button>
                                 <div class="content-collapse">
@@ -81,13 +81,13 @@
                                 </div>
 
                             </div>
-                                                                                    <div class="mb-2">
-                                <button type="button" class="collapsible btn mb-2 btn-admin btn-admin-active">
+                            <div class="mb-2">
+                                <button type="button" class="collapsible btn mb-2 btn-admin btn-challenge">
                                     Challenge
                                 </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
-                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/add-challenge">
+                                        <a class="d-flex align-items-center chapter-info mb-2" href="/admin/add-challenge">
                                             <li>
                                                 Add Challenge
                                             </li>
@@ -180,9 +180,19 @@
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div id="app"></div>
             </div>
-            
+
         </div>
     </section>
     @vite('resources/js/app.js')
 
+    <script>
+        // jika url sama dengan /admin/add-challenge tambahkan class btn-admin-active
+        if (window.location.pathname == '/admin/add-challenge') {
+            document.querySelector('.btn-challenge').classList.add('btn-admin-active')
+        }
+
+        if (window.location.pathname == '/admin/add-quiz') {
+            document.querySelector('.btn-quiz').classList.add('btn-admin-active')
+        }
+    </script>
 @endsection
