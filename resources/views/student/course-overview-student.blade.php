@@ -143,10 +143,10 @@
                                     @if ($status == 'enrolled')
                                         @if ($now_curriculum == -1)
                                             <a onclick="return false;"
-                                                href="{{ route('student_course_detail', ['course_id' => $course['id'], 'now_curriculum' => $now_curriculum]) }}"
+                                                href="/course/{{ $course['id'] }}"
                                                 class="btn btn-button" style="font-size: 25px; font-weight:600">Go Learn</a>
                                         @else
-                                            <a href="{{ route('student_course_detail', ['course_id' => $course['id'], 'now_curriculum' => $now_curriculum]) }}"
+                                            <a href="/course/{{ $course['id'] }}"
                                                 class="btn btn-button" style="font-size: 25px; font-weight:600">Go Learn</a>
                                         @endif
                                     @else

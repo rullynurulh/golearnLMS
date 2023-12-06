@@ -89,7 +89,7 @@
                                                             $countVisited++;
                                                         @endphp
                                                         <a class="d-flex align-items-center chapter-info"
-                                                            href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id']]) }}">
+                                                            href="/course/{{ $course_id }}">
                                                             <label class="mains">
                                                                 <input type="checkbox" checked="checked"
                                                                     disabled="disabled">
@@ -104,7 +104,7 @@
                                                                 @endphp
                                                             @endif
                                                             <a class="d-flex align-items-center chapter-info"
-                                                                href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id']]) }}"
+                                                                href="/course/{{ $course_id }}"
                                                                 onclick="return false;">
                                                                 <label class="mains">
                                                                     <input type="checkbox" disabled="disabled">
@@ -113,7 +113,7 @@
                                                             </a>
                                                         @else
                                                             <a class="d-flex align-items-center chapter-info"
-                                                                href="{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $curriculum['id']]) }}">
+                                                                href="/course/{{ $course_id }}">
                                                                 <label class="mains">
                                                                     <input type="checkbox" disabled="disabled">
                                                                     <span class="geekmark"></span>
@@ -193,7 +193,7 @@
             if (page != -1) {
                 var previousPage = document.getElementById("previousCourseButton");
                 let link =
-                    "{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $prev]) }}";
+                    "/course/{{ $course_id }}";
                 previousPage.href = link
             }
 
@@ -207,7 +207,7 @@
                 var nextPage = document.getElementById("nextCourseButton");
 
                 let link =
-                    "{{ route('student_course_detail', ['course_id' => $course_id, 'now_curriculum' => $next]) }}";
+                    "/course/{{ $course_id }}";
                 nextPage.href = link
             }
 

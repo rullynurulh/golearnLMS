@@ -93,12 +93,13 @@
                                                         role="progressbar" aria-valuenow="{{ $progress }}"
                                                         aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row"> 
                                                     <div class="col">
                                                         <div class="row mb-3 mt-4">
                                                             <div class="d-flex justify-content-center align-items-center">
                                                                 <a
-                                                                    href="{{ route('student_course_detail', ['course_id' => $courses['courses_id'], 'now_curriculum' => $courses['next_task_id']]) }}"class="go-to-course">Go
+                                                                    href="/course/{{ $courses['courses_id'] }}"
+                                                                    class="go-to-course">Go
                                                                     to Course <span class="iconify"
                                                                         data-icon="fluent:arrow-right-12-filled"
                                                                         data-width="30"></span></a>

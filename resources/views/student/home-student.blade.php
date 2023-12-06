@@ -46,7 +46,7 @@
                                                         style="color: var(--primary3)">{{ $enrolled['next_task_name'] }}</span>
                                                 </div>
                                             </div>
-                                            <a href="{{ route('student_course_detail', ['course_id' => $enrolled['courses_id'], 'now_curriculum' => $enrolled['next_task_id']]) }}"
+                                            <a href="/course/{{ $enrolled['courses_id'] }}"
                                                 class="col d-flex justify-content-end" style="text-decoration: none">
                                                 <div class="course-title">Continue <span class="iconify"
                                                         data-icon="fluent:arrow-right-12-filled" data-width="15"></span>
