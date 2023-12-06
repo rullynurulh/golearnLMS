@@ -280,10 +280,10 @@ class StudentController extends Controller
                 $item->chapter = Chapter::whereId($item->chapter)->first();
                 $item->soal = $this->getSoalByCategory($item->id_category, $item->category);
                 // jika getResultByCategory return null, maka isDone = false
-                $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id) ? true : false;
+                $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id_category) ? true : false;
                 // jika isDone = true, maka result = getResultByCategory
                 if ($item->isDone) {
-                    $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id);
+                    $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id_category);
                 }
                 return $item;
             });
@@ -334,14 +334,11 @@ class StudentController extends Controller
         }
     }
 
-    public function getResultByCategory($student, $enrolled, $category, $curriculum) {
+    public function getResultByCategory($student, $enrolled, $category, $id_category) {
         try {
             switch ($category) {
-                case 'lesson':
-                    $lesson = CurriculumVisited::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->first();
-                    return $lesson;
                 case 'quiz':
-                    $quiz = QuizResult::where(['enrolled' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) use ($enrolled, $curriculum) {
+                    $quiz = QuizResult::where(['quiz' => $id_category])->get()->map(function ($item) {
                         $item->percentage = Quiz::whereId($item->quiz)->first()->min_percentage;
                         $item->percentageStudent = (int)($item->correct_answer / $item->total_question * 100);
                         $item->isPassed = $item->percentageStudent >= $item->percentage ? true : false;
@@ -355,7 +352,7 @@ class StudentController extends Controller
                     });
                     // change to object
                     return isset($quiz[0]) ? $quiz[0] : null;
-                default:
+                case 'challenge':
                     $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) {
                         $item->isPassed = $item->score > 0 ? true : false;
                         return $item;
@@ -682,6 +679,22 @@ class StudentController extends Controller
             return response()->json([
                 'usedHint' => [],
                 'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteVisitedCourse($enrolled, $curriculum){
+        try {
+            $curriculum = CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->delete();
+
+            return response()->json([
+                'test' => $curriculum,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'test' => [],
+                'message' => $e->getMessage()
             ], 500);
         }
     }

@@ -128,7 +128,6 @@ export default {
             }
         },
         openCurriculum(curriculum) {
-            console.log(curriculum)
             if (this.curriculumSelected?.id != curriculum?.id) {
                 this.isHeader = false
                 if (!curriculum.next && !this.isDisableNext) {
@@ -240,7 +239,7 @@ export default {
                     this.endCourse = false
                 }
             }
-        }
+        },
     },
     created() {
         this.getCourse()

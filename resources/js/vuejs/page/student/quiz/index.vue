@@ -29,7 +29,6 @@ export default {
                     answer: item.answer.map(answer => {
                         return {
                             ...answer,
-                            isCorrect: answer.isCorrect == "true" ? true : false,
                             isSelected: false
                         }
                     })
@@ -111,7 +110,6 @@ export default {
                 duration: this.timerSoal > 0 ? this.makeTimer : conversionTime(),
             }
 
-
             try {
                 const response = await axios.post('/api/student/postAnswerQuiz', form)
                 if (response.data.success) {
@@ -132,7 +130,8 @@ export default {
         async usedHint() {
             const { data } = await axios.get(`/api/student/usedHint/${localStorage.getItem('id')}`)
             if (data.message == 'success') {
-                window.location.reload()
+                axios.delete(`/api/student/deleteVisitedCourse/${this.quiz.enrolled}/${this.quiz.id}`)
+                // window.location.reload()                
             } else {
                 this.$swal('Error', 'Hint gagal digunakan', 'error')
             }

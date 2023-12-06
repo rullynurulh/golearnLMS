@@ -63,4 +63,6 @@ Route::group(['prefix' => 'student'], function () {
     Route::post('postAnswerQuiz', [StudentController::class, 'postAnswerQuiz']);
 
     Route::get('usedHint/{student}', [StudentController::class, 'usedHint']);
+
+    Route::delete('deleteVisitedCourse/{enrolled}/curriculum', [StudentController::class, 'deleteVisitedCourse']);
 });

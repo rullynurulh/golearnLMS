@@ -41,7 +41,7 @@ export default {
                 }
             })
             this.question = this.questions[this.questionIndex]
-            this.startTimer() 
+            this.startTimer()
         },
         startTimer() {
             this.intervalId = setInterval(() => {
