@@ -191,7 +191,7 @@
             document.querySelector('.btn-challenge').classList.add('btn-admin-active')
         }
 
-        if (window.location.pathname == '/admin/add-quiz') {
+        if (window.location.pathname == '/admin/quiz/add-question/' + window.location.pathname.split('/')[4]) {
             document.querySelector('.btn-quiz').classList.add('btn-admin-active')
         }
     </script>
