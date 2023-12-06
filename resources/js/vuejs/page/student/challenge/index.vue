@@ -85,7 +85,7 @@ export default {
 
             axios.post(`/api/question/${student}/student`, form).then(res => {
                 this.$swal('Success', 'Berhasil submit jawaban', 'success')
-                this.$emit('refresh')
+                window.location.reload()
             }).catch(err => {
                 console.log(err)
                 this.$swal('Error', 'Gagal mengirimkan jawaban', 'error')

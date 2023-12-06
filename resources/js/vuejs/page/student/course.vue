@@ -88,7 +88,7 @@ export default {
                     const chapter = data[chapterId];
                     const filteredCurriculum = chapter.curriculum.filter(item => item.category !== "challenge");
 
-                    const mappedCurriculum = chapter.curriculum.map(item => ({
+                    const mappedCurriculum = filteredCurriculum.map(item => ({
                         ...item,
                         chapter: {
                             id: chapter.id,
