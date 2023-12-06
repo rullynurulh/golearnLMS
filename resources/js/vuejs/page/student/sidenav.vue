@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['courses'],
+    props: ['courses', 'isDisableNext'],
     methods: {
         checkCourse(course) {
             // if visited all curriculum true return true

@@ -21,7 +21,8 @@ export default {
             curriculumSelected: null,
             groupedByChapter: {},
             isHeader: false,
-            endCourse: false
+            endCourse: false,
+            isDisableNext: false
         }
     },
     methods: {
@@ -129,10 +130,12 @@ export default {
         openCurriculum(curriculum) {
             if (this.curriculumSelected?.id != curriculum?.id) {
                 this.isHeader = false
-                if (curriculum.next == false) {
+                if (!curriculum.next && !this.isDisableNext) {
                     this.visitedCourse(curriculum, true)
                 } else {
-                    this.curriculumSelected = curriculum
+                    if (curriculum.next) {
+                        this.curriculumSelected = curriculum
+                    }
                 }
             }
             this.endCourseAktivation()
@@ -241,13 +244,31 @@ export default {
     created() {
         this.getCourse()
     },
+    watch: {
+        'curriculumSelected': {
+            handler: function (val, oldVal) {
+                if (val?.category == 'quiz') {
+                    if(val?.result) {
+                        if(val?.result?.isPassed) {
+                            this.isDisableNext = false
+                        } else {
+                            this.isDisableNext = true
+                        }
+                    } else {
+                        this.isDisableNext = false
+                    }
+                }
+            },
+            deep: true
+        },
+    }
 }
 </script>
 <template>
     <div>
         <div v-if="!loading">
-            <Header :progress="progress" :cekAllCourse="endCourse" @previous="previous" @next="next" />
-            <sidenav :courses="groupedByChapter" @refresh="getCourse" @openCurriculum="openCurriculum" />
+            <Header :progress="progress" :cekAllCourse="endCourse" @previous="previous" @next="next" :isDisableNext="isDisableNext" />
+            <sidenav :courses="groupedByChapter" @refresh="getCourse" @openCurriculum="openCurriculum" :isDisableNext="isDisableNext" />
 
             <div class="margin-left">
                 <lesson :lesson="curriculumSelected" v-if="curriculumSelected?.category == 'lesson'" />

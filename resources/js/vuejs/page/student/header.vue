@@ -2,7 +2,7 @@
 <script>
 import CircularProgress from '../../components/CircularProgress.vue'
 export default {
-    props: ['progress', 'cekAllCourse'],
+    props: ['progress', 'cekAllCourse', 'isDisableNext'],
     components: {
         CircularProgress
     },
@@ -11,6 +11,7 @@ export default {
             window.location.href = '/student'
         },
         next() {
+            if (this.isDisableNext) return
             this.$emit('next')
         },
         previous() {
