@@ -56,21 +56,27 @@ export default {
                 return
             }
 
-            const idChallenge = this.$route.params.id
-            const { data } = await axios.post(`/api/question/${idChallenge}`, this.formQuestion, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            try {
+                const idChallenge = this.$route.params.id
+                const { data } = await axios.post(`/api/question/${idChallenge}`, this.formQuestion, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(res => res.data)
+                this.$swal('Berhasil', 'Data berhasil disimpan', 'success')
+                this.questions.push(data)
+                this.formQuestion = {
+                    file: '',
+                    question: '',
+                    typeAnswer: 'single',
+                    answer: [],
                 }
-            }).then(res => res.data)
-            this.questions.push(data)
-            this.formQuestion = {
-                file: '',
-                question: '',
-                typeAnswer: 'single',
-                answer: [],
+                this.pushAnswer()
+                this.getQuestions()
+            } catch (error) {
+                console.log(error)
+                this.$swal('Error', 'Gagal menyimpan data', 'error')
             }
-            this.pushAnswer()
-            this.getQuestions()
         },
         uploadGambar(file) {
             const validasi = ['image/jpeg', 'image/jpg', 'image/png']

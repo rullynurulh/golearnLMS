@@ -255,7 +255,7 @@ export default {
                             this.isDisableNext = true
                         }
                     } else {
-                        this.isDisableNext = false
+                        this.isDisableNext = true
                     }
                 }
             },
