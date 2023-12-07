@@ -105,7 +105,6 @@ export default {
 
                 // cek curriculum terakhir yang next true
                 const curriculumLast = curriculum.findLastIndex((item) => item.next == true)
-                console.log(curriculumLast)
 
                 this.curriculumSelected = curriculum[curriculumLast]
             }
@@ -136,6 +135,7 @@ export default {
             }
         },
         openCurriculum(curriculum) {
+            console.log(curriculum)
             if (curriculum.category == 'challenge') {
                 this.curriculumSelected = curriculum
                 this.visitedCourse(curriculum, true)
@@ -165,13 +165,16 @@ export default {
                 if (curriculumSelected.category == "challenge") {
                     // set curriculumSelected
                     this.curriculumSelected = curriculumSelected
+                    this.groupedByChapter[curriculumSelected.chapter.id].curriculum.forEach(item => {
+                        if (item.id == curriculumSelected.id) {
+                            item.next = true
+                            item.isVisited = true
+                        }
+                    })
                 } else {
                     // set curriculumSelected
                     if (curriculumSelected.next == true) {
                         this.curriculumSelected = curriculumSelected
-                    } else {
-                        this.curriculumSelected = curriculumSelected
-                        this.visitedCourse(curriculumSelected, true)
                     }
                 }
             } else {
