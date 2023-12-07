@@ -67,10 +67,15 @@ export default {
 
                         <div class="col-9">
                             <div class="row">
+                                <div class="col-2" v-if="!challenge.isPassed"><a @click="tryagain" class="btn btn-button">Try
+                                        Again</a>
+                                </div>
                                 <div class="col-2 me-5" id="endCourse" v-if="endCourse">
                                     <a class="btn btn-button" style="min-width: 130px" href="/student">End Course</a>
                                 </div>
-                                <div class="col-2" v-else><a @click="next" id="nextCourse" class="btn btn-button">Next
+
+                                <div class="col-2" v-if="!endCourse"><a @click="next" id="nextCourse"
+                                        class="btn btn-button">Next
                                         Lesson
                                     </a>
 

@@ -105,6 +105,7 @@ export default {
 
                 // cek curriculum terakhir yang next true
                 const curriculumLast = curriculum.findLastIndex((item) => item.next == true)
+                console.log(curriculumLast)
 
                 this.curriculumSelected = curriculum[curriculumLast]
             }
@@ -120,14 +121,26 @@ export default {
                 })
                 if (currSelected.category == "challenge") {
                     this.curriculumSelected = currSelected
+                    this.groupedByChapter[currSelected.chapter.id].curriculum.forEach(item => {
+                        if (item.id == currSelected.id) {
+                            item.next = true
+                            item.isVisited = true
+                        }
+                    })
+                } else {
+                    this.getCourse()
                 }
 
-                this.getCourse()
             } catch (error) {
                 console.log(error)
             }
         },
         openCurriculum(curriculum) {
+            if (curriculum.category == 'challenge') {
+                this.curriculumSelected = curriculum
+                this.visitedCourse(curriculum, true)
+            }
+
             if (this.curriculumSelected?.id != curriculum?.id) {
                 this.isHeader = false
                 if (!curriculum.next && !this.isDisableNext) {
@@ -186,6 +199,12 @@ export default {
                 if (curriculumSelected.category == "challenge") {
                     // set curriculumSelected
                     this.curriculumSelected = curriculumSelected
+                    this.groupedByChapter[curriculumSelected.chapter.id].curriculum.forEach(item => {
+                        if (item.id == curriculumSelected.id) {
+                            item.next = true
+                            item.isVisited = true
+                        }
+                    })
                 } else {
                     // set curriculumSelected
                     if (curriculumSelected.next == true) {

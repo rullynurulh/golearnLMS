@@ -131,7 +131,7 @@ export default {
             const { data } = await axios.get(`/api/student/usedHint/${localStorage.getItem('id')}`)
             if (data.message == 'success') {
                 axios.delete(`/api/student/deleteVisitedCourse/${this.quiz.enrolled}/${this.quiz.id}`)
-                // window.location.reload()                
+                window.location.reload()  
             } else {
                 this.$swal('Error', 'Hint gagal digunakan', 'error')
             }

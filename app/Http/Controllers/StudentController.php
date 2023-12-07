@@ -353,7 +353,7 @@ class StudentController extends Controller
                     // change to object
                     return isset($quiz[0]) ? $quiz[0] : null;
                 case 'challenge':
-                    $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $enrolled])->orderBy('id', 'desc')->get()->map(function ($item) {
+                    $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $id_category])->orderBy('id', 'desc')->get()->map(function ($item) {
                         $item->isPassed = $item->score > 0 ? true : false;
                         return $item;
                     });

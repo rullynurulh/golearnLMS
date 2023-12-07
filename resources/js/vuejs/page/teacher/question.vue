@@ -64,7 +64,6 @@ export default {
                     }
                 }).then(res => res.data)
                 this.$swal('Berhasil', 'Data berhasil disimpan', 'success')
-                this.questions.push(data)
                 this.formQuestion = {
                     file: '',
                     question: '',

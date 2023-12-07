@@ -64,5 +64,5 @@ Route::group(['prefix' => 'student'], function () {
 
     Route::get('usedHint/{student}', [StudentController::class, 'usedHint']);
 
-    Route::delete('deleteVisitedCourse/{enrolled}/curriculum', [StudentController::class, 'deleteVisitedCourse']);
+    Route::delete('deleteVisitedCourse/{enrolled}/{curriculum}', [StudentController::class, 'deleteVisitedCourse']);
 });
