@@ -135,10 +135,11 @@ export default {
             }
         },
         openCurriculum(curriculum) {
-            console.log(curriculum)
             if (curriculum.category == 'challenge') {
                 this.curriculumSelected = curriculum
-                this.visitedCourse(curriculum, true)
+                if(curriculum.next == false){
+                    this.visitedCourse(curriculum, true)
+                }
             }
 
             if (this.curriculumSelected?.id != curriculum?.id) {
