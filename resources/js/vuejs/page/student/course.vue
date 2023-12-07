@@ -210,8 +210,10 @@ export default {
                     if (curriculumSelected.next == true) {
                         this.curriculumSelected = curriculumSelected
                     } else {
-                        this.curriculumSelected = curriculumSelected
-                        this.visitedCourse(curriculumSelected, true)
+                        if (!this.isDisableNext) {
+                            this.curriculumSelected = curriculumSelected
+                            this.visitedCourse(curriculumSelected, true)
+                        }
                     }
                 }
             } else {
@@ -267,8 +269,8 @@ export default {
         'curriculumSelected': {
             handler: function (val, oldVal) {
                 if (val?.category == 'quiz') {
-                    if(val?.result) {
-                        if(val?.result?.isPassed) {
+                    if (val?.result) {
+                        if (val?.result?.isPassed) {
                             this.isDisableNext = false
                         } else {
                             this.isDisableNext = true
@@ -286,15 +288,18 @@ export default {
 <template>
     <div>
         <div v-if="!loading">
-            <Header :progress="progress" :cekAllCourse="endCourse" @previous="previous" @next="next" :isDisableNext="isDisableNext" />
-            <sidenav :courses="groupedByChapter" @refresh="getCourse" @openCurriculum="openCurriculum" :isDisableNext="isDisableNext" />
+            <Header :progress="progress" :cekAllCourse="endCourse" @previous="previous" @next="next"
+                :isDisableNext="isDisableNext" />
+            <sidenav :courses="groupedByChapter" @refresh="getCourse" @openCurriculum="openCurriculum"
+                :isDisableNext="isDisableNext" />
 
             <div class="margin-left">
                 <lesson :lesson="curriculumSelected" v-if="curriculumSelected?.category == 'lesson'" />
-                <quiz :quiz="curriculumSelected" v-else-if="curriculumSelected?.category == 'quiz'" @refresh="getCourse" @next="next" :endCourse="endCourse" />
-                <challenge :challenge="curriculumSelected" v-else-if="curriculumSelected?.category == 'challenge'" @refresh="getCourse" @next="next" :endCourse="endCourse" />
+                <quiz :quiz="curriculumSelected" v-else-if="curriculumSelected?.category == 'quiz'" @refresh="getCourse"
+                    @next="next" :endCourse="endCourse" />
+                <challenge :challenge="curriculumSelected" v-else-if="curriculumSelected?.category == 'challenge'"
+                    @refresh="getCourse" @next="next" :endCourse="endCourse" />
             </div>
-        </div>
-
     </div>
-</template>
+
+</div></template>

@@ -11,7 +11,6 @@ export default {
             window.location.href = '/student'
         },
         next() {
-            if (this.isDisableNext) return
             this.$emit('next')
         },
         previous() {
