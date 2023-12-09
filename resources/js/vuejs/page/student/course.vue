@@ -40,6 +40,7 @@ export default {
                 })
                 this.progress = data.progress
 
+
                 this.kelompokkanByChapter()
 
                 if (this.curriculumSelected?.challenge != 'challenge' && !this.isHeader) {
@@ -137,7 +138,7 @@ export default {
         openCurriculum(curriculum) {
             if (curriculum.category == 'challenge') {
                 this.curriculumSelected = curriculum
-                if(curriculum.next == false){
+                if (curriculum.next == false) {
                     this.visitedCourse(curriculum, true)
                 }
             }
@@ -166,6 +167,9 @@ export default {
                 if (curriculumSelected.category == "challenge") {
                     // set curriculumSelected
                     this.curriculumSelected = curriculumSelected
+                    if (curriculumSelected.next == false) {
+                        this.visitedCourse(curriculumSelected, true)
+                    }
                     this.groupedByChapter[curriculumSelected.chapter.id].curriculum.forEach(item => {
                         if (item.id == curriculumSelected.id) {
                             item.next = true
@@ -184,9 +188,9 @@ export default {
                 if (chapterIndex != 0) {
                     let lastCurriculum = this.groupedByChapter[Object.keys(this.groupedByChapter)[chapterIndex - 1]].curriculum.length - 1
                     let curriculumSelected = this.groupedByChapter[Object.keys(this.groupedByChapter)[chapterIndex - 1]].curriculum[lastCurriculum]
+                }
                     this.curriculumSelected = curriculumSelected
                 }
-            }
             this.endCourseAktivation()
         },
         next() {
@@ -203,12 +207,16 @@ export default {
                 if (curriculumSelected.category == "challenge") {
                     // set curriculumSelected
                     this.curriculumSelected = curriculumSelected
+                    if (curriculumSelected.next == false) {
+                        this.visitedCourse(curriculumSelected, true)
+                    }
                     this.groupedByChapter[curriculumSelected.chapter.id].curriculum.forEach(item => {
                         if (item.id == curriculumSelected.id) {
                             item.next = true
                             item.isVisited = true
                         }
                     })
+
                 } else {
                     // set curriculumSelected
                     if (curriculumSelected.next == true) {
@@ -286,8 +294,16 @@ export default {
             },
             deep: true
         },
+        'courses': {
+            handler: function (val, oldVal) {
+                if (this.curriculumSelected) {
+                    this.curriculumSelected = val.find(item => item.id == this.curriculumSelected.id)
+                }
+            },
+            deep: true
+        }
     }
-}
+} 
 </script>
 <template>
     <div>
@@ -295,7 +311,7 @@ export default {
             <Header :progress="progress" :cekAllCourse="endCourse" @previous="previous" @next="next"
                 :isDisableNext="isDisableNext" />
             <sidenav :courses="groupedByChapter" @refresh="getCourse" @openCurriculum="openCurriculum"
-                :isDisableNext="isDisableNext" />
+                :isDisableNext="isDisableNext" :curriculumActive="curriculumSelected" />
 
             <div class="margin-left">
                 <lesson :lesson="curriculumSelected" v-if="curriculumSelected?.category == 'lesson'" />
@@ -304,6 +320,7 @@ export default {
                 <challenge :challenge="curriculumSelected" v-else-if="curriculumSelected?.category == 'challenge'"
                     @refresh="getCourse" @next="next" :endCourse="endCourse" />
             </div>
-    </div>
+        </div>
 
-</div></template>
+    </div>
+</template>

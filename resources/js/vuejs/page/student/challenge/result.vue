@@ -28,7 +28,7 @@ export default {
 
                     <div class="col p-5">
                         <h3 class="mb-4">
-                            {{ challenge?.isPassed ? 'Congratulations! You Have Completed This Quiz' :
+                            {{ challenge?.isPassed ? 'Congratulations! You Have Passed This Challenge!' :
                                 'Unfortunately you didn`t make it through this challenge..' }}
                         </h3>
                         <div class="row d-flex justify-content-start mb-2">

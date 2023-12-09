@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['courses', 'isDisableNext'],
+    props: ['courses', 'isDisableNext', 'curriculumActive'],
     methods: {
         checkCourse(course) {
             // if visited all curriculum true return true
@@ -31,6 +31,11 @@ export default {
             if (curriculum.next == true) {
                 this.$emit('openCurriculum', curriculum)
             }
+        },
+        isActive(curriculum) {
+          if (curriculum.id == this.curriculumActive.id) {
+            return 'is-active'
+          }  
         },
         cekResult(curriculum) {
             let category = curriculum.category
@@ -78,7 +83,7 @@ export default {
                             </button>
                             <div class="content-collapse" v-if="course.collapsed">
                                 <ul class="list-lesson">
-                                    <li class="detail-chapter mb-2" v-for="(curriculum, curKey) in course.curriculum"
+                                    <li class="detail-chapter mb-2" :class="isActive(curriculum)" v-for="(curriculum, curKey) in course.curriculum"
                                         :key="curKey">
                                         <div class="d-flex align-items-center chapter-info" @click="selectCurriculum(curriculum, key, curKey)">
                                             <label class="mains">
@@ -110,5 +115,9 @@ export default {
 
     .text-right {
         margin-left: auto;
+    }
+
+    .is-active {
+        background-color: #CCCCCC;
     }
 </style>
