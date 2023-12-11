@@ -16,6 +16,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Certificate;
 use App\Models\CertificateSetting;
 
+use App\Models\Challenge;
+use App\Models\QuestionChallenge;
+use App\Models\ResultChallenge;
+use Illuminate\Support\Facades\Auth;
+
 class AdminController extends Controller
 {
     public function getDashboard()
@@ -527,5 +532,236 @@ class AdminController extends Controller
         $certif->update();
 
         return redirect('/admin/certificate-list');
+    }
+
+    public function indexChallenge($user) {
+        try {
+            $challenge = Challenge::where('created_by', $user)->get();
+
+            if($challenge->isEmpty()) {
+                return response()->json([
+                    'challenge' => []
+                ]);
+            }
+
+            return response()->json([
+                'challenge' => $challenge
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $th->getMessage()
+            ]);
+        }
+    }
+
+    public function createEditChallenge(Request $request, $user) {
+        try {
+            $challenge = Challenge::updateOrCreate(
+                ['id' => isset($request->id) ? $request->id : null],
+                [
+                    'nama' => $request->nama,
+                    'difficulty' => $request->difficulty,
+                    'created_by' => $user,
+                    'status' => isset($request->status) ? $request->status : 1
+                ]
+            );
+
+            return response()->json([
+                'challenge' => $challenge,
+                'message' => 'Challenge berhasil dibuat'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function deleteChallenge($id) {
+        try {
+            $challenge = Challenge::find($id);
+            $challenge->delete();
+
+            return response()->json([
+                'message' => 'Challenge berhasil dihapus'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function publishChallenge($id) {
+        try {
+            $challenge = Challenge::find($id);
+            $challenge->status = 2;
+            $challenge->save();
+
+            return response()->json([
+                'message' => 'Challenge berhasil dipublish'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function unpublishChallenge($id) {
+        try {
+            $challenge = Challenge::find($id);
+            $challenge->status = 1;
+            $challenge->save();
+
+            return response()->json([
+                'message' => 'Challenge berhasil diunpublish'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function indexQuestionChallenge($id) {
+        try {
+            // where response null return []
+
+            $question = QuestionChallenge::where('challenge_id', $id)
+            ->get()->map(function($item) {
+                $item->answer = json_decode($item->answer);
+                return $item;
+            });
+
+            if($question->isEmpty()) {
+                return response()->json([
+                    'question' => []
+                ]);
+            }
+
+            return response()->json([
+                'question' => $question
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function createQuestion(Request $request, $challenge) {
+        try {
+            $question = QuestionChallenge::updateOrCreate(
+                ['id' => isset($request->id) ? $request->id : null],
+                [
+                    'challenge_id' => $challenge,
+                    'file' => $this->uploadAndRenameFile($request->file),
+                    'question' => $request->question,
+                    'type' => $request->typeAnswer,
+                    'answer' => json_encode($request->answer),
+                ]
+            );
+
+            return response()->json([
+                'question' => $question,
+                'message' => 'Question berhasil dibuat'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function uploadAndRenameFile($file) {
+        if($file) {
+            $currentFile = storage_path('app/public/photo/' . $file);
+            if (file_exists($currentFile)) {
+                @unlink($currentFile);
+            }
+
+            $uploadedFile = $file;
+            $name = time() . 'questions.' . $file->getClientOriginalExtension();
+            $uploadedFile->move(storage_path('app/public/photo'), $name);
+
+            return $name;
+        }
+
+        return null;
+    }
+
+    public function deleteQuestion($id) {
+        try {
+            $question = QuestionChallenge::find($id);
+            // when file not null
+            if($question->file) {
+                $currentFile = storage_path('app/public/photo/' . $question->file);
+                if (file_exists($currentFile)) {
+                    @unlink($currentFile);
+                }
+            }
+
+            $question->delete();
+
+            return response()->json([
+                'message' => 'Question berhasil dihapus'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function indexResultChallenge($id) {
+        try {
+            $result = ResultChallenge::where('challenge_id', $id)->get();
+
+            return response()->json([
+                'result' => $result
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function resultChallenge($id) {
+        try {
+            $result = ResultChallenge::where('challenge_id', $id)->get()->map(function($item) {
+                $item->user = User::find($item->user_id)->name;
+                return $item;
+            });
+
+            $challenge = Challenge::find($id)->nama;
+
+            if($result->isEmpty()) {
+                return response()->json([
+                    'challenge' => $challenge,
+                    'result' => []
+                ]);
+            }
+
+            return response()->json([
+                'challenge' => $challenge,  
+                'result' => $result
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 }

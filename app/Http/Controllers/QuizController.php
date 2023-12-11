@@ -100,76 +100,96 @@ class QuizController extends Controller
 
     public function getAddQuestion($id)
     {
-        $questions = Question::where(['quiz' => $id])->get();
-        return view('/admin/quiz/admin-add-quiz-question', ['questions' => $questions, 'id' => $id]);
+        try {
+            // where response null return []
+
+            $question = Question::where('quiz', $id)
+                ->get()->map(function ($item) {
+                    $item->answer = json_decode($item->answer);
+                    return $item;
+                });
+
+            if ($question->isEmpty()) {
+                return response()->json([
+                    'question' => []
+                ]);
+            }
+
+            return response()->json([
+                'question' => $question
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
-    public function addQuestion(Request $request)
+    public function addQuestion(Request $request, $quiz)
     {
-
-        $question = new Question;
-        $question->question = $request->question;
-        $question->type = $request->type;
-        $question->quiz = $request->quiz;
-
-        if ($request->hasFile('file')) {
-
-            $data = $request->validate([
-                'file' => 'max:9048'
+        try {
+            $question = Question::create([
+                'quiz' => $quiz,
+                'question' => $request->question,
+                'answer' => $request->answer,
+                'type' => $request->typeAnswer,
+                'file' => $this->uploadAndRenameFile($request->file)
             ]);
 
+            return response()->json([
+                'question' => $question,
+                'message' => 'Question berhasil dibuat'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 
-            $file_name = uniqid() . '.' . $data['file']->getClientOriginalExtension();
-            $file_path = 'question-file/' . $file_name;
-            $request->file->move(public_path('question-file'), $file_name);
+    public function uploadAndRenameFile($file)
+    {
+        if ($file) {
+            $currentFile = storage_path('app/public/photo/' . $file);
+            if (file_exists($currentFile)) {
+                @unlink($currentFile);
+            }
 
-            $question->file = $file_path;
+            $uploadedFile = $file;
+            $name = time() . 'quiz.' . $file->getClientOriginalExtension();
+            $uploadedFile->move(storage_path('app/public/photo'), $name);
+
+            return $name;
         }
 
-
-        if ($request->type == 'multiple choice') {
-
-            $request->validate([
-                'answer_multiple_choice' => 'required'
-            ]);
-
-            $question->answer = $request->answer_multiple_choice;
-
-
-            if ($request->filled('option_a')) {
-                $question->option_a = $request->option_a;
-            }
-
-            if ($request->filled('option_b')) {
-                $question->option_b = $request->option_b;
-            }
-
-            if ($request->filled('option_c')) {
-                $question->option_c = $request->option_c;
-            }
-            if ($request->filled('option_d')) {
-                $question->option_d = $request->option_d;
-            }
-        } else {
-
-            $request->validate([
-                'answer_long_answer' => 'required'
-            ]);
-
-            $question->answer = $request->answer_long_answer;
-        }
-
-
-        $question->save();
-
-
-        return back();
+        return null;
     }
 
     public function deleteQuestion($id)
     {
-        Question::whereId($id)->delete();
-        return back();
+        try {
+            $question = Question::find($id);
+            // when file not null
+            if ($question->file) {
+                $currentFile = storage_path('app/public/photo/' . $question->file);
+                if (file_exists($currentFile)) {
+                    @unlink($currentFile);
+                }
+            }
+
+            $question->delete();
+
+            return response()->json([
+                'message' => 'Question berhasil dihapus'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function updateQuizStatus(Request $request)

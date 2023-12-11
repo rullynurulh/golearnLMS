@@ -1,3 +1,20 @@
+<style>
+    .pages-custom {
+        border-radius: 7px;
+    }
+
+    .jumlah-extra {
+        color: black;
+        margin-bottom: 0;
+    }
+
+    .color-extra-text {
+        background-color: #fff;
+        border-radius: 7px;
+        margin-left: -5px;
+        z-index: -1;
+    }
+</style>
 <nav class="navbar row navbar-expand-lg fixed-top navbar-fixed-top bg-primary3 py-3">
     <div class="col-2 d-flex justify-content-end">
         <a href="/" style="color: black; font-weight: 600"> <img src="{{ URL::asset('images/icon_golearn.png') }}"
@@ -5,8 +22,8 @@
         <div class="ms-5 ps-5 d-flex align-items-center" style="font-size: 35px">&#9776;</div>
     </div>
     <div class="col-10">
-        <div class="nav ms-5 d-flex justify-content-between align-items-center">
-            <div>
+        <div class="nav d-flex align-items-center">
+            <div class="flex-grow-1 ">
                 <div class="form">
 
                     <input type="text" class="form-control form-input "
@@ -15,8 +32,23 @@
 
                 </div>
             </div>
+            <div class="mx-1 pages-custom pages-code d-flex justify-content-end align-items-center" style="padding-right: 20px">
 
-            <div class="row me-5 d-flex align-items-center width-100">
+                <li class="d-flex justify-content-center align-items-center button-hint ">
+                    <button class="btn btn-primary ">
+                        Extra Hint
+                    </button>
+                </li>
+                <li class=" d-flex justify-content-end align-items-center text-hint color-extra-text px-3 py-1">
+
+                    <h5 class="jumlah-extra">
+                        {{ auth()->user()->extra_hint }}
+                    </h5>
+
+                </li>
+
+            </div>
+            <div class="row me-5 align-items-center width-100">
                 <div class="col-2">
                     <span class="iconify" data-icon="mdi:bell" style="color: #fdcf73;" data-width="30"></span>
                 </div>
@@ -41,10 +73,6 @@
                         <div class="col-2" style="margin-left: 30px">
                             <span class="iconify" data-icon="mingcute:down-fill" data-width="15px"></span>
                         </div>
-
-
-
-
                     </div>
                 </div>
                 <div class="sub-menu-wrap" id="subMenu">

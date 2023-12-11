@@ -160,4 +160,47 @@ class MainController extends Controller
 
         return back()->with("status", "Password changed successfully!");
     }
+
+    public function login(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+
+            $credentials = $request->only('email', 'password');
+
+            $token = Auth::attempt($credentials);
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Email/Password yang dimasukan salah.'
+                ], 401);
+            }
+
+            $user = Auth::user();
+            $user['token'] = $token;
+
+            return response()->json([
+                'message' => 'success',
+                'user' => $user
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'error',
+                'data' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getImage($path)
+    {
+        $path = storage_path('app/public/photo/' . $path);
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        $file = file_get_contents($path);
+        $type = mime_content_type($path);
+        return response($file, 200)->header("Content-Type", $type);
+    }
 }

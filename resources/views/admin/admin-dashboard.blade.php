@@ -161,4 +161,9 @@
 
         </div>
     </section>
+    {{-- js --}}
+    <script>
+        // save id auth user to local storage
+        localStorage.setItem('id', '{{ Auth::user()->id }}');
+    </script>
 @endsection

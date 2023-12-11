@@ -21,11 +21,7 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->longText('question');
             $table->string('type');
-            $table->string('option_a')->nullable();
-            $table->string('option_b')->nullable();
-            $table->string('option_c')->nullable();
-            $table->string('option_d')->nullable();
-            $table->longText('answer');
+            $table->json('answer');
             $table->timestamps();
         });
     }

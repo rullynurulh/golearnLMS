@@ -79,6 +79,21 @@
                                 </div>
 
                             </div>
+                                                        <div class="mb-2">
+                                <button type="button" class="collapsible btn mb-2 btn-admin">
+                                    Challenge
+                                </button>
+                                <div class="content-collapse">
+                                    <ul class="list-lesson">
+                                        <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/add-challenge">
+                                            <li>
+                                                Add Challenge
+                                            </li>
+                                        </a>
+                                    </ul>
+                                </div>
+
+                            </div>
                             <div class="mb-2">
                                 <button type="button" class="collapsible btn mb-2 btn-admin">
                                     Certificates
@@ -295,7 +310,7 @@
                                                                 Result
                                                             </p>
                                                         </a>
-                                                        <a href="{{ route('admin_add_question', $quiz['id']) }}"
+                                                        <a href="{{ '/admin/quiz/add-question/'.$quiz['id'] }}"
                                                             class="sub-menu-link">
                                                             <p style="margin: 0; text-align: end; color:#2F70AF;">Add
                                                                 Question

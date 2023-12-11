@@ -9,4 +9,9 @@ class Curriculum extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    // nullable
+    protected $nullable = [
+        'id_category'
+    ];
 }

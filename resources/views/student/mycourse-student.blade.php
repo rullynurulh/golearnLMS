@@ -4,8 +4,8 @@
         <div class="sidenav">
             <div class="content">
                 <div class="row p-4">
-                    <a href="/student" class="btn mb-3 btn-student">Dashboard</a>
-                    <a href="/student/mycourse" class="btn mb-3 btn-student-active">My Course</a>
+                    <a href="/student" class="btn mb-3 btn-student-active">Dashboard</a>
+                    <a href="/student/mycourse" class="btn mb-3 btn-student">My Course</a>
                     <a href="/student/myprofile" class="btn mb-3 btn-student">My Profile</a>
                     <a href="/student/accomplishment" class="btn mb-3 btn-student">Accomplishment</a>
                     <a href="/student/setting" class="btn mb-3 btn-student">Account Setting</a>
@@ -96,8 +96,8 @@
                                                     <div class="col">
                                                         <div class="row mb-3 mt-4">
                                                             <div class="d-flex justify-content-center align-items-center">
-                                                                <a
-                                                                    href="{{ route('student_course_detail', ['course_id' => $courses['courses_id'], 'now_curriculum' => $courses['next_task_id']]) }}"class="go-to-course">Go
+                                                                <a href="/course/{{ $courses['courses_id'] }}"
+                                                                    class="go-to-course">Go
                                                                     to Course <span class="iconify"
                                                                         data-icon="fluent:arrow-right-12-filled"
                                                                         data-width="30"></span></a>

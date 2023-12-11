@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="col-2 d-flex justify-content-center align-items-center">
                                     <h5 style="font-weight: 500">
-                                        {{ floor($enrolled['duration'] / 3600) }}:{{ floor(($enrolled['duration'] % 3600) / 60) }}:{{ floor(($enrolled['duration'] % 3600) % 60) }}
+                                        {{ $enrolled['duration'] }}
                                     </h5>
                                 </div>
                                 <div class="col-2 d-flex justify-content-center align-items-center">

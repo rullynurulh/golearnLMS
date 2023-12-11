@@ -43,7 +43,7 @@ Route::group(['middleware' => ['guest']], function () {
 
     // sign in
     Route::get('/signin', function () {
-        return view('signin');
+        return view('signIn');
     })->name('signin');
     Route::post('/signin', [MainController::class, 'signInAction'])->name('sigin_action');
 });
@@ -81,7 +81,8 @@ Route::group(['middleware' => ['auth', 'user.role:student']], function () {
     Route::get('/course/{course_id}/{now_curriculum}', [StudentController::class, 'getStudentCourse'])->name('student_course_detail');
     Route::get('/course/quiz/start/{course_id}/{now_curriculum}/{quiz_id}', [StudentController::class, 'getQuizQuestion'])->name('student_quiz_question');
     Route::get('/course/quiz/save-result/{course_id}/{now_curriculum}/{quiz_id}/{enroll_id}/{result}', [StudentController::class, 'saveQuizScore'])->name('student_quiz_save_result');
-
+    
+    Route::view('/course/{any?}', 'student.challengeStudent')->where('any', '.*');
     //change password
     Route::get('/student/setting', function () {
         return view('/student/setting-student');
@@ -147,10 +148,6 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::post('/admin/add-quiz/add', [QuizController::class, 'addQuiz'])->name('admin_add_quiz');
     Route::get('/admin/quiz/delete/{id}', [QuizController::class, 'deleteQuiz'])->name('admin_delete_quiz');
 
-    Route::get('/admin/quiz/add-question/{id}', [QuizController::class, 'getAddQuestion'])->name('admin_add_question');
-    Route::post('/admin/quiz/add-question/add', [QuizController::class, 'addQuestion'])->name('admin_save_question');
-    Route::get('/admin/quiz/delete-question/{id}', [QuizController::class, 'deleteQuestion'])->name('admin_delete_question');
-
     Route::post('/admin/update-quiz-status', [QuizController::class, 'updateQuizStatus'])->name('admin_update_quiz-status');
 
     Route::get('/admin/quiz-setting', [QuizController::class, 'getQuizSetting']);
@@ -203,3 +200,6 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
 
     Route::post('/admin-change-password', [MainController::class, 'changePassword'])->name('admin_change_password');
 });
+
+Route::view('/admin/{any?}', 'challenge')->where('any', '.*');
+Route::view('/student/{any?}', 'student.challengeStudent')->where('any', '.*');

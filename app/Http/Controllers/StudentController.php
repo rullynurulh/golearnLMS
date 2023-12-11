@@ -3,21 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Chapter;
 use App\Models\Enrolled;
 use App\Models\Question;
+use App\Models\Challenge;
 use App\Models\Curriculum;
 use App\Models\QuizResult;
 use App\Models\Certificate;
+use App\Models\QuizHelpMode;
 use Illuminate\Http\Request;
+use App\Models\ResultChallenge;
+use App\Models\CourseCertificate;
+use App\Models\CurriculumVisited;
+use App\Models\QuestionChallenge;
 use App\Models\CertificateSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\CourseCertificate;
-use App\Models\CurriculumVisited;
-use App\Models\QuizHelpMode;
 
 class StudentController extends Controller
 {
@@ -248,7 +252,7 @@ class StudentController extends Controller
             $quiz = DB::table('curricula')
                 ->join('curriculum_quizzes', 'curriculum_quizzes.curriculum', '=', 'curricula.id')
                 ->join('quizzes', 'quizzes.id', '=', 'curriculum_quizzes.quiz')
-                ->where(['curricula.id' => $now_curriculum])
+                ->where(['curricula.id' => $now_curriculum]) 
                 ->select('quizzes.*', 'curriculum_quizzes.curriculum as curriculum')
                 ->first();
             $quiz = json_decode(json_encode($quiz), true);
@@ -261,6 +265,129 @@ class StudentController extends Controller
 
 
             return view('/courses/course-quiz', ['quiz' => $quiz, 'isVisited' => $isVisited, 'course_id' => $course_id, 'chapters' => $chapters, 'course_suequence' => $course_suequence, 'progress' => $progress]);
+        }
+    }
+
+    public function getCourse($student, $course_id)
+    {
+        try {
+
+            $enrolled = Enrolled::where(['student' => $student, 'courses' => $course_id])->first();
+
+            $result = Curriculum::where(['courses' => $course_id])->orderBy('id', 'asc')->get()->map(function ($item) use ($enrolled, $student) {
+                $item->isVisited = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? true : false;
+                $item->next = CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->count() > 0 ? CurriculumVisited::where(['enrolled' => $enrolled->id, 'curriculum' => $item->id])->first()->next : false;
+                $item->chapter = Chapter::whereId($item->chapter)->first();
+                $item->soal = $this->getSoalByCategory($item->id_category, $item->category);
+                // jika getResultByCategory return null, maka isDone = false
+                $item->isDone = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id_category) ? true : false;
+                // jika isDone = true, maka result = getResultByCategory
+                if ($item->isDone) {
+                    $item->result = $this->getResultByCategory($student, $enrolled->id, $item->category, $item->id_category);
+                }
+                return $item;
+            });
+            $progress = (int)((CurriculumVisited::where(['enrolled' => $enrolled->id])->count() / Curriculum::where(['courses' => $course_id])->count()) * 100);
+
+            return response()->json([
+                'enrolled' => $enrolled,
+                // 'curriculum_visited' => $curriculum_visited,
+                'progress' => $progress,
+                'curriculum' => $result,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'enrolled' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getSoalByCategory($id, $category) {
+        try {
+            switch ($category) {
+                case 'lesson':
+                    $lesson = Lesson::whereId($id)->first();
+                    return $lesson;
+                case 'quiz':
+                    $quiz = Question::where(['quiz' => $id])->get()->map(function ($item) {
+                        $item->answer = json_decode($item->answer);
+                        $item->minutes = Quiz::whereId($item->quiz)->first()->duration;
+                        $item->help_mode = Quiz::whereId($item->quiz)->first()->help_mode;
+                        $item->percentage = Quiz::whereId($item->quiz)->first()->min_percentage;
+                        return $item;
+                    });
+                    return $quiz;
+                default:
+                    return QuestionChallenge::where(['challenge_id' => $id])->get()->map(function ($item) {
+                        $item->answer = json_decode($item->answer);
+                        $item->challenge = Challenge::whereId($item->challenge_id)->first();
+                        return $item;
+                    });
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'enrolled' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getResultByCategory($student, $enrolled, $category, $id_category) {
+        try {
+            switch ($category) {
+                case 'quiz':
+                    $quiz = QuizResult::where(['quiz' => $id_category])->get()->map(function ($item) {
+                        $item->percentage = Quiz::whereId($item->quiz)->first()->min_percentage;
+                        $item->percentageStudent = (int)($item->correct_answer / $item->total_question * 100);
+                        $item->isPassed = $item->percentageStudent >= $item->percentage ? true : false;
+                        // jika isPassed gagal maka update curriculum_visited next = false
+                        // if (!$item->isPassed) {
+                        //     CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->update([
+                        //         'next' => false
+                        //     ]);
+                        // }
+                        return $item;
+                    });
+                    // change to object
+                    return isset($quiz[0]) ? $quiz[0] : null;
+                case 'challenge':
+                    $challenge = ResultChallenge::where(['user_id' => $student, 'challenge_id' => $id_category])->orderBy('id', 'desc')->get()->map(function ($item) {
+                        $item->isPassed = $item->score > 0 ? true : false;
+                        return $item;
+                    });
+                    return isset($challenge[0]) ? $challenge[0] : null;
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'enrolled' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function curriculumVisited(Request $request){
+        try {
+            $now_curriculum = $request->curriculum;
+            $id_enrolled = $request->enrolled;
+            $next = isset($request->next) ? $request->next : false;
+            if (CurriculumVisited::where(['curriculum' => $now_curriculum, 'enrolled' => $id_enrolled])->count() == 0) {
+
+                CurriculumVisited::create([
+                    'curriculum' => $now_curriculum,
+                    'enrolled' => $id_enrolled,
+                    'next' => $next
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 
@@ -435,5 +562,140 @@ class StudentController extends Controller
         $certif = Certificate::whereId($id)->first();
         $certif_setting = CertificateSetting::first();
         return view('/student/accomplishment-info-student', ['certificate' => $certif, 'certificate_setting' => $certif_setting]);
+    }
+
+    public function getChallenge($student) {
+        try {
+            $challenge = Challenge::where('status', 2)->get();
+
+            $studentChallenge = ResultChallenge::where('user_id', $student)->pluck('challenge_id')->toArray();
+
+            $challenge = $challenge->map(function ($item) use ($studentChallenge) {
+                if (in_array($item->id, $studentChallenge)) {
+                    $item->isDone = true;
+                    $item->resultChallenge = ResultChallenge::where('challenge_id', $item->id)->first();
+                } else {
+                    $item->isDone = false;
+                }
+                return $item;
+            });
+
+            if ($challenge->isEmpty()) {
+                return response()->json([
+                    'challenge' => [],
+                    'message' => 'Challenge not found'
+                ], 200);
+            }
+
+            return response()->json([
+                'challenge' => $challenge,
+                'message' => 'Challenge found'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'challenge' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function postAnswerQuiz(Request $request) {
+        try {
+            $result = QuizResult::updateOrCreate([
+                'enrolled' => $request->enrolled,
+                'quiz' => $request->quiz
+            ], [
+                'correct_answer' => $request->correct_answer,
+                'wrong_answer' => $request->wrong_answer,
+                'total_question' => (int)$request->correct_answer + (int)$request->wrong_answer,
+                'duration' => $request->duration
+            ]);
+
+            return response()->json([
+                'result' => $result,
+                'message' => 'Success',
+                'success' => true
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'result' => [],
+                'message' => $th->getMessage(),
+                'success' => false
+            ], 500);
+        }
+    }
+
+    public function postAnswer(Request $request, $student) {
+        try {
+            $result = ResultChallenge::updateOrCreate([
+                'user_id' => $student,
+                'challenge_id' => $request->challenge_id
+            ], [
+                'score' => $request->score,
+                'time' => $request->time
+            ]);
+
+            if($request->score > 0) {
+                $hint = User::whereId($student)->first()->extra_hint;
+                $hint += $request->score;
+                User::whereId($student)->update([
+                    'extra_hint' => $hint
+                ]);
+            }
+
+            return response()->json([
+                'result' => $result,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'result' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function usedHint($student) {
+        try {
+            $hint = User::whereId($student)->first()->extra_hint;
+            $hint = $hint - 1;
+
+            if ($hint < 0) {
+                return response()->json([
+                    'usedHint' => [],
+                    'message' => 'Hint not enough'
+                ], 200);
+            } else {
+                User::whereId($student)->update([
+                    'extra_hint' => $hint
+                ]);
+            }
+
+            return response()->json([
+                'usedHint' => $hint,
+                'message' => 'success'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'usedHint' => [],
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteVisitedCourse($enrolled, $curriculum){
+        try {
+            $curriculum = CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->delete();
+
+            return response()->json([
+                'test' => $curriculum,
+                'message' => 'Success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'test' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

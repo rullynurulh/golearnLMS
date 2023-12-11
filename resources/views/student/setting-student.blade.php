@@ -1,14 +1,14 @@
 @extends('layouts.student.main-student')
 @section('container')
     <section class="margin-top ">
-        <div class="sidenav">
+<div class="sidenav">
             <div class="content">
                 <div class="row p-4">
-                    <a href="/student" class="btn mb-3 btn-student">Dashboard</a>
+                    <a href="/student" class="btn mb-3 btn-student-active">Dashboard</a>
                     <a href="/student/mycourse" class="btn mb-3 btn-student">My Course</a>
                     <a href="/student/myprofile" class="btn mb-3 btn-student">My Profile</a>
                     <a href="/student/accomplishment" class="btn mb-3 btn-student">Accomplishment</a>
-                    <a href="/student/setting" class="btn mb-3 btn-student-active">Account Setting</a>
+                    <a href="/student/setting" class="btn mb-3 btn-student">Account Setting</a>
                 </div>
             </div>
         </div>
