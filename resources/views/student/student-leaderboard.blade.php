@@ -47,7 +47,6 @@
                                                             style="font-weight: 800">{{ $nomor++ }}</span>{{ $leaderboard['student_name'] }}
                                                     </h4>
                                                 </div>
-
                                             </div>
 
                                             <div class="col-2 ">

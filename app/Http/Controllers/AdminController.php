@@ -60,8 +60,7 @@ class AdminController extends Controller
             ->select('users.name as instructor_name', 'courses.name as name',  DB::raw("count(enrolleds.id) as student_enrolled"))
             ->groupBy('courses.id')
             ->orderBy('courses.id', 'desc')
-            ->get()
-            ->take(2);
+            ->get();
 
         $courses = json_decode(json_encode($courses), true);
 

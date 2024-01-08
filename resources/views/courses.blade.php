@@ -55,7 +55,7 @@
                                                             <img src="/{{ $course['instructor_image'] }}"
                                                                 style="width: 75px; border-radius: 50%">
                                                         @else
-                                                            <img src="images/guru1.jpg"
+                                                            <img src="images/profile-picture/admin.jpg"
                                                                 style="width: 75px; border-radius: 50%">
                                                         @endif
                                                     </div>
@@ -65,9 +65,9 @@
                                                         <div class="row pe-2">
                                                             <div class="col">
                                                                 <span class="iconify" data-icon="mdi:user"
-                                                                    style="color: #d9d9d9;" data-width="24"></span>0
+                                                                    style="color: #d9d9d9;" data-width="24"></span>
+                                                                <span class=" text-left">{{ $course['student_enrolled'] }}</span>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>

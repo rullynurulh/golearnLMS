@@ -49,7 +49,7 @@
                                     <span class="text-danger">{{ $errors->first('image') }}</span>
                                 @endif
                                 @if (is_null($student['image']))
-                                    <img class="image-profile mb-3" src="{{ URL::asset('images/guru1.jpg') }}"
+                                    <img class="image-profile mb-3" src="{{ URL::asset('images/avatar/image_2.jpg') }}"
                                         alt="">
                                 @else
                                     <img class="image-profile mb-3" src="{{ URL::asset($student['image']) }}"

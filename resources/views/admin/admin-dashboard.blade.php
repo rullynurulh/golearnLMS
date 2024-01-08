@@ -4,7 +4,7 @@
         <div class="margin-left">
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div class="content p-5">
-                    <h4 class="mb-2">Welcome To Golearn! App | <span>Super Admin</span></h4>
+                    <h4 class="mb-2">Welcome To Golearn! | {{ auth()->user()->name }}</h4>
                     <div class="row mb-4">
                         <div class="col-3">
                             <div class="box-recommend p-3">
@@ -44,9 +44,6 @@
                                             <span style="font-size:20px;">0<span style="font-size:20px; color:#D44040;">
                                                     Inactive</span></span>
                                         </div>
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +53,7 @@
                             <div class="box-recommend p-3">
                                 <div class="row p-3">
                                     <div class="col-5 d-flex justify-content-center">
-                                        <span class="dashboard-title">0</span>
+                                        <span class="dashboard-title">1</span>
                                     </div>
                                     <div class="col-7 d-flex justify-content-start align-items-center">
                                         <span class="dashboard-name">Staff</span>
@@ -109,10 +106,12 @@
                                 </div>
                                 <div class="col-2 d-flex justify-content-center">
                                     <h5 style="font-weight: 400">
-                                        @if (floor($enroll['enrolled_at'] / 3600) > 0)
-                                            {{ floor($enroll['enrolled_at'] / 3600) }} Hour Ago
+                                        @if (floor($enroll['enrolled_at'] / 86400) > 24)
+                                            {{ floor($enroll['enrolled_at'] / 86400) }} day Ago
+                                        @else (floor($enroll['enrolled_at'] / 3600) > 0 && floor($enroll['enrolled_at'] / 3600) <= 24)
+                                            {{ floor($enroll['enrolled_at'] / 3600) }} hour Ago
                                         @endif
-                                        {{ floor(($enroll['enrolled_at'] % 3600) / 60) }} Minute Ago
+                                            {{ floor(($enroll['enrolled_at'] % 3600) / 60) }} minute Ago 
                                     </h5>
                                 </div>
                             </div>
@@ -147,7 +146,7 @@
                                     <h5 style="font-weight: 400;">{{ $c['instructor_name'] }}</h5>
                                 </div>
                                 <div class="col-4 d-flex justify-content-center">
-                                    <h5 style="font-weight: 400">{{ $c['student_enrolled'] }}/30</h5>
+                                    <h5 style="font-weight: 400">{{ $c['student_enrolled'] }}/50</h5>
                                 </div>
 
                             </div>

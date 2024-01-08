@@ -98,7 +98,6 @@
             </div>
         @endif
         <div class="bg-home-under">
-
             <div class="content ">
                 <div class="p-5">
                     <div class="row d-flex ">
@@ -127,7 +126,7 @@
                                                         <img class="card-img-top card-img-top-1" src="/{{ $course['image'] }}"
                                                             alt="">
                                                     @else
-                                                        <img class="card-img-top card-img-top-1" src="images/course.jpg" alt="">
+                                                        <img class="card-img-top card-img-top-1" src="images/placeholder.png" alt="">
                                                     @endif
 
                                                     <div class="card-body p-3">
@@ -159,26 +158,23 @@
                                                                             <img src="/{{ $course['instructor_image'] }}"
                                                                                 style="width: 75px; border-radius: 50%">
                                                                         @else
-                                                                            <img src="images/guru1.jpg"
+                                                                            <img src="images/profile-picture/admin.jpg"
                                                                                 style="width: 75px; border-radius: 50%">
                                                                         @endif
                                                                     </div>
-                                                                    <div class="col-9 d-flex justify-content-between align-items-center"
+                                                                    <div class="col-10 d-flex justify-content-between align-items-center"
                                                                         style="padding-left: 1.5rem">
                                                                         <span
                                                                             class=" text-center">{{ $course['instructor_name'] }}</span>
                                                                         <div class="row pe-2">
                                                                             <div class="col">
                                                                                 <span class="iconify" data-icon="mdi:user"
-                                                                                    style="color: #d9d9d9;"
-                                                                                    data-width="24"></span>{{ $course['student_enrolled'] }}
+                                                                                    style="color: #d9d9d9;" data-width="24"></span>
+                                                                                <span class=" text-left">{{ $course['student_enrolled'] }}</span>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -225,7 +221,7 @@
                                     <div class="swiper-slide">
                                         <div class="card card-teacher ">
                                             @if (is_null($teacher['image']))
-                                                <img class="card-img-top-2" src="images/guru1.jpg" alt="">
+                                                <img class="card-img-top-2" src="images/profile-picture/admin.jpg" alt="">
                                             @else
                                                 <img class="card-img-top-2" src="{{ $teacher['image'] }}"
                                                     alt="">

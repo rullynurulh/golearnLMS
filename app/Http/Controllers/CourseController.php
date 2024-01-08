@@ -30,7 +30,8 @@ class CourseController extends Controller
                 ->join('categories', 'courses.categories', '=', 'categories.id')
                 ->join('users', 'courses.instructor', '=', 'users.id')
                 ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
-                ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"))
+                ->leftJoin('enrolleds', 'enrolleds.courses', '=', 'courses.id')
+                ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"), DB::raw("count(enrolleds.id) as student_enrolled"))
                 ->groupBy('courses.id')
                 ->get();
         } else {
@@ -39,11 +40,21 @@ class CourseController extends Controller
                 ->join('categories', 'courses.categories', '=', 'categories.id')
                 ->join('users', 'courses.instructor', '=', 'users.id')
                 ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
-                ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"))
+                ->leftJoin('enrolleds', 'enrolleds.courses', '=', 'courses.id')
+                ->select('categories.name as categories_name', 'users.name as instructor_name', 'courses.*', DB::raw("count(curricula.id) as lesson"), DB::raw("count(enrolleds.id) as student_enrolled"))
                 ->where(['courses.instructor' => auth()->user()->id])
                 ->groupBy('courses.id')
                 ->get();
         }
+        
+        // $courses = DB::table('courses')
+        // ->join('categories', 'courses.categories', '=', 'categories.id')
+        // ->join('users', 'courses.instructor', '=', 'users.id')
+        // ->leftJoin('enrolleds', 'enrolleds.courses', '=', 'courses.id')
+        // ->select('users.name as instructor_name', 'courses.name as name',  DB::raw("count(enrolleds.id) as student_enrolled"))
+        // ->groupBy('courses.id')
+        // ->orderBy('courses.id', 'desc')
+        // ->get();
 
         $courses = json_decode(json_encode($courses), true);
 
@@ -242,7 +253,7 @@ class CourseController extends Controller
                     'courses' => $request->courses,
                     'category' => $request->category,
                     'description' => $request->description,
-                    'privacy' => $request->privacy
+                    // 'privacy' => $request->privacy
 
                 ]);
             } else {
@@ -254,7 +265,7 @@ class CourseController extends Controller
                     'id_category' => $lesson->id,
                     'category' => $request->category,
                     'description' => $request->description,
-                    'privacy' => $request->privacy
+                    // 'privacy' => $request->privacy
 
                 ]);
             }
@@ -281,7 +292,7 @@ class CourseController extends Controller
                     'id_category' => $request->challenge,
                     'category' => $request->category,
                     'description' => $request->description,
-                    'privacy' => $request->privacy
+                    // 'privacy' => $request->privacy
 
                 ]);
 
@@ -297,7 +308,7 @@ class CourseController extends Controller
                     'id_category' => $request->challenge,
                     'category' => $request->category,
                     'description' => $request->description,
-                    'privacy' => $request->privacy
+                    // 'privacy' => $request->privacy
 
                 ]);
                 CurriculumChallenges::create([
@@ -316,7 +327,7 @@ class CourseController extends Controller
                     'id_category' => $request->quiz,
                     'category' => $request->category,
                     'description' => $request->description,
-                    'privacy' => $request->privacy
+                    // 'privacy' => $request->privacy
                 ]);
 
                 CurriculumQuiz::where(['curriculum' => $request->id])->update([
@@ -331,7 +342,7 @@ class CourseController extends Controller
                     'id_category' => $request->quiz,
                     'category' => $request->category,
                     'description' => $request->description,
-                    'privacy' => $request->privacy
+                    // 'privacy' => $request->privacy
                 ]);
 
                 CurriculumQuiz::create([

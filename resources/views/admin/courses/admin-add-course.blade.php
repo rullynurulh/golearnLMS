@@ -17,9 +17,12 @@
                                         <label for="form-label" style="font-size: 23px">Instuctor </label>
                                         <select type="text" name="instructor" id="forminstructor"
                                             class="form-select form-select-lg p-3" onchange="createClassCode()">
+                                            @php
+                                                $nomor = 1;
+                                            @endphp
                                             @foreach ($instructors as $instructor)
                                                 <option value="{{ $instructor['id'] }}">
-                                                    {{ $instructor['id'] }} - {{ $instructor['name'] }}
+                                                {{ $nomor++ }} - {{ $instructor['name'] }}
                                                 </option>
                                             @endforeach
 

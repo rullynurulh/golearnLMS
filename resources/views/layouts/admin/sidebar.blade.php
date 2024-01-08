@@ -83,11 +83,10 @@
                                     </ul>
                                 </div>
                             </div>
-
-                                                        <div class="mb-2">
-                                <button type="button" class="collapsible btn mb-2 btn-admin">
-                                    Challenge
-                                </button>
+                                <div class="mb-2">
+                                    <button type="button" class="collapsible btn mb-2 btn-admin">
+                                        Challenge
+                                    </button>
                                 <div class="content-collapse">
                                     <ul class="list-lesson">
                                         <a class="d-flex align-items-center chapter-info mb-2 "href="/admin/add-challenge">
@@ -97,7 +96,6 @@
                                         </a>
                                     </ul>
                                 </div>
-
                             </div>
 
                             <div class="mb-2">

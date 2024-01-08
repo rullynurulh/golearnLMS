@@ -14,10 +14,10 @@
                         <div class="col-4 d-flex justify-content-end align-items-center">
                             <div class="row mx-1 pages pages-code d-flex justify-content-end align-items-center">
                                 <li
-                                    class="col-6 d-flex justify-content-center align-items-center pages-point active-button-code ">
+                                    class="col-3 d-flex justify-content-center align-items-center pages-point active-button-code ">
                                     <h4 style="margin-bottom:0">Code Class</h4>
                                 </li>
-                                <li class="col-6 d-flex justify-content-end align-items-center pages-point not-active">
+                                <li class="col-7 d-flex justify-content-end align-items-center pages-point not-active">
                                     <h4 style="margin-bottom: 0" id="p1">{{ $course['class_code'] }} </h4>
                                     <button class="btn btn-copy"onclick="copyToClipboard('#p1')"><span class="iconify ms-2"
                                             data-icon="tabler:copy" style="color: black;" data-width="25"></span></button>

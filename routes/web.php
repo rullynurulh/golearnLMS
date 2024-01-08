@@ -196,7 +196,7 @@ Route::group(['middleware' => ['auth', 'user.role:teacher,admin']], function () 
     Route::get('/admin/my-profile', [UserController::class, 'getProfile']);
 
     Route::post('/admin/myprofile/save', [UserController::class, 'updateProfile'])->name('admin_update_profile');
-    Route::post('/admin/myprofile/change-profile-picture', [UserController::class, 'changeProfilePicture'])->name('admin_change_profile_picture');
+    Route::post('/admin/myprofile/change-profile-picture', [UserController::class, 'adminchangeProfilePicture'])->name('admin_change_profile_picture');
 
     Route::post('/admin-change-password', [MainController::class, 'changePassword'])->name('admin_change_password');
 });

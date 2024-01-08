@@ -29,7 +29,17 @@ class MainController extends Controller
             $aboutus['description'] = explode("\n", $aboutus['description']);
         }
 
-        $courses = Course::get()->take(5);
+        $courses = DB::table('courses')
+            ->join('categories', 'courses.categories', '=', 'categories.id')
+            ->join('users', 'courses.instructor', '=', 'users.id')
+            ->leftJoin('enrolleds', 'enrolleds.courses', '=', 'courses.id')
+            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*', DB::raw("count(enrolleds.id) as student_enrolled"))
+            ->groupBy('courses.id')
+            ->get()
+            ->take(5);
+        $courses = json_decode(json_encode($courses), true);
+        
+        // $courses = Course::get()->take(5);
         $teachers = User::where(['role' => 'teacher'])->get()->take(5);
         $category = Category::get()->take($home['category_max_section_show']);
 
@@ -64,7 +74,9 @@ class MainController extends Controller
         $courses = DB::table('courses')
             ->join('categories', 'courses.categories', '=', 'categories.id')
             ->join('users', 'courses.instructor', '=', 'users.id')
-            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*')
+            ->leftJoin('enrolleds', 'enrolleds.courses', '=', 'courses.id')
+            ->groupBy('courses.id')
+            ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', DB::raw("count(enrolleds.id) as student_enrolled"), 'courses.*' )
             ->get();
         $courses = json_decode(json_encode($courses), true);
         return view('courses', ['courses' => $courses, 'footer' => $footer, 'account' => $account, 'social' => $social]);

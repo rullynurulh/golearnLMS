@@ -69,7 +69,7 @@
                                     <h5 style="font-weight: 500; margin-bottom:0">{{ $course['lesson'] }}</h5>
                                 </div>
                                 <div class="col-1 d-flex justify-content-center align-items-center">
-                                    <h5 style="font-weight: 500; margin-bottom:0">10/50</h5>
+                                    <h5 style="font-weight: 500; margin-bottom:0">{{ $course['student_enrolled'] }}/50</h5>
                                 </div>
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     <div class="col d-flex justify-content-center align-items-center">

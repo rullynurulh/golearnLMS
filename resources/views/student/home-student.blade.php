@@ -101,7 +101,7 @@
                                                                 <img src="/{{ $course['instructor_image'] }}"
                                                                     style="width: 75px; border-radius: 50%">
                                                             @else
-                                                                <img src="images/guru1.jpg"
+                                                                <img src="images/profile-picture/admin.jpg"
                                                                     style="width: 75px; border-radius: 50%">
                                                             @endif
                                                         </div>
