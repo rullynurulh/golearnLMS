@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-1 d-flex justify-content-center align-items-center">
                                     @if (is_null($teacher['image']))
-                                        <img src="{{ URL::asset('images/profile-picture/admin.jpg') }}"
+                                        <img src="{{ URL::asset('images/profile-picture/teacher.jpg') }}"
                                             style="width: 60px !important; height: 60px !important;border-radius:50%">
                                     @else
                                         <img src="{{ URL::asset($teacher['image']) }}"

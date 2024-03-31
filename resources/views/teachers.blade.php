@@ -32,7 +32,7 @@
                                     @if (!is_null($teacher['image']))
                                         <img class="card-img-top-2" src="/{{ $teacher['image'] }}" alt="">
                                     @else
-                                        <img class="card-img-top-2" src="images/profile-picture/admin.jpg" alt="">
+                                        <img class="card-img-top-2" src="images/profile-picture/teacher.jpg" alt="">
                                     @endif
                                 </div>
                                 <div class="box-teacher-name m-auto">

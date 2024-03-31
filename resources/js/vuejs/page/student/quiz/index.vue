@@ -133,7 +133,7 @@ export default {
                 axios.delete(`/api/student/deleteVisitedCourse/${this.quiz.enrolled}/${this.quiz.id}`)
                 window.location.reload()  
             } else {
-                this.$swal('Error', 'Hint gagal digunakan', 'error')
+                this.$swal('Error', 'Tidak ada point Hint yang tersisa. Hint gagal digunakan', 'error')
             }
         }
     },

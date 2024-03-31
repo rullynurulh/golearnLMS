@@ -88,7 +88,7 @@
                                     <div class="form-group mb-2">
                                         <label for="form-label" style="font-size: 23px">Class Code</label>
                                         <input type="text" name="class_code" id="formclass_code"
-                                            class="form-control form-control-lg p-3" />
+                                            class="form-control form-control-lg p-3" readonly />
                                         @if ($errors->has('class_code'))
                                             <span class="text-danger">{{ $errors->first('class_code') }}</span>
                                         @endif
