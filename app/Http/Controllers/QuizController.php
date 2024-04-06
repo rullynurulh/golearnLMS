@@ -108,15 +108,19 @@ class QuizController extends Controller
                     $item->answer = json_decode($item->answer);
                     return $item;
                 });
+            
+            $quiz = Quiz::whereId($id)->first();
 
             if ($question->isEmpty()) {
                 return response()->json([
-                    'question' => []
+                    'question' => [],
+                    'quiz' => $quiz
                 ]);
             }
 
             return response()->json([
-                'question' => $question
+                'question' => $question,
+                'quiz' => $quiz
             ]);
         } catch (\Throwable $e) {
             return response()->json([
@@ -134,6 +138,7 @@ class QuizController extends Controller
                 'question' => $request->question,
                 'answer' => $request->answer,
                 'type' => $request->typeAnswer,
+                'hint' => $request->hint,
                 'file' => $this->uploadAndRenameFile($request->file)
             ]);
 
@@ -159,7 +164,7 @@ class QuizController extends Controller
 
             $uploadedFile = $file;
             $name = time() . 'quiz.' . $file->getClientOriginalExtension();
-            $uploadedFile->move(storage_path('app/public/photo'), $name);
+            $uploadedFile->move(storage_path('app/public/photo/'), $name);
 
             return $name;
         }

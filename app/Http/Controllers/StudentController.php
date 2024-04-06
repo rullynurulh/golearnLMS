@@ -34,8 +34,7 @@ class StudentController extends Controller
             ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'courses.*',  DB::raw("count(enrolleds.id) as student_enrolled"))
             ->groupBy('courses.id')
             ->orderBy('enrolleds.id', 'desc')
-            ->get()
-            ->take(4);
+            ->get();
         $courses = json_decode(json_encode($courses), true);
 
         $enroll =  DB::table('enrolleds')
@@ -111,7 +110,7 @@ class StudentController extends Controller
                 $e['completed_lesson'] = $total_curriculum_visited;
                 if ($completed_lesson) {
                     $e['next_task_name'] = $completed_lesson['curriculum_name'];
-                    $e['next_task_id'] = $completed_lesson['curriculum'];
+                    $e['next_task_id'] = $completed_lesson['curriculum']; 
                 } else {
                     $curriculum = Curriculum::where(['courses' => $e['courses_id']])->orderBy('id', 'asc')->first();
                     $e['next_task_name'] = $curriculum['name'];
@@ -121,7 +120,7 @@ class StudentController extends Controller
             }
         }
 
-        return view('/student/mycourse-student', ['courses_enrolleds' => $courses_enrolleds]);
+        return view('/student/mycourse-student', ['courses_enrolleds' => $courses_enrolleds]); 
     }
 
     public function getCoursesLeaderboard($course_id)
@@ -145,12 +144,13 @@ class StudentController extends Controller
     public function getCourseOverview($id)
     {
         $course = DB::table('courses')
-            ->join('categories', 'courses.categories', '=', 'categories.id')
+            ->join('categories', 'courses.categories', '=', 'categories.id') 
             ->join('users', 'courses.instructor', '=', 'users.id')
             ->leftJoin('curricula', 'curricula.courses', '=', 'courses.id')
             ->where('courses.id', '=', $id)
             ->select('categories.name as categories_name', 'users.name as instructor_name', 'users.image as instructor_image', 'users.image as instructor_image', 'courses.*',  DB::raw("count(curricula.id) as lesson"))
             ->first();
+            
         $course = json_decode(json_encode($course), true);
         $course['student_enrolled'] = Enrolled::where(['courses' => $id])->count();
         $course['requirement'] = explode("\n", $course['requirement']);
@@ -167,7 +167,7 @@ class StudentController extends Controller
         }
 
 
-        $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->first();
+        $enrolled = Enrolled::where(['student' => auth()->user()->id, 'courses' => $id])->first(); 
         $now_curriculum = -1;
 
         if (!$enrolled) {
@@ -194,14 +194,57 @@ class StudentController extends Controller
     public function studentCourseEnroll(Request $request)
     {
 
-        Enrolled::create([
+        $enrolledCourses = Enrolled::where(['student' => auth()->user()->id])->join('courses', 'courses.id', '=', 'enrolleds.courses')
+        ->join('curricula', 'curricula.courses', '=', 'courses.id')->select('enrolleds.*', 'courses.id as courses_id', 'courses.name as courses_name', 'courses.image as courses_image',  DB::raw("count(curricula.id) as lesson"))
+        ->groupBy('courses.id')
+        ->orderBy('courses.id', 'desc')->get();
 
-            'courses' => $request->courses,
-            'student' => auth()->user()->id,
-            // 'point' => 0,
-            // 'curriculum_visited' => Curriculum::where(['courses' => $request->courses])->orderBy('id', 'asc')->first()['id']
-        ]);
+        //dd($enrolledCourses);
 
+        // Hitung jumlah kursus yang telah diambil
+        $numberOfCoursesEnrolled = $enrolledCourses->count();
+
+        $maxCourse = 3;
+
+        if ($numberOfCoursesEnrolled >= 3) {
+            $kuota = 3;
+            $completedCourseFound = false;
+
+            foreach ($enrolledCourses as $enrolledCourse) {
+                // Periksa apakah kursus telah diselesaikan
+                $curriculumVisited = CurriculumVisited::where('enrolled', $enrolledCourse->id)->count();
+                $lessonCount = $enrolledCourse->lesson;
+            
+                $progress = (int)(($curriculumVisited / $lessonCount) * 100);
+            
+                // Jika progress belum mencapai 100, kurangi kuota
+                if ($progress != 100) {
+                    $kuota--;
+                }
+            }
+
+            //dd($kuota);
+
+            if ($kuota <= 0) {
+                return back()->with('error', 'You can only enroll in 3 courses at a time');
+            }  else {
+                Enrolled::create([
+
+                    'courses' => $request->courses,
+                    'student' => auth()->user()->id, 
+                    // 'point' => 0,
+                    // 'curriculum_visited' => Curriculum::where(['courses' => $request->courses])->orderBy('id', 'asc')->first()['id']
+                ]);
+            }
+        } else {
+            Enrolled::create([
+
+                'courses' => $request->courses,
+                'student' => auth()->user()->id, 
+                // 'point' => 0,
+                // 'curriculum_visited' => Curriculum::where(['courses' => $request->courses])->orderBy('id', 'asc')->first()['id']
+            ]);
+        }
 
         return back();
     }
@@ -687,13 +730,36 @@ class StudentController extends Controller
         try {
             $curriculum = CurriculumVisited::where(['enrolled' => $enrolled, 'curriculum' => $curriculum])->delete();
 
+            $enrolled = Enrolled::whereId($enrolled)->first();
+
+            $user = User::whereId($enrolled->student)->first();
+
+            $extra_hint = $user->extra_hint;
+
             return response()->json([
                 'test' => $curriculum,
+                'extra_hint' => $extra_hint,
                 'message' => 'Success'
             ], 200);
         } catch (\Throwable $e) {
             return response()->json([
                 'test' => [],
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getHint($id) {
+        try {
+            $hint = Question::find($id)->hint;
+
+            return response()->json([
+                'hint' => $hint,
+                'message' => 'success'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'hint' => [],
                 'message' => $e->getMessage()
             ], 500);
         }

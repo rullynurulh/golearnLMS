@@ -61,8 +61,10 @@ Route::group(['prefix' => 'student'], function () {
     Route::get('course/{student}/{course_id}', [StudentController::class, 'getCourse']);
     Route::post('visitedCourse', [StudentController::class, 'curriculumVisited']);
     Route::post('postAnswerQuiz', [StudentController::class, 'postAnswerQuiz']);
-
+    Route::get('getHint/{id}', [StudentController::class, 'getHint']);
     Route::get('usedHint/{student}', [StudentController::class, 'usedHint']);
 
     Route::delete('deleteVisitedCourse/{enrolled}/{curriculum}', [StudentController::class, 'deleteVisitedCourse']);
 });
+
+Route::post('/image/upload', [MainController::class, 'imageUpload'])->name('image_upload');

@@ -41,7 +41,7 @@
                 </li>
                 <li class=" d-flex justify-content-end align-items-center text-hint color-extra-text px-3 py-1">
 
-                    <h5 class="jumlah-extra">
+                    <h5 class="jumlah-extra" id="jumlah_extra_hint">
                         {{ auth()->user()->extra_hint }}
                     </h5>
 

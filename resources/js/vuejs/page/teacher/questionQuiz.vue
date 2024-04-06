@@ -1,14 +1,54 @@
 <script>
 import axios from 'axios'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
 export default {
+    components: {
+        ckeditor: CKEditor.component
+    },
     data() {
         return {
             questions: [],
+            quiz: [],
+            csrfToken: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             formQuestion: {
                 file: '',
                 question: '',
                 typeAnswer: 'single',
                 answer: [],
+                hint: '',
+            },
+            editor: ClassicEditor,
+            editorData: '',
+            editorConfig: {
+                ckfinder: {
+                    headers: {
+                        'X-CSRF-TOKEN': this.csrfToken
+                    },
+                    uploadUrl: '/api/image/upload',
+                    onUploadDone: function(response) {
+                        console.log(response);
+                        if (response && response.success) {
+                            const imageUrl = response.url;
+
+                            // Menambahkan gambar ke editor CKEditor
+                            this.editor.model.change(writer => {
+                                const imageElement = writer.createElement('image', {
+                                    src: imageUrl
+                                });
+                                // Sisipkan gambar ke dalam editor
+                                this.editor.model.insertContent(imageElement);
+                            });
+
+                            // Tampilkan pesan sukses
+                            return alert(response.message);
+                        } else {
+                            // Menampilkan pesan error jika respons tidak memiliki kunci 'success'
+                            alert('Failed to upload image.');
+                        }
+                    }
+                }
             },
         }
     },
@@ -28,7 +68,9 @@ export default {
             try {
                 const idQuiz = this.$route.params.id
                 const { question } = await axios.get(`/api/quiz/${idQuiz}`).then(res => res.data)
+                const { quiz } = await axios.get(`/api/quiz/${idQuiz}`).then(res => res.data)
                 this.questions = question
+                this.quiz = quiz
                 this.$refs.file.value = ''
             } catch (error) {
                 console.log(error)
@@ -62,6 +104,7 @@ export default {
             formData.append('question', this.formQuestion.question)
             formData.append('typeAnswer', this.formQuestion.typeAnswer)
             formData.append('answer', JSON.stringify(this.formQuestion.answer))
+            formData.append('hint', this.editorData)
             try {
                 await axios.post(`/api/quiz/${idQuiz}`, formData)
                 this.$swal('Berhasil', 'Data berhasil disimpan', 'success')
@@ -70,7 +113,9 @@ export default {
                     question: '',
                     typeAnswer: 'single',
                     answer: [],
+                    hint: '',
                 }
+                this.editorData = ''
                 this.pushAnswer()
                 this.getQuestions()
             } catch (error) {
@@ -257,6 +302,13 @@ export default {
                             </div>
                         </div>
                     </div>
+
+                    <div v-if="quiz.help_mode === 'yes'">
+                        <label for="" class="form-label">Hint</label>
+                        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" name="hint"></ckeditor>
+                    </div>
+
+
                 </div>
             </div>
             <div class="col-5">
