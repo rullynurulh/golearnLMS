@@ -22,6 +22,7 @@ return new class extends Migration
             $table->longText('question');
             $table->string('type');
             $table->json('answer');
+            $table->text('hint')->nullable();
             $table->timestamps();
         });
     }

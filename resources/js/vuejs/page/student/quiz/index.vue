@@ -1,9 +1,11 @@
 <script>
 import axios from 'axios'
 import result from './result.vue'
+import { Modal } from "bootstrap";
 export default {
     components: {
-        result
+        result,
+        Modal
     },
     props: ['quiz', 'endCourse'],
     data() {
@@ -14,6 +16,9 @@ export default {
             intervalId: null,
             timer: 0,
             timerSoal: 0,
+            jumlah_ekstra: 0,
+            isModalVisible: false,
+            hintData: null
         }
     },
     methods: {
@@ -129,12 +134,45 @@ export default {
         },
         async usedHint() {
             const { data } = await axios.get(`/api/student/usedHint/${localStorage.getItem('id')}`)
+            const { data: datahint } = await axios.get(`/api/student/getHint/${this.question.id}`);
             if (data.message == 'success') {
-                axios.delete(`/api/student/deleteVisitedCourse/${this.quiz.enrolled}/${this.quiz.id}`)
-                window.location.reload()  
+                this.hintData = datahint.hint;
+                this.showModal();
             } else {
                 this.$swal('Error', 'Tidak ada point Hint yang tersisa. Hint gagal digunakan', 'error')
             }
+            // console.log(datahint);
+            // if (datahint.message == 'success') {
+            //     this.hintData = datahint.hint;
+            //     this.showModal();
+            //     // axios.delete(`/api/student/deleteVisitedCourse/${this.quiz.enrolled}/${this.quiz.id}`)
+            //     // window.location.reload()  
+            // } else {
+            //     this.$swal('Error', 'Tidak ada point Hint yang tersisa. Hint gagal digunakan', 'error')
+            // }
+        },
+        async closedHint() {
+            const response = await axios.delete(`/api/student/deleteVisitedCourse/${this.quiz.enrolled}/${this.quiz.id}`)
+
+            this.jumlah_ekstra = response.data.extra_hint;
+
+            $('#jumlah_extra_hint').text(this.jumlah_ekstra);
+        },
+        showModal() {
+            this.isModalVisible = true;
+            $('#exampleModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('#exampleModal').modal('show');
+        },
+        async closeModal() {
+            await this.closedHint();
+            this.isModalVisible = false;
+            this.hintData = null;
+            $('#exampleModal').modal('hide');
+            // window.location.reload();
+
         }
     },
     computed: {
@@ -157,6 +195,31 @@ export default {
 </script>
 <template>
     <div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Hint</h5>
+                        <button type="button btn" class="close" aria-label="Close" @click="closeModal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <div v-html="hintData"></div>
+                        </center>
+                        <small class="text-danger text-center">
+                            * Mohon perhatikan dengan baik hint yang diberikan agar dapat membantu anda dalam mengerjakan soal quiz ini. <br> Jika anda menutup hint ini, maka point hint yang anda gunakan tidak akan dikembalikan.
+                        </small>
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-danger btn-block" style="display: block;width: 100%;" @click="closeModal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="bg-white" style="padding-bottom: 9rem; padding-left:20rem;" v-if="!quiz?.result">
             <div class="content p-5" v-if="questions.length > 0">
                 <div class="card card-quiz text-left" style="margin-top: 3rem">

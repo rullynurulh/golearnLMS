@@ -12,11 +12,16 @@
                 </div>
             </div>
         </div>
-        <div class="margin-left">
+        <div class="margin-left"> 
             <div class="bg-white" style="padding-bottom: 9rem">
                 <div class="content p-5">
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{ session()->get('error') }}
+                        </div>
+                    @endif
                     <div class="box-recommend p-4 mb-4">
-                        <h3 style="margin-bottom: 0">{{ $course['name'] }}</h3>
+                        <h3 style="margin-bottom: 0">{{ $course['name'] }}</h3> 
                     </div>
                     <div class="row">
                         <div class="col-9">

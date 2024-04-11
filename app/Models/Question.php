@@ -13,6 +13,7 @@ class Question extends Model
         'question',
         'answer',
         'type',
+        'hint',
         'file'
     ];
 }

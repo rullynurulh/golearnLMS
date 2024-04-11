@@ -14,10 +14,55 @@ use App\Models\AccountContent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
+
+    public function imageUpload(Request $request)
+    {
+        try {
+            if ($request->hasFile('upload')) {
+                
+                $imageFile = $request->file('upload');
+
+                if ($imageFile->isValid()) {
+                    $request->validate([
+                        'upload' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+                    ]);
+
+                    $imageName = time().'.'.$imageFile->getClientOriginalExtension();  
+
+                    $imageFile->move(public_path('/images/hint-photo/'), $imageName);
+
+                    $imageUrl = url('/images/hint-photo/' . $imageName);
+
+                    return response()->json([
+                        'success' => true,
+                        'filename' => $imageName, 
+                        'uploaded' => 1, 
+                        'url' => $imageUrl,
+                        'message' => 'You have successfully uploaded an image.'
+                    ]);
+                } else {
+                    return response()->json(['error' => 'Invalid image file.'], 400);
+                }
+            } else {
+                return response()->json([
+                    'message' => 'No image uploaded.',
+                    'error' => 'No image uploaded. Please upload an image.'
+                ], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to upload image.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
     public function getHomaPage()
     {
         $home = HomeContent::first();

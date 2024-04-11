@@ -1,6 +1,28 @@
 @extends('layouts.student.main-student')
 @section('container')
-    <section class="margin-top ">
+
+<style>
+    .slider .slick-slide {
+        /* background: #f5f5f5;
+    border: solid 1px #dedede; */
+        padding: 15px;
+    }
+
+    .slider .slick-prev, .slider .slick-next {
+        background-color: #6C86E3;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+    }
+</style>
+    <section class="margin-top "> 
 <div class="sidenav">
             <div class="content">
                 <div class="row p-4">
@@ -60,7 +82,8 @@
                     </div>
                     <div class="box-recommend p-4">
                         <h4>Recommended For You</h4>
-                        <div class="row">
+                        <div class="row slider">
+                            
                             @foreach ($courses as $course)
                                 <div class="col-3 mb-2">
                                     <a href="{{ route('student_course_overwiew', $course['id']) }}" class="card text-left"
@@ -139,5 +162,17 @@
     <script>
         // save id auth user to local storage
         localStorage.setItem('id', '{{ Auth::user()->id }}');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+        $('.slider').slick({
+            autoplay: true,
+            autoplaySpeed: 2500,
+            slidesToShow: 4,
+            slidesToScroll: 4
+        });
     </script>
 @endsection

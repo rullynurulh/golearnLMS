@@ -30,7 +30,6 @@ Route::get('/about-us', [MainController::class, 'getAboutUs']);
 Route::get('/contact', [MainController::class, 'getContact']);
 
 
-
 Route::group(['middleware' => ['guest']], function () {
     // sign up role
     Route::get('/signup-role', function () {

@@ -48,7 +48,7 @@
                                                 <span class="iconify" data-icon="material-symbols:star-outline"
                                                     style="color: #fdcf73; margin-left: -5px;margin-top: -5px;"
                                                     data-width="20"></span>
-                                                <span>(20 Review)</span>
+                                                <span>(20 Review)</span> 
                                             </div>
 
                                             @php
